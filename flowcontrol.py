@@ -109,5 +109,6 @@ outputpath = OUTPUT_PATH + "/"+ pdfname
 doc = SimpleDocTemplate(outputpath, pagesize=letter)
 doc.build([Paragraph(response_pdf, ct)])
 print(f"{pdfname}生成完毕！")
-print(f"文件位于{outputpath}生成完毕！")
+print(f"文件位于{outputpath}")
+
 

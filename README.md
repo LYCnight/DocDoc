@@ -1,5 +1,5 @@
 hello!  
-This a AI project of PKU.
+This an AI project of PKU.
 
 ## 开发计划
 - [ ] 大模型和 embedding模型 接入
