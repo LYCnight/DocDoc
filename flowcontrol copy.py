@@ -25,28 +25,18 @@ doc = Document(filepath)   # load word
 texts = ""
 for paragraph in doc.paragraphs:
     # print(paragraph.text)  # 文本
-    texts = texts + paragraph.text + "\n" # 拼接文本
+    texts = texts + paragraph.text + "\n" # 拼接文本 
+# texts -> str
 print("step2 completed")
 
 # -----------------------------------------
 # 3.分割文档 spliter
-from langchain.text_splitter import CharacterTextSplitter
+from langchain.text_splitter import NLTKTextSplitter
 from langchain.docstore.document import Document
-from typing import Any, List
-class TextSpliter(CharacterTextSplitter):  # 用于文本分块的类（按 '\n' 换行符进行切割）
-    def __init__(self, separator: str = "\n\n", **kwargs: Any):
-        super().__init__(separator, **kwargs)
-    def split_text(self, text: str) -> List[str]:
 
-        texts = text.split("\n")
-        texts = [Document(page_content=text, metadata={"from": "filename or book.txt"}) for text in texts]
-        return texts    # -> List[Document]
-text_splitter = TextSpliter()
-texts = text_splitter.split_text(texts)     # -> List[Document]
-texts1 = [text.page_content for text in texts]  # -> List[str]
-print(texts1)
-print("step3 completed")
-
+text_splitter = NLTKTextSplitter(chunk_size=1000) # How the chunk size is measured: by number of characters.
+texts_spliter = text_splitter.split_text(texts)
+# texts_spliter -> list[str]
 
 # ----------------------------------------
 # 4.向量化 embedding
@@ -54,7 +44,7 @@ print("step3 completed")
 vs_path = "demo-vs"  # vector_db 存储地址
 from langchain.vectorstores import FAISS # FASIS
 # docs = embeddings.embed_documents(texts1) # -> list[向量]
-vector_store = FAISS.from_documents(texts, embeddings) # 建立 向量数据库 # texts -> List[Document]
+vector_store = FAISS.from_documents(texts_spliter, embeddings) # 建立 向量数据库
 vector_store.save_local(vs_path)  # 存储到vsdb中
 
 

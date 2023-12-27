@@ -3,13 +3,21 @@ This an AI project of PKU.
 
 ## 开发计划
 - [ ] 大模型和 embedding模型 接入
+    - [] ChatGLM3-6B
 - [ ] 数据接入 loader
     - [ ] pdf
     - [ ] word
     - [ ] txt
     - [ ] Excel
 - [ ] 文档分割 spliter
-    - [ ] 
+    - [ ] NLTK
+    - [ ] spaCy
+    - [ ] SentenceTransformers
+    - [ ] CharacterTextSplitter
+    - [ ] RecursiveCharacterTextSplitter
+    - [ ] tiktoken
+    - [ ] GPT2TokenizerFast
+    - [ ] LongContextReorder
 - [ ] 向量数据库 embedding and vectorDb
     - [ ] Fasis
     - [ ] Chromadb
