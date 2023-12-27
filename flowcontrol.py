@@ -102,7 +102,7 @@ ct.fontName = '宋体'
 response_pdf = response.replace("\n", "<br/>") # 转换为 pdf 的换行符
 
 # 生成pdf文件
-pdfname = "output2.pdf"
+pdfname = "NewOutput.pdf"
 OUTPUT_PATH = "./output"
 outputpath = OUTPUT_PATH + "/"+ pdfname 
 

@@ -20,8 +20,35 @@ This a AI project of PKU.
     - [ ] pdf
     - [ ] word
     - [ ] PPT
+- [ ] 模型微调
 - [ ] API部署
     - [ ] FastAPI
 - [ ] 模型托管
     - [ ] FastChat
 - [ ] webUI
+
+## 使用方法
+To use this project, you shoud:
+```
+git clone https://github.com/LYCnight/DocDoc.git
+cd DocDoc
+```
+
+then (You should hava anaconda or minconda installed in your device first)
+```
+conda create -n DocDoc python=3.10.13
+conda activate DocDoc
+```
+
+and
+```
+pip install -r requirements.txt
+```
+
+finally, we can have a test, try:
+```
+python flowcontrol.py
+```
+
+and you'll get:
+![实现原理图](img/运行截图.png)
