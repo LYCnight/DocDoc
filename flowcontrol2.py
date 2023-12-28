@@ -31,12 +31,15 @@ print("step2 completed")
 
 # -----------------------------------------
 # 3.分割文档 spliter
-from langchain.text_splitter import NLTKTextSplitter
+from langchain.text_splitter import SpacyTextSplitter
 from langchain.docstore.document import Document
 
-text_splitter = NLTKTextSplitter(chunk_size=1000) # How the chunk size is measured: by number of characters.
-texts_spliter = text_splitter.split_text(texts)
-# texts_spliter -> list[str]
+text_splitter = SpacyTextSplitter(chunk_size=1000) # How the chunk size is measured: by number of characters.
+texts_splited = text_splitter.split_text(texts)
+# texts_splited -> list[str]
+
+# 构造 langchain Document 对象
+text_Document_list = [Document(page_content=text, metadata={"from": "filename or book.txt"}) for text in texts_splited]
 
 # ----------------------------------------
 # 4.向量化 embedding
@@ -92,7 +95,7 @@ ct.fontName = '宋体'
 response_pdf = response.replace("\n", "<br/>") # 转换为 pdf 的换行符
 
 # 生成pdf文件
-pdfname = "NewOutput.pdf"
+pdfname = "Output8.pdf"
 OUTPUT_PATH = "./output"
 outputpath = OUTPUT_PATH + "/"+ pdfname 
 
