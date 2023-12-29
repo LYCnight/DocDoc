@@ -67,3 +67,7 @@ and you'll get:
 - [ ] 模型托管
     - [ ] FastChat
 - [ ] webUI
+- [ ] cheditor-5 富文本编辑器开发
+- [ ] luckysheet 电子表格开发
+- [ ] PPTist 云PPT开发
+- [ ] 长文本运行逻辑开发
