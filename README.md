@@ -26,6 +26,8 @@ python flowcontrol.py
 
 and you'll get:
 ![实现原理图](img/运行截图.png)
+![生成产品](img/生成产品.png)
+
 
 ## 系统架构
 ![实现原理图](img/大框架.jpg)
