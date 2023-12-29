@@ -18,9 +18,23 @@ and
 ```
 pip install -r requirements.txt
 ```
+  
+  
+then, change the relevant paths in `flowcontrol.py`: (My system is Linux)
+![](img/flowcontrol.png)  
+for example:
+``` shell
+# Windows:
+ProjectPath = "D:\ljl\DocDoc" 
+MODEL_PATH = "D:\ljl\LLM_model/chatglm3-6b"
+TOKENIZER_PATH = "D:\ljl\\LLM_model/chatglm3-6b"
+EMBEDDING_PATH = "D:\ljl\/embed_model//bge-large-zh"
+```
+
+
 
 finally, we can have a test, try:
-```
+``` shell
 python flowcontrol.py
 ```
 
