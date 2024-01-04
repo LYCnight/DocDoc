@@ -43,6 +43,15 @@ and you'll get:
 ![生成产品](img/生成产品.png)
 
 
+## 前端页面
+```shell
+cd DocEditor
+```
+然后在网页中打开 `index.html` 文件即可开始体验前端页面
+![前端页面](img/DocEditor.png)
+
+
+
 ## 系统架构
 ![实现原理图](img/大框架.jpg)
 ![实现原理图](img/细框架.jpg)
@@ -50,38 +59,46 @@ and you'll get:
 
 ## 开发计划
 - [ ] 大模型和 embedding模型 接入
-    - [] ChatGLM3-6B
+    - [x] ChatGLM3-6B
 - [ ] 数据接入 loader
     - [ ] pdf
-    - [ ] word
-    - [ ] txt
+    - [x] word
+    - [x] txt
     - [ ] Excel
 - [ ] 文档分割 spliter
-    - [ ] NLTK
-    - [ ] spaCy
+    - [x] NLTK
+    - [x] spaCy
     - [ ] SentenceTransformers
-    - [ ] CharacterTextSplitter
+    - [x] CharacterTextSplitter
     - [ ] RecursiveCharacterTextSplitter
     - [ ] tiktoken
     - [ ] GPT2TokenizerFast
     - [ ] LongContextReorder
 - [ ] 向量数据库 embedding and vectorDb
-    - [ ] Fasis
+    - [x] Fasis
     - [ ] Chromadb
 - [ ] 检索器  retriever
     - [ ] simple retriever
-- [ ] 提示模板  prompt
+- [x] 提示模板  prompt
 - [ ] 产品生成
-    - [ ] pdf
+    - [x] pdf
     - [ ] word
     - [ ] PPT
+    - [ ] markdown
 - [ ] 模型微调
 - [ ] API部署
     - [ ] FastAPI
 - [ ] 模型托管
     - [ ] FastChat
 - [ ] webUI
-- [ ] cheditor-5 富文本编辑器开发
+    - [ ] DocEditor
+    - [ ] 接入LLM
+- [ ] cheditor-5 富文本编辑器开发 [参考博客](https://developer.aliyun.com/article/978503)
 - [ ] luckysheet 电子表格开发
 - [ ] PPTist 云PPT开发
 - [ ] 长文本运行逻辑开发
+
+## 展望
+- [ ] 图片生成功能
+- [ ] AI评论功能
+- [ ] tone 改变功能 
