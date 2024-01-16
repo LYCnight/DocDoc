@@ -15,6 +15,7 @@ class ChatGLM():
         return response
 
     def load_model(self, 
-                MODEL_PATH: str = "THUDM/chatglm-6b", TOKENIZER_PATH: str = "THUDM/chatglm-6b"):
+                MODEL_PATH: str = "THUDM/chatglm-6b", 
+                TOKENIZER_PATH: str = "THUDM/chatglm-6b"):
         self.tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_PATH, trust_remote_code=True)
         self.model = AutoModel.from_pretrained(MODEL_PATH, trust_remote_code=True, device_map="auto").eval()

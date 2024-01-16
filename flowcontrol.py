@@ -33,8 +33,6 @@ print("step2 completed")
 
 # -----------------------------------------
 # 3.分割文档 spliter
-# 加入到 flowcontrol
-# 3.分割文档 spliter
 from langchain.text_splitter import SpacyTextSplitter
 from langchain.docstore.document import Document
 text_splitter = SpacyTextSplitter(

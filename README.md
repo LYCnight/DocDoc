@@ -43,13 +43,18 @@ and you'll get:
 ![生成产品](img/生成产品.png)
 
 
-## 前端页面
-```shell
-cd DocEditor
-```
-然后在网页中打开 `index.html` 文件即可开始体验前端页面
-![前端页面](img/DocEditor.png)
 
+## 前端页面
+首先，打开后端服务
+``` shell
+python main.py
+```
+然后
+``` shell
+cd DocFront
+```
+在浏览器中打开 index.html即可
+![前端页面](img/front.png)
 
 
 ## 系统架构
