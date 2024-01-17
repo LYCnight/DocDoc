@@ -45,16 +45,24 @@ and you'll get:
 
 
 ## 前端页面
+现在一共开发了三个前端：
+```tree
+1. DocFront
+2. classic_build_editor
+3. decoupleDoc_build_editor
+```
+后续前端都将基于    `3. decoupleDoc_build_editor`
 首先，打开后端服务
 ``` shell
 python main.py
 ```
 然后
-``` shell
-cd DocFront
+``` shellll
+cd decoupleDoc_build_editor
 ```
-在浏览器中打开 index.html即可
-![前端页面](img/front.png)
+在浏览器中打开该目录下的 index.html 即可体验AI写作器的功能
+
+![前端页面](img/DecoupledDocFront.png)
 
 
 ## 系统架构
