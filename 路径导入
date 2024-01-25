@@ -1,0 +1,4 @@
+from pathlib import Path		
+import sys
+root_path = Path(__file__).parent   # 当前目录，如：  /Hello/current
+sys.path.append(str(root_path)) 

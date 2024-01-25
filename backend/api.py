@@ -9,11 +9,12 @@ from LLMs import ChatGLM
 from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 from config import MODEL_PATH, TOKENIZER_PATH, EMBEDDING_PATH 
 
+from AI.AIdoc import AIgen_doc, AIContinue, AIImprove
+
 
 app = FastAPI()
 
 from fastapi.middleware.cors import CORSMiddleware
-
 # Enable CORS (允许前端后端可以跨域请求)
 app.add_middleware(
     CORSMiddleware,
@@ -47,41 +48,64 @@ async def hello():
 
 @app.get("/AIHi") 
 async def AIHi():
-    response = LLM("你好")
+    response = llm("你好")
     return response
 
+# 待开发功能
 @app.post("/AIChat") 
 async def AIChat():
-    response = "你好，我是AI，运行在后端"
+    '''
+    - 功能：AI对话
+    '''
+    pass
+
+@app.get("/AIGendoc")
+async def AIGen_doc():
+    '''
+    - 功能
+        用户无需传标题进来，自动生成报告
+    - 备注
+        用户无法修改标题，所以这个方法将在下个版本被遗弃
+    '''
+    # 生成文本，返回 str
+    response:str = AIgen_doc("张靖皋长江大桥ZJG-A5标段绿色工地建设阶段性工作总结", llm)
     return response
 
-@app.get("/AIGen")
-async def AIGen():
-    # 生成文本，返回 str
-    from utils import DocGenerate
-    response = DocGenerate(LLM, embeddings)
-    return response
+# 下个版本的方法：
+# 问题：API方法可以重载吗？
+# @app.post("/AIGendoc")
+# async def AIGen_doc(request: Request):
+#     title:str = request.text
+#     if title is None or title == "":
+#         title = "张靖皋长江大桥ZJG-A5标段绿色工地建设阶段性工作总结"   # 默认值
+#     response:str = AIgen_doc(title, llm)
+#     return response
+
 
 @app.post("/AIContinue")
-async def AIContinue(request: Request) -> str: 
+async def AI_Continue(request: Request) -> str: 
+    '''
+    - 功能：AI续写
+    '''
     # 生成文本，返回 str
-    from utils import AIContinue
-    contents = request.text  # -> str
-    response = AIContinue(LLM, embeddings, contents = contents)
+    text = request.text  # -> str
+    response = AIContinue(text, llm)
     return response
 
 @app.post("/AIImprove")
-async def AIImprove(request: Request) -> str: 
+async def AI_Improve(request: Request) -> str: 
+    '''
+    - 功能：AI优化
+    '''
     # 生成文本，返回 str
-    from utils import AIImprove
-    contents = request.text  # -> str
-    response = AIImprove(LLM, embeddings, contents = contents)
+    text = request.text  # -> str
+    response = AIImprove(text, llm)
     return response
 
 if __name__ == "__main__":
 
-    LLM = ChatGLM()
-    LLM.load_model(MODEL_PATH = MODEL_PATH, TOKENIZER_PATH = TOKENIZER_PATH)
+    llm = ChatGLM()
+    llm.load_model(MODEL_PATH = MODEL_PATH, TOKENIZER_PATH = TOKENIZER_PATH)
 
     embeddings = HuggingFaceEmbeddings(model_name = EMBEDDING_PATH,
                                     model_kwargs = {'device': "cuda"})

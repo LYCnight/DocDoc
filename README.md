@@ -1,7 +1,7 @@
-hello!  
-This an AI project of PKU.
+Welcome to DocDoc!   
+A wonderful AIpowered writing assistant.
 
-## 使用方法
+## 基本配置
 To use this project, you shoud:
 ```
 git clone https://github.com/LYCnight/DocDoc.git
@@ -18,60 +18,77 @@ and
 ```
 pip install -r requirements.txt
 ```
+
+## 算法组模型接口
   
-  
-then, change the relevant paths in `flowcontrol.py`: (My system is Linux)
-![](img/flowcontrol.png)  
-for example:
-``` shell
-# Windows:
-ProjectPath = "D:\ljl\DocDoc" 
-MODEL_PATH = "D:\ljl\LLM_model/chatglm3-6b"
-TOKENIZER_PATH = "D:\ljl\\LLM_model/chatglm3-6b"
-EMBEDDING_PATH = "D:\ljl\/embed_model//bge-large-zh"
-```
+在 'config.py' 中，更改你的模型路径） 
+
+![](img/模型接口.png)  
 
 
 
-finally, we can have a test, try:
+## 使用方法一：一键生成报告
+
+try:
 ``` shell
 python flowcontrol.py
 ```
 
 and you'll get:
 ![实现原理图](img/运行截图.png)
-![生成产品](img/生成产品.png)
+![生成产品](img/生成产品截图.png)
 
 
 
-## 前端页面
-现在一共开发了三个前端：
-```tree
-1. DocFront
-2. classic_build_editor
-3. decoupleDoc_build_editor
+## 使用方法二：前端交互页面
+先看一下结构
+```shell
+1. backend  - 后端
+2. decoupleDoc_build_editor   - 前端
 ```
-后续前端都将基于    `3. decoupleDoc_build_editor`
+
 首先，打开后端服务
 ``` shell
-python main.py
+python backend/api.py
 ```
-然后
+稍稍等待一下，出现以下画面表示成功开启后端服务：  
+![](img/后端运行成功截图.png)
+
+对于软件组的成员，还可以在后端打开之后查看**API文档** (可以在线对API进行调试)  
+在浏览器中输入
+'''
+http://localhost:8000/docs
+'''
+![](img/API截图.png)
+
+
+然后打开前端
 ``` shellll
 cd decoupleDoc_build_editor
 ```
-在浏览器中打开该目录下的 index.html 即可体验AI写作器的功能
+在浏览器中打开 'decoupleDoc_build_editor/sample/index.html' 即可体验AI写作器的功能
 
-![前端页面](img/DecoupledDocFront.png)
+![前端页面](img/前端截图.png)
+
+### 前端功能
+- AI：点击后输出 "你好，我是AI，运行在后端"
+- AIHi：点击后输出  "你好👋！我是人工智能助手 ChatGLM3-6B，很高兴见到你，欢迎问我任何问题。"
+![](img/AIHi功能截图.png)
+- AIGendoc: 点击后会直接输出一整篇绿色工地报告
+![](img/AIGen_doc功能截图.png)
+- AI续写：选中文本后，点击AI续写，会自动续写内容
+- AI优化：选中文本后，点击AI续写，会自动续写内容
+
 
 
 ## 系统架构
+![](img/系统架构.png)
 ![实现原理图](img/大框架.jpg)
 ![实现原理图](img/细框架.jpg)
 
 
 ## 开发计划
-- [ ] 大模型和 embedding模型 接入
+- [ ] 算法模型接入
     - [x] ChatGLM3-6B
 - [ ] 数据接入 loader
     - [ ] pdf
@@ -90,6 +107,7 @@ cd decoupleDoc_build_editor
 - [ ] 向量数据库 embedding and vectorDb
     - [x] Fasis
     - [ ] Chromadb
+    - [ ] lance
 - [ ] 检索器  retriever
     - [ ] simple retriever
 - [x] 提示模板  prompt
@@ -99,19 +117,20 @@ cd decoupleDoc_build_editor
     - [ ] PPT
     - [ ] markdown
 - [ ] 模型微调
-- [ ] API部署
-    - [ ] FastAPI
+- [x] API部署
+    - [x] FastAPI
 - [ ] 模型托管
     - [ ] FastChat
-- [ ] webUI
-    - [ ] DocEditor
-    - [ ] 接入LLM
-- [ ] cheditor-5 富文本编辑器开发 [参考博客](https://developer.aliyun.com/article/978503)
+- [x] 前端
+    - [x] DocEditor
+    - [x] 接入LLM
+- [x] cheditor-5 富文本编辑器开发 [参考博客](https://developer.aliyun.com/article/978503)
 - [ ] luckysheet 电子表格开发
 - [ ] PPTist 云PPT开发
 - [ ] 长文本运行逻辑开发
 
 ## 展望
 - [ ] 图片生成功能
-- [ ] AI评论功能
-- [ ] tone 改变功能 
+- [ ] 表格生成功能
+- [ ] 流式输出
+- [ ] 拓展到其他任何形式的报告，文章，甚至是学术论文

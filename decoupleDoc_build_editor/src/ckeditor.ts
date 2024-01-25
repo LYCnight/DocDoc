@@ -173,17 +173,17 @@ class AIHi extends Plugin {
 
 class AIGen extends Plugin {
     init() {
-        console.log( 'AIGen was initialized.' );
+        console.log( 'AIGendoc was initialized.' );
         const editor = this.editor;
         // The button must be registered among the UI components of the editor
         // to be displayed in the toolbar.
-        editor.ui.componentFactory.add( 'AIGentool', () => {        // "" 里为工具的变量名，在 toolbar 中被引用
+        editor.ui.componentFactory.add( 'AIGendoctool', () => {        // "" 里为工具的变量名，在 toolbar 中被引用
             // We also need to register our button in the editor’s UI componentFactory, so it can be displayed in the toolbar. 
             // The button will be an instance of ButtonView.
             const button = new ButtonView();
 
             button.set( {
-                label: 'AIGen',    // 按钮的默认文字
+                label: 'AIGendoc',    // 按钮的默认文字
                 withText: true
             } );
 
@@ -191,8 +191,8 @@ class AIGen extends Plugin {
             // Execute a callback function when the button is clicked.
             button.on( 'execute', async () => {
                 try {
-                    console.log( 'AIGen\'s \'execute\' has been trigered .' );
-                    const response = await fetch('http://127.0.0.1:8000/AIGen');
+                    console.log( 'AIGendoc\'s \'execute\' has been trigered .' );
+                    const response = await fetch('http://127.0.0.1:8000/AIGendoc');
                     if (!response.ok) {
                         throw new Error('Network response was not ok.');
                     }
@@ -304,6 +304,7 @@ class AIImprove extends Plugin {
             // Execute a callback function when the button is clicked.
             button.on( 'execute', async () => {
                 try {
+                    // 获取被选中的文本，存储在 text 变量里
                     const model = this.editor.model;
                     const selection = model.document.selection;
                     const range = editor.model.document.selection.getFirstRange();
@@ -453,7 +454,7 @@ class Editor extends DecoupledEditor {
 				'outdent',
 				'indent',
 				'|',
-				'AItool', 'AIHitool', 'AIGentool', 'AIContinuetool', 'AIImprovetool',
+				'AItool', 'AIHitool', 'AIGendoctool', 'AIContinuetool', 'AIImprovetool',
 				'|',
 				'link',
 				'blockQuote',

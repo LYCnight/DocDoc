@@ -1,3 +1,0 @@
-# recursiveRetriver
-# parentdocRetriver
-# multivectorRetriver
