@@ -1,3 +1,8 @@
+'''
+# AIdoc.py
+使用 core 里面的核心组件，搭建了大量用于 文本生成 的方法。
+'''
+
 from pathlib import Path		
 import sys
 root_path = Path(__file__).parent.parent   # 项目根目录，如：  /DocDoc

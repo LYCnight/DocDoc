@@ -36,6 +36,10 @@ class Loader(ABC):
 
     @abstractmethod      # @abstractmethod 抽象方法必须在子类中实现
     def load(self,*args,**kwargs):
+        '''
+        类型：抽象方法
+        功能：加载模型
+        '''
         pass
 
 
@@ -45,6 +49,10 @@ class Spliter(ABC):
 
     @abstractmethod      # @abstractmethod 抽象方法必须在子类中实现
     def split(self,*args,**kwargs):
+        '''
+        类型：抽象方法
+        功能：分割文本（字符串）
+        '''
         pass
 
 
@@ -55,6 +63,10 @@ class Retriever(ABC):
 
     @abstractmethod      # @abstractmethod 抽象方法必须在子类中实现
     def query_search(self,*args,**kwargs):
+        '''
+        类型：抽象方法
+        功能：文本检索
+        '''
         pass
 
 
@@ -65,6 +77,10 @@ class Vectordb(ABC):
 
     @abstractmethod      # @abstractmethod 抽象方法必须在子类中实现
     def store(self,*args,**kwargs):
+        '''
+        类型：抽象方法
+        功能：知识存储
+        '''
         pass
 
 class Outputer(ABC):
@@ -73,4 +89,8 @@ class Outputer(ABC):
 
     @abstractmethod      # @abstractmethod 抽象方法必须在子类中实现
     def output(self,*args,**kwargs):
+        '''
+        类型：抽象方法
+        功能：输出成各种各样的产品（pdf，word，PPT...）
+        '''
         pass

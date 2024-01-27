@@ -6,9 +6,13 @@ root_path = Path(__file__).parent    # 项目根目录    DocDoc2/
 
 def ToLangchainDocument(content_split:List[str]) -> List[Document]:
     '''
-    convert tList[str] -> List[Document]
-    适配 langchain 的方法
-    （Document 是 Langchain 里的文档对象，是各种方法操作的对象）
+    功能：
+        - convert List[str] -> List[Document]，用以适配 langchain 的方法
+        - Document 是 Langchain 里的文档对象，可以被Langchain操作
+        - str 是 python 内置的字符串对象，不可以被Langchain操作
+    示例:
+        str_list = ["hello", "word"]
+        document_list = ToLangchainDocument(str_list)
     '''
     Documentlist = [Document(page_content=text, metadata={"from": "book.txt"}) for text in content_split]
     return Documentlist

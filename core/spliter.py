@@ -21,7 +21,10 @@ class spacy_spliter(Spliter):
         print("I am spacy_spliter")
 
     def split(self, texts:str) -> List[str]:
-        print("I am spacy_spliter")
+        '''
+        功能：基于spacy技术的文本分割
+        '''
+        # print("I am spacy_spliter")
         from langchain.text_splitter import SpacyTextSplitter
         self.text_splitter = SpacyTextSplitter(
                 separator = "\n\n",

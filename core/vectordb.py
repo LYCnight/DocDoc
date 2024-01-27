@@ -17,11 +17,19 @@ class Faiss(Vectordb):
         
     def store(self, documents, embeddings):
         '''
-        'documents' should be -> Lanchain Document | List[Document] 
+        功能：
+            - 基于Fasis数据库的知识存储功能
+        参数：
+            - document : 要存储的知识   'documents' should be -> Lanchain Document | List[Document] 
+            - embeddings ： embeddings模型
         '''
         self.vectordb = FAISS.from_documents(documents, embeddings)
 
     def similarity_search(self, query:str) -> List[Document]: 
+        '''
+        功能：
+            - 基于Fasis数据库的知识检索（不使用 retriever）
+        '''
         docs = self.vectordb.similarity_search(query)
         return docs
 

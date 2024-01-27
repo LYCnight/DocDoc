@@ -11,6 +11,9 @@ from typing import Union, List
 
 class Loader_adapter(Loader):
     def load(self, filelist: Union[str, List[str]] = None) -> str:
+        '''
+        功能：“文件加载”。传入一个或多个文件路径，将其内容转换为字符串进行返回
+        '''
         print("I am loader_apdapter. I can load files in multiple formats ")
         
         if filelist is None:
@@ -32,6 +35,9 @@ class Loader_adapter(Loader):
 
 
     def load_one_file(self, file:str) -> str:
+        '''
+        功能：传入一个文件路径，将其内容转换为字符串进行返回
+        '''
         # 使用Path对象获取文件后缀
         file_suffix = Path(file).suffix[1:].lower()
 
@@ -53,6 +59,9 @@ class Loader_adapter(Loader):
 
 class Txt_loader(Loader):
     def load(self, filepath:str = None) -> str: 
+        '''
+        功能：加载 txt 文件
+        '''
         # 读取文件内容
         content = ""
         with open(filepath, 'r', encoding='utf-8') as file:
