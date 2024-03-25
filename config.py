@@ -7,7 +7,9 @@
 
 # --------算法组模型接口---------
 ProjectPath = "/remote-home/yy/lzd/DocDoc" 
-MODEL_PATH = "/remote-home/share/LLM_model/chatglm3-6b"
+# MODEL_PATH = "/remote-home/share/LLM_model/chatglm3-6b"
+# MODEL_PATH = "/remote-home/yy/lzd/ljc/ChatGLM3/finetune_demo/pku-6B"
+MODEL_PATH = "/remote-home/share/LLM_model/chatglm3-6b-32K"
 TOKENIZER_PATH = "/remote-home/share/LLM_model/chatglm3-6b"
 EMBEDDING_PATH = "/remote-home/share/LLM_model//bge-large-zh"
 # --------算法组模型接口---------

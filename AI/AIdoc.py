@@ -11,25 +11,34 @@ sys.path.append(str(root_path))
 sys.path.append(str(curt_path)) 
 
 from typing import List
+from PromptUtil import PromptTemplate
 
-def AIgen_chapter(prompt:str, llm) -> str:
+def AIgen_chapter(title:str, prompt:str, llm, information:str = None)  -> str:
     '''
     - 功能：
         输入 prompt，生成一个章节的内容
     '''
-    chapter = llm(prompt)
+    promptObj = PromptTemplate(input_variables=["title", "information"], template=prompt)
+    print(promptObj.format(title = title, information = information))   # 打印提示词
+    chapter = llm(promptObj.format(title = title, information = information))
     return chapter
 
-def AIgen_doc(title:str, llm) -> str:
+def AIgen_doc(title:str, llm, information:str=None) -> str:
     '''
     - 功能：
-        输入文章标题，返回整篇文章（长文本）
+        输入文章标题和辅助信息，返回整篇文章（长文本）
     '''
+    # content = AIgen_content(title)
+    # prompt_list = AIgen_promptlist(content, information)
+    # doc = f"{title}\n\n"
+    # for prompt in prompt_list:
+    #     doc += AIgen_chapter(prompt, llm) + "\n\n"
+
     content = AIgen_content(title)
     prompt_list = AIgen_promptlist(content)
     doc = f"{title}\n\n"
     for prompt in prompt_list:
-        doc += AIgen_chapter(prompt, llm) + "\n\n"
+        doc += AIgen_chapter(title, prompt, llm, information)
     return doc
 
 def AIgen_content(title:str, content:str = None) -> str:
@@ -112,29 +121,40 @@ if __name__ == "__main__":
     TOKENIZER_PATH = "/remote-home/share/LLM_model/chatglm3-6b"
     EMBEDDING_PATH = "/remote-home/share/LLM_model//bge-large-zh"
 
+    # 模型加载
     from LLMs import ChatGLM
     llm= ChatGLM()
     llm.load_model(MODEL_PATH, TOKENIZER_PATH)
-    from langchain.embeddings.huggingface import HuggingFaceEmbeddings
-    embeddings = HuggingFaceEmbeddings(model_name = EMBEDDING_PATH,
-                                        model_kwargs = {'device': "cuda"})
+    # from langchain.embeddings.huggingface import HuggingFaceEmbeddings
+    # embeddings = HuggingFaceEmbeddings(model_name = EMBEDDING_PATH,
+    #                                     model_kwargs = {'device': "cuda"})
 
+
+    # --- test: AIgen_chapter()
+    # from core.prompt import promptlist_template_short
+    # title = "张靖皋长江大桥ZJG-A5标段绿色工地建设阶段性工作总结"
+    # print(AIgen_chapter(title, promptlist_template_short, llm, information="张靖皋长江大桥ZJG-A5标段，于2021年12月1日开始施工，2023年3月2日竣工"))
+   
     # --- test: AIContinue()
     # text = "我是一只小狗"
     # response = AIContinue(text, llm)
     # print(response)
 
     # --- test: AIImprove()
-    text = "工程绿色审核人工智能支持系统的存储系统使用了 mysql和 redis，后端选用了python进行构建，前端使用了 webpack 和 React"
-    response = AIImprove(text, llm)
-    print(response)
+    # text = "工程绿色审核人工智能支持系统的存储系统使用了 mysql和 redis，后端选用了python进行构建，前端使用了 webpack 和 React"
+    # response = AIImprove(text, llm)
+    # print(response)
 
     # --- test: AIgen_doc()
     # import time
     # # 记录开始时间
     # start_time = time.time()
-    
-    # doc = AIgen_doc("张靖皋长江大桥ZJG-A5标段绿色工地建设阶段性工作总结", llm)
+    # from core.prompt import promptlist_template_short
+    from core.prompt import promptlist_template
+    title = "武汉大学6号楼绿色工地建设总结报告"
+    information = """"""
+    doc = AIgen_doc(title=title, llm=llm, information=information)
+    print(doc)
 
     # from core.outputer import PdfOutputer
     # pdfOutputer = PdfOutputer()

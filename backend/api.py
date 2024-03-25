@@ -9,7 +9,8 @@ from LLMs import ChatGLM
 from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 from config import MODEL_PATH, TOKENIZER_PATH, EMBEDDING_PATH 
 
-from AI.AIdoc import AIgen_doc, AIContinue, AIImprove
+from AI.AIdoc import AIgen_chapter, AIgen_doc, AIContinue, AIImprove
+from util import text2html
 
 
 app = FastAPI()
@@ -33,8 +34,15 @@ TOKENIZER_PATH = os.environ.get("TOKENIZER_PATH", MODEL_PATH)
 
 # request body config
 from pydantic import BaseModel
+
+# PostRequest for AIimprove, AIcontinue
 class Request(BaseModel):
     text: str 
+
+# PostRequest for AIGendoc
+class PostData(BaseModel):
+    title: str
+    information: str
 
 @app.get("/") 
 async def hello():
@@ -46,9 +54,14 @@ async def hello():
     response = "你好，我是AI，运行在后端"
     return response
 
+# 用于测试
 @app.get("/AIHi") 
 async def AIHi():
-    response = llm("你好")
+    # test
+    from testTemplate import testMarkdown
+    response:str = text2html(testMarkdown)
+    print(response)
+
     return response
 
 # 待开发功能
@@ -59,17 +72,43 @@ async def AIChat():
     '''
     pass
 
-@app.get("/AIGendoc")
-async def AIGen_doc():
+@app.post("/AIGendoc")
+async def AIGen_doc(post_data: PostData):
+    title = post_data.title
+    information = post_data.information
     '''
     - 功能
-        用户无需传标题进来，自动生成报告
-    - 备注
-        用户无法修改标题，所以这个方法将在下个版本被遗弃
+        接受`标题`和`信息`，生成报告，并转换成html包装成JSON返回
     '''
+    if title is None or title == "":
+        title = "张靖皋长江大桥ZJG-A5标段绿色工地建设阶段性工作总结"    # 缺省值
+        information = "张靖皋长江大桥ZJG-A5标段，于2021年12月1日开始施工，2023年3月2日竣工" # 缺省值
+
     # 生成文本，返回 str
-    response:str = AIgen_doc("张靖皋长江大桥ZJG-A5标段绿色工地建设阶段性工作总结", llm)
-    return response
+    response:str = AIgen_doc(title, llm, information)
+    print(response)
+    response_html = text2html(response)
+    print(response_html)
+
+    return response_html
+
+@app.get("/AIGendoc")
+async def AIGen_doc(title:str=None, information:str=None):
+    '''
+    - 功能
+        接受`标题`和`信息`，生成报告，并转换成html包装成JSON返回
+    '''
+    if title is None or title == "":
+        title = "张靖皋长江大桥ZJG-A5标段绿色工地建设阶段性工作总结"    # 缺省值
+        information = "张靖皋长江大桥ZJG-A5标段，于2021年12月1日开始施工，2023年3月2日竣工" # 缺省值
+
+    # 生成文本，返回 str
+    response:str = AIgen_doc(title, llm, information)
+    print(response)
+    response_html = text2html(response)
+    print(response_html)
+
+    return response_html
 
 # 下个版本的方法：
 # 问题：API方法可以重载吗？
@@ -107,12 +146,30 @@ if __name__ == "__main__":
     llm = ChatGLM()
     llm.load_model(MODEL_PATH = MODEL_PATH, TOKENIZER_PATH = TOKENIZER_PATH)
 
-    embeddings = HuggingFaceEmbeddings(model_name = EMBEDDING_PATH,
-                                    model_kwargs = {'device': "cuda"})
+    # 这一行运行不了，原因不明
+    # embeddings = HuggingFaceEmbeddings(model_name = EMBEDDING_PATH, model_kwargs = {'device': "cuda"})  
 
-    uvicorn.run(app, host='127.0.0.1', port=8000, workers=1)
+
+    print("模型加载完成！正在启动后端服务 ---> ")
+    print("API文档：http://localhost:8000/docs")
+
+    uvicorn.run(app, host='0.0.0.0', port=8000, workers=1)
+
 
 ''' 测试方法
+
+API 文档：http://localhost:8000/docs
+
+/AIHi
+curl -X 'GET' \
+  'http://localhost:8000/AIHi' \
+  -H 'accept: application/json'
+
+/AIGen
+curl -X 'GET' \
+  'http://localhost:8000/AIGen' \
+  -H 'accept: application/json'
+
 /AIGen
 curl -X 'GET' \
   'http://localhost:8000/AIGen' \

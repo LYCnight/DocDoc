@@ -1,4 +1,5 @@
 from transformers import AutoTokenizer, AutoModel
+import torch
 
 class ChatGLM():
     tokenizer: object = None
@@ -32,3 +33,5 @@ class ChatGLM():
         '''
         self.tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_PATH, trust_remote_code=True)
         self.model = AutoModel.from_pretrained(MODEL_PATH, trust_remote_code=True, device_map="auto").eval()
+        device = torch.device("cuda:0")  # 使用0号GPU
+        self.model.to(device)   # 指定模型运行的显卡
