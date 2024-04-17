@@ -1,0 +1,12 @@
+WRITE_PROMPT = """
+
+
+# example
+'''
+我们正在写《{title}》的 `{current_headline}` 到 `{next_headline}` 之间的正文部分，请你按照我的要求撰写下第{i}段
+
+要求：{para_guide}
+
+我们已经撰写了的上下文：
+{context}
+'''

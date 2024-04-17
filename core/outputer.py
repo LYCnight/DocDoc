@@ -9,6 +9,36 @@ from typing import List, NoReturn
 
 from base import Outputer
 
+class WordOutputer(Outputer):
+    def info(self):
+        print("I am WordOutputer")
+    
+    def output(self, text:str, outputfile:str = "wordoutput.docx", outputpath:str = str(root_path)+"/test/output") -> NoReturn: 
+        from docx import Document
+        from docx.shared import Pt
+        from docx.oxml.ns import qn
+        from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_PARAGRAPH_ALIGNMENT
+
+        doc = Document()
+        p = doc.add_paragraph(text)
+        p.style.font.size = Pt(12)  # 设置字体大小
+        p.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY  # 设置两端对齐
+        p.style.font.name = '宋体'
+        r = p.style._element.rPr.rFonts.set(qn('w:eastAsia'),'宋体')
+        p.paragraph_format.line_spacing = 1.5  # 设置行间距
+        p.paragraph_format.first_line_indent = Pt(24)  # 设置首行缩进
+
+        word_filepath = ""
+        if(outputpath[-1] == "/"):
+            word_filepath = outputpath + outputfile
+        elif(outputfile[-1] != "/"):
+            word_filepath = outputpath + "/" + outputfile
+        
+        doc.save(word_filepath)
+        print("*" * 100)
+        print(f"{outputfile} 生成完毕！")
+        print(f"文件位于：{word_filepath}")
+
 class PdfOutputer(Outputer):
     def info(self):
         print("I am PdfOutputer")
@@ -52,29 +82,36 @@ class PdfOutputer(Outputer):
 
 
 if __name__ == "__main__":
+    # word 测试
+    from outputer import WordOutputer
+    text = "这是一段用来测试的文字，我想看看这段文字被输入进Word以后会呈现出怎样的效果，因此我需要多写几个字来看看"
+    wordoutputer = WordOutputer()
+    wordoutputer.output(text)
+    
+    # pdf 测试
+    # # from outputer import PdfOutputer
+    # # text = "讨厌红楼梦"
+    # # pdfOutputer = PdfOutputer()
+    # # pdfOutputer.output(text)
+
+    # # path = str(root_path)+"/test/output/"
+    # # print(path)     # /remote-home/yy/lzd/DocDoc2/test/output/
+    # # print(path[-1])   #  /
+
+    # file_path = str(root_path) + "/test/files/中文语料.txt"
+    # print(file_path)
+
+    # # # 读取文件内容
+    # # with open(file_path, 'r', encoding='utf-8') as file:
+    # #     content = file.read()
+
+    # from loader import Loader_adapter
+    # loader = Loader_adapter()
+    # content = loader.load(file_path)
+
     # from outputer import PdfOutputer
-    # text = "讨厌红楼梦"
     # pdfOutputer = PdfOutputer()
-    # pdfOutputer.output(text)
-
-    # path = str(root_path)+"/test/output/"
-    # print(path)     # /remote-home/yy/lzd/DocDoc2/test/output/
-    # print(path[-1])   #  /
-
-    file_path = str(root_path) + "/test/files/中文语料.txt"
-    print(file_path)
-
-    # # 读取文件内容
-    # with open(file_path, 'r', encoding='utf-8') as file:
-    #     content = file.read()
-
-    from loader import Loader_adapter
-    loader = Loader_adapter()
-    content = loader.load(file_path)
-
-    from outputer import PdfOutputer
-    pdfOutputer = PdfOutputer()
-    pdfOutputer.output(content)
+    # pdfOutputer.output(content)
 
 
 

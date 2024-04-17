@@ -83,6 +83,13 @@ class Word_loader(Loader):
 class Pdf_loader(Loader):
     def load(self, file:str = None) -> str:
         print("I am Pdf_loader")
+        import pdfplumber
+        pdf = pdfplumber.open(filepath)  # load pdf
+        pages = pdf.pages
+        texts = ""
+        for page in pages:   # 遍历所有页的数据
+            texts = texts + page.extract_text() + "\n"
+        return texts
 
 
 if __name__ == "__main__":
