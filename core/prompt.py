@@ -1,3 +1,181 @@
+CONTENT_PROMPT = '''
+你是一个目录生成专家，擅长于生成逻辑清晰，条理清楚的目录。
+现在我需要写一份《{title}》，请你根据标题和我提供的信息，生成文章的详细目录。
+
+信息：
+{information}
+'''
+
+
+
+CONTENT_PROMPT_CONSTRAINTS = '''
+注意：
+你只能以JSON格式生成响应，就像下面这样（headline 表示标题，level表示标题等级，从1开始）
+响应格式：
+{
+  "content" : [
+        {"headline": "第一章", "level" : 1},
+        {"headline": "1.1 回国", "level" : 2},
+        {"headline": "第二章", "level" : 1}
+              ]
+}
+请确保你的响应能被 Python json.loads 正确解析
+'''
+
+
+
+
+CONTENT_PROMPT_WITH_COMMENT = '''
+你是一个目录生成专家，擅长于生成逻辑清晰，条理清楚的目录。
+现在我需要写一份《{title}》，请你根据标题和我提供的信息，生成文章的详细目录。
+
+信息：
+{information}
+------------------------
+这是你过去输出的结果：
+{result_last_time}
+------------------------
+一位文本审核员认为你撰写的目录还有提升空间，请你根据他的意见，修改你过去的结果以达到审核员的要求
+意见：
+{comment}
+------------------------
+'''
+
+
+
+REVIEW_PROMPT = '''
+你是一名文本内容质量审核员，负责审查文本质量，给出提升建议，并且给出结论：
+1.审查通过，文本质量合格
+2.审查不通过，文本质量不合格，要求写作者根据你给出的意见进行修改。
+
+内容：
+{text}
+'''
+
+
+
+REVIEW_PROMPT_CONSTRAINTS = """--------------------------CONSTRAINTS-------------------------------
+请从以下角度评估文本质量：
+1.前后逻辑通畅
+2.内容详实不空洞
+3.用词严谨
+4.字数不能太少，每一段至少需要两句话。
+
+要求：
+1.在"thinking_process"中写下你每一步的思考过程。
+3.根据你的思考过程，在"conclusion"中写下你对这段文本内容质量的评价结论，一定要客观。
+3.根据你的思考过程和评价结论，如果你认为文本质量合格，则在 "is_qualified"中填写 `true`（bool值），否则填写 `false`(bool值)
+4.如果"is_qualified"为`false`，则根据 "thinking process" 和 "conclusion"，在"comment"中为内容写作者提供越详细越好的修改建议。 
+  如果"is_qualified"为`true`，则在 "comment" 中填写 "文本质量合格，无需修改"
+
+注意：
+你只能以JSON格式生成响应，就像下面这样：
+响应格式：
+{   
+    "thinking_process":"your thinking process",
+    "conclusion": "your conclusion",
+    "is_qualified": true,
+    "comment": "your comment"
+}
+请确保你的响应能被 Python json.loads 正确解析
+"""
+
+
+
+
+WRITER_INSTRUCTOR_PROMPT = """
+你是一名环境报告段落写作指导专家，负责给写作专家分配写作任务。你会根据完整目录和相关信息，列出当前要写作的headline的`段落写作指导`，分配给写作专家填充正文的内容。
+写作专家：一次只能写作一段，字数在 0~600 字。
+
+现在我需要写一份《{title}》，并且已经给出目录。
+
+目录：
+{content}
+
+请你思考：
+1. 待填充区域：`{headline}` 和 `{next_headline}` 之间的正文，就下所示：
+    `{headline}`
+    【待填填充区域的正文】
+    `{next_headline}`
+    （注意，带填充区域的正文不包括 `{next_headline}`）
+2. 需要多少个段落来填充待填充区域的正文？（如果你认为待填充区域不需要正文填充，那么段落数量可以为0）
+3. 每一段需要写什么内容？写多少字？（如果要写的段落越长，则需要给出越详细的段落写作指导）
+"""
+
+
+WRITER_INSTRUCTOR_PROMPT_CONSTRAINT = """--------------------------CONSTRAINTS-------------------------------
+注意：
+你只能以JSON格式生成响应，就像下面这样：
+响应格式：
+{   
+    "area_to_be_filled" : "你的回答"
+    "thinking_process": "写在你每一步的思考过程",
+    "para_counts" : "你认为需要写的段落的数量"
+    "para_guide_list" : [
+        {"para_guide" : "段落1的思路指导和字数"},
+        {"para_guide" : "段落2的思路指导和字数"},
+        {"para_guide" : "段落3的思路指导和字数"}
+    ] 
+}
+请在 "area_to_be_filled" 中回答：需要填充哪个标题到哪个标题之间的正文？（例如："area_to_be_filled" : "从`2.2 原理分析`到`2.3 方法研究`之间的正文，不包括`2.3 方法研究`"）
+请在 "thinking_process" 中写下你每一步的思考过程，这样会有助于写作专家理解你的思路,更好地填充正文。
+请确保你的响应能被 Python json.loads 正确解析
+"""
+
+
+
+WRITE_PROMPT = """
+你是一名环境报告写作专家，和其他环境报告写作专家一起服务于环境报告写作团队，并且你们有一个统一的领导。
+
+规则：
+1. 你只能写一个段落，0字~600字的字数限制
+2. 你的领导会给你们每一个人分发一个段落的写作思路，你们领取到写作思路后各自写各自的段落，领导会将你们的段落组合成正文
+3. 你只能听命于你的领导。
+
+领导的消息:
+'''
+我们正在写《{title}》的 `{current_headline}` 到 `{next_headline}` 之间的正文部分，请你按照我的要求撰写下第{i}段
+
+要求：{para_guide}
+
+我们已经撰写了的上下文：
+{context}
+
+
+注意：
+    请你直接返回你书写的段落的内容，我会将你的段落内容拼装到上下文中
+'''
+"""
+
+
+
+# WRITE_PROMPT_CONSTRAINTS = """--------------------------CONSTRAINTS-------------------------------
+# 要求：
+# 1.字数不能太少
+# 2.如果有段落，请合理分段
+# 3.如果有需要，你可以列点或者列表
+# 4.前后逻辑通畅
+# 5.内容详实不空洞
+# 6.环境领域的用词需要严谨
+# 7.不能胡编乱造没有的信息
+
+# 注意：
+# 1. 你只能以JSON格式生成响应，将当前写作的 headline 和 level 置于 "headline" 和 "level" 中，并将生成的文本的内容置于"text"中。
+# 2. "text" 字段中的换行符应该写成 \\n
+# 3. "text" 字段中的文本只能写在一行中
+
+# 正确响应格式：
+# {   
+#     "content" : {"headline":"current headline", "level": "current headline's level"}
+#     "text": "your text \\n is written here \\n and only has one line"
+# }
+
+# 请输出正确的 JSON 格式，确保你的响应能被 Python json.loads 正确解析
+# """
+
+
+
+
 content_template_short = '''
 
 '''

@@ -5,13 +5,16 @@
 
 # print("hi, I am config.py")
 
+# 对一个内容的最大审核次数
+MAX_REVIEW_TURNS = 0  
+
 # --------算法组模型接口---------
-ProjectPath = "/remote-home/yy/lzd/DocDoc" 
+ProjectPath = "/root/AI4E/lzd/DocDoc" 
 # MODEL_PATH = "/remote-home/share/LLM_model/chatglm3-6b"
 # MODEL_PATH = "/remote-home/yy/lzd/ljc/ChatGLM3/finetune_demo/pku-6B"
-MODEL_PATH = "/remote-home/share/LLM_model/chatglm3-6b-32K"
-TOKENIZER_PATH = "/remote-home/share/LLM_model/chatglm3-6b"
-EMBEDDING_PATH = "/remote-home/share/LLM_model//bge-large-zh"
+MODEL_PATH = "/root/AI4E/share/chatglm3-6b-128k" 
+TOKENIZER_PATH = "/root/AI4E/share/chatglm3-6b-128k"
+EMBEDDING_PATH = "/root/AI4E/share/bge-large-zh"
 # --------算法组模型接口---------
 
 from pathlib import Path		
