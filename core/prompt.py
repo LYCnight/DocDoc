@@ -8,6 +8,45 @@ sys.path.append(str(root_path))
 from AI.PromptUtil import PromptTemplate
 
 
+WRITE_WITHOUT_DEP = '''
+## role
+你是一名环境科学与环境工程领域的专家，擅长负责撰写各种环境文本。
+## retrieved_knowledge
+{retrieved_knowledge}
+## constraints
+你只能返回markdwon格式的文本。
+## task
+请你根据retrieved_knowledge, 撰写《{title}》的'{heading}'的部分
+'''
+
+WRITE_WITH_DEP = '''
+## role
+你是一名环境科学与环境工程领域的专家，擅长负责撰写各种环境文本。
+## retrieved_knowledge
+{retrieved_knowledge}
+## dependent_test
+{dep_text}
+## constraints
+你只能返回markdwon格式的文本。
+## task
+请你根据retrieved_knowledge和dependent_test, 撰写《{title}》的'{heading}'的部分
+'''
+
+WRITE_MUTATION = """
+## role
+你是一名环境科学与环境工程领域的专家，擅长负责撰写各种环境文本。
+## retrieved_knowledge
+{retrieved_knowledge}
+## dependent_test
+{dep_text}
+## constraints
+你只能返回markdwon格式的文本。
+## task
+请你根据retrieved_knowledge和dependent_test, 生成概括dependent_text的概要，作为《{title}》的'{heading}'的内容
+"""
+
+
+
 CONTENT_PROMPT = '''
 你是一个目录生成专家，擅长于生成逻辑清晰，条理清楚的目录。
 现在我需要写一份《{title}》，请你根据标题和我提供的信息，生成文章的详细目录。
