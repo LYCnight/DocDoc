@@ -188,7 +188,6 @@ void genDocPre(TreeNode* cur, string title, double mutation_prob, vector<Heading
             string newText =  write_with_dep(title, heading, dep, dep_text);
             cur->heading->text = newText;  // 更新节点内容
             cur->heading->dep_text = dep_text; // 更新当前节点的 dep_text
-            //cur->heading->dep = vector<int>{-1}; // 将节点依赖更新为 {-1}
         }
         return;
     }
@@ -270,7 +269,8 @@ string DocAssemble(vector<Heading*> content){
         if(heading->level > 0){
             cout << "heading: " << heading->heading << ", heading->level = " << heading->level << endl;
             fulltext += strRepeat("#", heading->level) + " " + heading->heading + "\n";
-            fulltext += heading->text + "\n";
+            if(heading->text != "")
+                fulltext += heading->text + "\n";
         }
     }
     return fulltext;
@@ -301,7 +301,7 @@ int main(){
     printTree(root);    // 层序遍历打印
 
     string title = "DocDoc";
-	double mutation_prob = 1; // 突变概率
+	double mutation_prob = 0.5; // 突变概率
     genDocPre(root, title, mutation_prob, content);    // 生成文本（反向依赖生成）
 
     genDocPost(title, root, content);     // 生成文本（正向依赖生成）
