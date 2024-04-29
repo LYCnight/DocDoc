@@ -87,7 +87,7 @@ bool mutation(double mutation_prob){
         return false;
 }
 
-void write_without_dep(string title, string heading, vector<int> dep){
+string write_without_dep(string title, string heading, vector<int> dep){
     cout << "write_without_dep:"  << endl;
     cout << "title: <" << title << ">"  << endl;
     cout << "heading: " << heading << endl;
@@ -98,9 +98,12 @@ void write_without_dep(string title, string heading, vector<int> dep){
     }
     cout << dep[dep.size() - 1] << "]" << endl;
     cout << endl;
+
+    string newText = "这是" + heading + "的文本";
+    return newText;
 }
 
-void write_with_dep(string title, string heading, vector<int> dep, vector<string> dep_text){
+string write_with_dep(string title, string heading, vector<int> dep, vector<string> dep_text){
     cout << "write_with_dep:"  << endl;
     cout << "title: <" << title << ">"  << endl;
     cout << "heading: " << heading << endl;
@@ -128,7 +131,7 @@ void write_with_dep(string title, string heading, vector<int> dep, vector<string
     return newText; 
 }
 
-void write_mutation(string title, string heading, vector<int> dep){
+string write_mutation(string title, string heading, vector<int> dep, vector<string> dep_text){
     cout << "write_mutation:"  << endl;
     cout << "title: <" << title << ">"  << endl;
     cout << "heading: " << heading << endl;
@@ -139,6 +142,15 @@ void write_mutation(string title, string heading, vector<int> dep){
     }
     cout << dep[dep.size() - 1] << "]" << endl;
     cout << endl;
+
+    string dep_text_str;
+    for(int i = 0 ; i < dep_text.size()-1; i++){
+        dep_text_str += dep_text[i] + ",";
+    }
+    dep_text_str += dep_text[dep_text.size()-1];
+
+    string newText = "这是`" + heading + "`的内容， 总结于：[" + dep_text_str + "]";
+    return newText; 
 }
 
 vector<string> getDeptext(vector<Heading*> content ,vector<int> dep){
@@ -149,26 +161,76 @@ vector<string> getDeptext(vector<Heading*> content ,vector<int> dep){
     return dep_text;
 }
 
+bool isGenPost(vector<int> dep, int id){
+    if(dep == vector<int>{-1})
+        return false;
+    for(int i : dep){
+        if(id >= i){
+            return false;
+        }
+    }
+    return true;
+}
+
 void genDocPre(TreeNode* cur, string title, double mutation_prob, vector<Heading*> content){
     string heading = cur->heading->heading;
     vector<int> dep = cur->heading->dep; 
     // 归来（如果是叶子节点，则归来）
     if(cur->childlist.empty() == true){
         if(dep == vector<int>{-1}){
-            write_without_dep(title, heading, dep);
+            string newText = write_without_dep(title, heading, dep);
+            cur->heading->text = newText;
         }
         else{
+            if(isGenPost(cur->heading->dep, cur->heading->id) == true)
+                return;
             vector<string> dep_text = getDeptext(content, dep);
-            string text =  write_with_dep(title, heading, dep, dep_text);
-            cur->heading->text = text;  // 更新节点内容
+            string newText =  write_with_dep(title, heading, dep, dep_text);
+            cur->heading->text = newText;  // 更新节点内容
             cur->heading->dep_text = dep_text; // 更新当前节点的 dep_text
-            cur->heading->dep = vector<int>{-1}; // 将节点依赖更新为 {-1}
+            //cur->heading->dep = vector<int>{-1}; // 将节点依赖更新为 {-1}
         }
         return;
     }
     // 子递出
     for(TreeNode* childNode : cur->childlist){
         genDocPre(childNode, title, mutation_prob, content);
+    }
+    // 回溯
+    return;
+}
+
+
+void genDocPost(string title, TreeNode* cur, vector<Heading*> content){
+    // 中处理
+    if(cur->childlist.empty() == true){ // 如果是叶子节点
+        if(isGenPost(cur->heading->dep, cur->heading->id) == true){
+            vector<string> dep_text = getDeptext(content, cur->heading->dep);
+            string newText = write_with_dep(title, cur->heading->heading, cur->heading->dep, dep_text);
+            cur->heading->dep_text = dep_text; // 更新当前节点的 dep_text 
+            cur->heading->text = newText;
+        }
+        return;
+    }
+    // 子递出
+    for(int i = cur->childlist.size()-1 ; i >= 0 ; i--){
+        genDocPost(title, cur->childlist[i], content);
+    }
+    // 回溯
+    return;
+}
+
+
+void genDocMutation(TreeNode* cur, string title, double mutation_prob, vector<Heading*> content){
+    string heading = cur->heading->heading;
+    vector<int> dep = cur->heading->dep; 
+    // 归来（为叶子节点，则归来）
+    if(cur->childlist.empty() == true){
+        return;
+    }
+    // 子递出
+    for(TreeNode* childNode : cur->childlist){
+        genDocMutation(childNode, title, mutation_prob, content);
     }
     // 回溯，处理突变节点
     if(cur->heading->level > 0 && mutation(mutation_prob) == true){
@@ -178,22 +240,40 @@ void genDocPre(TreeNode* cur, string title, double mutation_prob, vector<Heading
         for(TreeNode *node : cur->childlist){
             dep.push_back(node->heading->id);
         }
+        vector<string> dep_text = getDeptext(content, dep);
+        string newText = write_mutation(title, heading, dep, dep_text);
         // 更新依赖
         cur->heading->dep = dep;
-        write_mutation(title, heading, dep);
+        cur->heading->dep_text = dep_text;
+        cur->heading->text = newText;
     }
+    // 回溯
     return;
 }
 
-void genDocPost(string title, vector<Heading*> content){
-    for(int i = 0; i < content.size(); i++){
-        if(content[i]->dep != vector<int>{-1}){
-            vector<string> dep_text = getDeptext(content, content[i]->dep);
-            content[i]->dep_text = dep_text; // 更新当前节点的 dep_text 
-            write_with_dep(title, content[i]->heading, content[i]->dep, dep_text);
-            content[i]->dep = vector<int>{-1}; // 生成完内容后，将依赖更新为 {-1}
+string strRepeat(string str, int repeat){
+    if(repeat < 1){
+		throw runtime_error("错误，repeat必须大于等于1");
+    }
+	string newStr;
+    for(int i = 0; i < repeat; i++){
+        newStr += str;
+    }
+    return newStr;
+}
+
+string DocAssemble(vector<Heading*> content){
+    string fulltext;
+    Heading* title = content[0];
+    fulltext += title->heading + "\n";
+    for(Heading* heading : content){
+        if(heading->level > 0){
+            cout << "heading: " << heading->heading << ", heading->level = " << heading->level << endl;
+            fulltext += strRepeat("#", heading->level) + " " + heading->heading + "\n";
+            fulltext += heading->text + "\n";
         }
     }
+    return fulltext;
 }
 
 int main(){
@@ -211,11 +291,18 @@ int main(){
     content.push_back(new Heading(8, "H", {-1}, 2));
     content.push_back(new Heading(9, "L", {-1}, 3));
     content.push_back(new Heading(10, "I", {-1}, 2));
-    content.push_back(new Heading(11, "J", {-1}, 3));
+    content.push_back(new Heading(11, "J", {3}, 3));
     content.push_back(new Heading(12, "K", {-1}, 3));
+
+    // 打印节点文本    
     for(Heading* heading : content){
-        heading->text = "这是`" + heading->heading + "`的文本";
+        cout << heading->heading << "'s text: `" << heading->text << endl;
     }
+
+    // for(Heading* heading : content){
+    //     heading->text = "这是`" + heading->heading + "`的文本";
+    // }
+
 	// 打印节点依赖
 	// for(Heading* heading : content){
     //     cout << heading->heading << ", ";
@@ -236,9 +323,30 @@ int main(){
     string title = "DocDoc";
 	double mutation_prob = 1; // 突变概率
     genDocPre(root, title, mutation_prob, content);    // 生成文本（反向依赖生成）
-    genDocPost(title, content);     // 生成文本（正向依赖生成）
     
-	// 打印节点依赖
+    // // 打印节点文本    
+    // for(Heading* heading : content){
+    //     cout << heading->heading << "'s text: `" << heading->text << endl;
+    // }
+
+    genDocPost(title, root, content);     // 生成文本（正向依赖生成）
+
+    // // 打印节点文本    
+    // for(Heading* heading : content){
+    //     cout << heading->heading << "'s text: `" << heading->text << endl;
+    // }
+
+    genDocMutation(root, title, mutation_prob, content);    // 生成文本（突变节点）
+    // // 打印节点文本    
+    // for(Heading* heading : content){
+    //     cout << heading->heading << "'s text: `" << heading->text << endl;
+    // }
+
+    string fulltext = DocAssemble(content);
+
+    cout << fulltext;
+
+	// // 打印节点依赖
 	// for(Heading* heading : content){
     //     cout << heading->heading << ", ";
 	// 	cout << "[";
