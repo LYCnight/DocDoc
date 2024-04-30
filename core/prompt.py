@@ -45,7 +45,13 @@ WRITE_MUTATION = """
 请你根据retrieved_knowledge和dependent_test, 生成概括dependent_text的概要，作为《{title}》的'{heading}'的内容
 """
 
+RETRIEVED_KNOWLEDGE = """
+问：岳阳县位于哪里？
+答：岳阳县位于湖南省北部、东洞庭湖东岸。
 
+问：岳阳县的河流情况如何？
+答：岳阳县河流密布，水系发达，共有主要河流14条，大部分流入新墙河。
+"""
 
 CONTENT_PROMPT = '''
 你是一个目录生成专家，擅长于生成逻辑清晰，条理清楚的目录。
