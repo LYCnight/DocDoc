@@ -1,0 +1,5 @@
+python==3.10.14
+sentencepiece==0.1.99
+torch==2.0.1
+transformers==4.36.2
+

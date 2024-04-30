@@ -1,9 +1,9 @@
 from pathlib import Path		
 import sys
 root_path = Path(__file__).parent.parent   # 项目根目录，如：  /DocDoc
-curt_path = Path(__file__).parent   # 当前目录，如：  /Hello/current
+cur_path = Path(__file__).parent   # 当前目录，如：  /Hello/current
 sys.path.append(str(root_path)) 
-sys.path.append(str(curt_path)) 
+sys.path.append(str(cur_path)) 
 
 # import logging
 # 配置日志记录器，使用 'w' 模式以重写文件
@@ -54,9 +54,6 @@ retrieved_knowledge = """
 # logging.info("retrieved_knowledge:")
 # logging.info(retrieved_knowledge)
 
-from core.prompt import WRITE_WITHOUT_DEP, WRITE_WITH_DEP, WRITE_MUTATION
-from core.Agent import Writer
-
 print("----------------------------- prompt: write_with_dep -------------------------------")
 prompt = WRITE_WITHOUT_DEP.format(title=title, heading=heading, retrieved_knowledge=retrieved_knowledge)
 print(prompt)
@@ -68,6 +65,8 @@ llm = ChatGLM()
 llm.load_model(MODEL_PATH, TOKENIZER_PATH)
 
 # 加载 Agent[Writer]
+from core.prompt import WRITE_WITHOUT_DEP, WRITE_WITH_DEP, WRITE_MUTATION
+from core.Agent import Writer
 writer = Writer(llm)
 
 # 测试 wirte_without_dep

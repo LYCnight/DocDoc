@@ -1,17 +1,22 @@
-def count_words_in_markdown(file_path):
-    try:
-        with open(file_path, 'r', encoding='utf-8') as file:
-            content = file.read()
-            # 假设每个空格分隔的部分都是一个单词
-            word_count = len(content.split())
-            return word_count
-    except FileNotFoundError:
-        print("文件未找到，请检查文件路径是否正确。")
-    except Exception as e:
-        print(f"发生错误：{e}")
+import re
 
-# 测试函数
-markdown_file_path = 'your_markdown_file.md'  # 替换为你的 markdown 文件路径
-word_count = count_words_in_markdown(markdown_file_path)
-if word_count is not None:
-    print(f"Markdown 文件中的字数为：{word_count}")
+text = """
+1. 岳阳县的地理、地质和水文地质现状数据是什么？
+2. 岳阳县的水系分布情况和水文特征是什么？
+3. 岳阳县地下水环境质量现状如何？
+4. 岳阳县地下水环境质量监测数据和评价结果是什么？
+5. 岳阳县地下水环境治理和保护措施的技术可行性和经济成本如何？
+6. 岳阳县地下水环境治理和保护措施的实施效果监测数据是什么？
+7. 岳阳县地下水环境治理和保护措施的实施效果评估方法和技术路线是怎样的？
+8. 岳阳县地下水环境治理和保护措施的实施效果监测数据和评估结果呢？
+9. 岳阳县地下水环境治理和保护措施对周边生态环境、居民生活和经济社会的影响预测和评估如何？
+"""
+
+# Regular expression pattern to extract questions
+# pattern = r'\d+\.\s*(.*?)\？' # 不带 ？
+pattern = r'\d+\.\s*(.*?\？)'   # 带 ？
+
+# Extracting questions using findall method
+questions = re.findall(pattern, text)
+
+print(questions)

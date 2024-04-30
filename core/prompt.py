@@ -32,8 +32,7 @@ WRITE_WITH_DEP = '''
 请你根据retrieved_knowledge和dependent_test, 撰写《{title}》的'{heading}'的部分
 '''
 
-WRITE_MUTATION = """
-## role
+WRITE_MUTATION = """## role
 你是一名环境科学与环境工程领域的专家，擅长负责撰写各种环境文本。
 ## retrieved_knowledge
 {retrieved_knowledge}
@@ -42,8 +41,7 @@ WRITE_MUTATION = """
 ## constraints
 你只能返回markdwon格式的文本。
 ## task
-请你根据retrieved_knowledge和dependent_test, 生成概括dependent_text的概要，作为《{title}》的'{heading}'的内容
-"""
+请你根据retrieved_knowledge和dependent_test, 生成概括dependent_text的概要，作为《{title}》的'{heading}'的内容"""
 
 RETRIEVED_KNOWLEDGE = """
 问：岳阳县位于哪里？
