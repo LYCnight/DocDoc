@@ -41,10 +41,10 @@ def init_llm_and_embedding(MODEL_PATH=MODEL_PATH, TOKENIZER_PATH=TOKENIZER_PATH,
     llm.load_model(MODEL_PATH, TOKENIZER_PATH)
     print(llm("你好"))
     
-    from langchain.embeddings.huggingface import HuggingFaceEmbeddings
-    embedding = HuggingFaceEmbeddings(model_name = EMBEDDING_PATH,
-                                    model_kwargs = {'device': "cuda"})   # 未来在这里进行拓展，支持更多 embeddings
-    print(f"embedding model: {EMBEDDING_PATH} loaded successfully!")
+    # from langchain.embeddings.huggingface import HuggingFaceEmbeddings
+    # embedding = HuggingFaceEmbeddings(model_name = EMBEDDING_PATH,
+    #                                 model_kwargs = {'device': "cuda"})   # 未来在这里进行拓展，支持更多 embeddings
+    # print(f"embedding model: {EMBEDDING_PATH} loaded successfully!")
     return llm, embedding
 
 if __name__ == "__main__":
@@ -57,8 +57,8 @@ if __name__ == "__main__":
     print(llm("望春风"))
 
     # embbeding 测试
-    from config import EMBEDDING_PATH
-    from langchain.embeddings.huggingface import HuggingFaceEmbeddings
-    embedding = HuggingFaceEmbeddings(model_name = EMBEDDING_PATH,
-                                    model_kwargs = {'device': "cuda"})   # 未来在这里进行拓展，支持更多 embeddings
-    print(f"embedding model: {EMBEDDING_PATH} loaded successfully!")
+    # from config import EMBEDDING_PATH
+    # from langchain.embeddings.huggingface import HuggingFaceEmbeddings
+    # embedding = HuggingFaceEmbeddings(model_name = EMBEDDING_PATH,
+    #                                 model_kwargs = {'device': "cuda"})   # 未来在这里进行拓展，支持更多 embeddings
+    # print(f"embedding model: {EMBEDDING_PATH} loaded successfully!")

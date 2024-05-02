@@ -1,0 +1,34 @@
+[
+    Document(
+        id_='1d40ca51-f5d7-4c85-be69-b44ca5e14173', 
+        embedding=None, 
+        metadata={
+            'page_label': '1', 
+            'file_name': '岳飞语料.pdf', 
+            'file_path': '岳飞语料.pdf', 
+            'file_type': 'application/pdf', 
+            'file_size': 102147, 
+            'creation_date': '2024-04-30', 
+            'last_modified_date': '2024-04-30'}, 
+        excluded_embed_metadata_keys=[
+            'file_name', 
+            'file_type', 
+            'file_size', 
+            'creation_date', 
+            'last_modified_date', 
+            'last_accessed_date'], 
+        excluded_llm_metadata_keys=[
+            'file_name', 
+            'file_type', 
+            'file_size', 
+            'creation_date', 
+            'last_modified_date', 
+            'last_accessed_date'], 
+        relationships={}, 
+        text='岳飞（1103年3月24日—1142年1月27日） ，字鹏举，宋朝相州汤阴（今河南省汤阴县）\n人。南宋时期抗金名将、军事家、战略家、民族英雄 、书法家、诗人，位列南宋 “中兴四将 ”\n之首。  \n岳飞从二十岁起，曾先后四次从军。自建炎二年（ 1128年）遇宗泽至绍兴十一年（ 1141年）\n止，先后参与、指挥大小战斗数百次。金军攻打江南时，独树一帜，力主抗金，收复建康。\n绍兴四年（ 1134年） ，收复襄阳六郡。绍兴六年（ 1136年） ，率师北伐，顺利攻取商州、虢\n州等地。绍兴十年（ 1140年） ，完颜宗弼毁盟攻宋，岳飞挥师北伐，两河人民奔走相告，各\n地义军纷纷响应，夹击金军。岳家军先后收复郑州、洛阳等地，在郾城、颍昌大败金军，进\n军朱仙镇。宋高宗赵构和宰相秦桧却一意求和，以十二道 “金字牌”催令班师。在宋金议和过\n程中，岳飞 遭受秦桧、张俊等人诬陷入狱。 1142年1月，以莫须有的罪名，与长子岳云、\n部将张宪一同遇害。 宋孝宗时， 平反昭雪， 改葬于西湖畔栖霞岭， 追谥武穆， 后又追谥忠武，\n封鄂王。   \n岳飞是南宋杰出的统帅，他重视人民抗金力量，缔造了“连结河朔”之谋，主张黄河以北的民\n间抗金义军和宋军互相配合，以收复失地；治军赏罚分明，纪律严整，又能体恤部属，以身\n作则， 率领的“岳家军”号称“冻死不拆屋， 饿死不掳掠 ”。 金军有“撼山易， 撼岳家军难 ”的评语，\n以示对岳家军的由衷敬佩。  \n岳飞的文才同样卓越，其代表词作《满江红·怒发冲冠》 是千古传诵的爱国名篇，后人辑有文\n集传世。  ', 
+        start_char_idx=None, 
+        end_char_idx=None, 
+        text_template='{metadata_str}\n\n{content}', 
+        metadata_template='{key}: {value}', 
+        metadata_seperator='\n')
+]

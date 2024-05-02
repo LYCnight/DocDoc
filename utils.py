@@ -1,21 +1,21 @@
 from typing import List
-from langchain.docstore.document import Document
+# from langchain.docstore.document import Document
 from pathlib import Path		
 import sys
 root_path = Path(__file__).parent    # 项目根目录    DocDoc2/
 
-def ToLangchainDocument(content_split:List[str]) -> List[Document]:
-    '''
-    功能：
-        - convert List[str] -> List[Document]，用以适配 langchain 的方法
-        - Document 是 Langchain 里的文档对象，可以被Langchain操作
-        - str 是 python 内置的字符串对象，不可以被Langchain操作
-    示例:
-        str_list = ["hello", "word"]
-        document_list = ToLangchainDocument(str_list)
-    '''
-    Documentlist = [Document(page_content=text, metadata={"from": "book.txt"}) for text in content_split]
-    return Documentlist
+# def ToLangchainDocument(content_split:List[str]) -> List[Document]:
+#     '''
+#     功能：
+#         - convert List[str] -> List[Document]，用以适配 langchain 的方法
+#         - Document 是 Langchain 里的文档对象，可以被Langchain操作
+#         - str 是 python 内置的字符串对象，不可以被Langchain操作
+#     示例:
+#         str_list = ["hello", "word"]
+#         document_list = ToLangchainDocument(str_list)
+#     '''
+#     Documentlist = [Document(page_content=text, metadata={"from": "book.txt"}) for text in content_split]
+#     return Documentlist
 
 # 从 Excel 文件读取数据
 def read_content(file_path, min_level, max_level):

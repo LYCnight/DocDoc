@@ -22,14 +22,70 @@ class Writer:
     def write_mutation(self, title:str, heading:str, dep_text:str, retrieved_knowledge:str) -> str:
         prompt = WRITE_MUTATION.format(title=title, heading=heading, dep_text=dep_text, retrieved_knowledge=retrieved_knowledge)
         response:str = self.llm(prompt)
-        return response
-    
+        return response 
 
 class Investigator:
+    
+    path_to_directory = str(root_path) + "/UserUploadFiles"
+    
     def __init__(self, llm):
-        self.llm = llm
-        print("Agent[Investigator] loeaded successfully")
+        from llama_index.core import SimpleDirectoryReader
+        from core.RAG import SentenceWindowRetrieverPack        
+        reader = SimpleDirectoryReader(input_dir = self.path_to_directory, recursive = True) 
+        documents = reader.load_data()
+        retriever = SentenceWindowRetrieverPack(llm, documents)
+        query_engine = retriever.query_engine
         
+        self.llm = llm
+        self.query_engine = query_engine
+        self.retriever = retriever  
+        print("Agent[Investigator] loeaded successfully")
+    
+    def get_retrieved_knowledge(self, title, heading) -> str:
+        ques_list = self.get_ques_list(title, heading)
+        print(ques_list)
+        ans_list = self.get_ans_list(ques_list)
+        print(ans_list)
+        retrieved_knowledge:str = self.QA_assemble(ques_list=ques_list, ans_list=ans_list)
+        print("done")
+        return retrieved_knowledge
+        
+    def get_relevant_answer(self, ques:str) -> str:
+        relevant_context_list:list[str] = self.get_relevant_context_list(ques)
+        relevant_contexts:str = ""
+        for text in relevant_context_list:
+            relevant_contexts += f"{text}\n"
+            relevant_contexts += f"---\n"
+        
+        prompt = f"""
+# role
+你是一名环境专家
+# task
+请结合你的环境知识，根据`relevant_contexts`，回答问题。
+# relevant
+{relevant_contexts}
+
+*********
+Q:{ques}
+A:""".format(relevant_contexts=relevant_contexts, ques=ques)
+        
+        answer:str = self.llm(prompt)
+        return answer
+    
+    def get_relevant_context_list(self, ques:str) -> list[str]:
+        relevant_context_list:list[str] = []
+        TextNode_list = self.query_engine.retrieve(ques) 
+        for TextNode in TextNode_list:
+            relevant_context_list.append(TextNode.get_text())
+        return relevant_context_list
+    
+    def QA_assemble(self, ques_list, ans_list):
+        QA:str = ""
+        for i in range(len(ques_list)):
+            QA += "Q：" + ques_list[i] + "\n"
+            QA += "A:" + ans_list[i] + "\n"
+            QA += "-----\n"
+        return QA
     
     def get_ques_list(self, title, heading):
         prompt = """
@@ -54,16 +110,26 @@ A：
 
 Q：请分析为了写作《{title}》的`{heading}`章节的内容，需要获取哪些信息？
 A：""".format(title=title, heading=heading)
+        
         response:str = self.llm(prompt)
+        print(response)
         
         import re
-        pattern = r'\d+\.\s*(.*?\？)'   # 带 ？
+        pattern = r'\d+\.\s*(.*?)(?:[？?;；])'
 
         # Extracting questions using findall method
-        ques_list = re.findall(pattern, response)
+        ques_list:list[str] = re.findall(pattern, response)
         return ques_list
 
-
+    def get_ans_list(self, ques_list):
+        ans_list:list[str] = []
+        for i in range(len(ques_list)):
+            ques:str = ques_list[i]
+            # ans:str = self.get_relevant_context_list(ques)
+            ans:str = self.get_relevant_answer(ques)
+            ans_list.append(ans)
+        return ans_list
+            
 
 
 question = """

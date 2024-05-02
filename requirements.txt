@@ -2,4 +2,10 @@ python==3.10.14
 sentencepiece==0.1.99
 torch==2.0.1
 transformers==4.36.2
+llama-index==0.10.33
+llama-index-embeddings-huggingface==0.2.0
+faiss-gpu==1.7.2
+llama-index-vector-stores-faiss==0.1.2
+
+
 
