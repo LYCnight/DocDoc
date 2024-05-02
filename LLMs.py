@@ -19,6 +19,7 @@ class ChatGLM():
         response, history = self.model.chat(   # 生成回答
             self.tokenizer,
             prompt,
+            temperature = 0.2
         )
         return response
 
