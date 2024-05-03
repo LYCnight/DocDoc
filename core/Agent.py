@@ -23,6 +23,14 @@ class Writer:
         prompt = WRITE_MUTATION.format(title=title, heading=heading, dep_text=dep_text, retrieved_knowledge=retrieved_knowledge)
         response:str = self.llm(prompt)
         return response 
+    def formulate(text: str) -> str:
+        # 替换 #, ##, ###, ####, #####, ###### 等Markdown heading命令
+        import re
+        text = re.sub(r'#+\s*(.*)', r'\1', text)
+        return text
+        
+
+
 
 def token_length_control(text:list[str], target:int, cutDown:int):
     token_length = tokenCount(text[0])
@@ -38,6 +46,8 @@ def tokenCount(text:str):
     tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_PATH, trust_remote_code=True)
     tokens = tokenizer.encode(text, add_special_tokens=False) 
     return len(tokens)
+        
+        
         
 class Investigator:
     

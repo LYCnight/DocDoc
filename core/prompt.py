@@ -14,7 +14,8 @@ WRITE_WITHOUT_DEP = '''
 ## retrieved_knowledge
 {retrieved_knowledge}
 ## constraints
-你只能返回markdwon格式的文本。
+1. 你只能返回markdwon格式的文本
+2. 你的返回的正文中不能含有 #, ##, ###, ####, #####, ###### 等markdown heading命令
 ## task
 请你根据retrieved_knowledge, 撰写《{title}》的'{heading}'的部分
 '''
@@ -27,21 +28,23 @@ WRITE_WITH_DEP = '''
 ## dependent_test
 {dep_text}
 ## constraints
-你只能返回markdwon格式的文本。
+1. 你只能返回markdwon格式的文本
+2. 你的返回的正文中不能含有 #, ##, ###, ####, #####, ###### 等markdown heading命令
 ## task
-请你根据retrieved_knowledge和dependent_test, 撰写《{title}》的'{heading}'的部分
+请你根据retrieved_knowledge和dependent_text, 撰写《{title}》的'{heading}'的部分
 '''
 
 WRITE_MUTATION = """## role
 你是一名环境科学与环境工程领域的专家，擅长负责撰写各种环境文本。
 ## retrieved_knowledge
 {retrieved_knowledge}
-## dependent_test
+## dependent_text
 {dep_text}
 ## constraints
-你只能返回markdwon格式的文本。
+1. 你只能返回markdwon格式的文本
+2. 你的返回的正文中不能含有 #, ##, ###, ####, #####, ###### 等markdown heading命令
 ## task
-请你根据retrieved_knowledge和dependent_test, 生成概括dependent_text的概要，作为《{title}》的'{heading}'的内容"""
+请你根据retrieved_knowledge和dependent_text, 概况dependent_text，作为《{title}》的'{heading}'部分的内容"""
 
 RETRIEVED_KNOWLEDGE = """
 问：岳阳县位于哪里？

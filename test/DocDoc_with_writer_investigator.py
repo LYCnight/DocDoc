@@ -138,7 +138,8 @@ def gen_doc_mutation(cur, title, mutation_prob, content):
         # 获取下一层所有子节点的id，作为当前节点的依赖
         dep.extend([node.heading.id for node in cur.childlist])
         dep_text:str = get_dep_text(content, dep)
-        new_text = write_mutation(title, heading, dep_text, RETRIEVED_KNOWLEDGE)
+        retrieved_knowledge = investigator.get_retrieved_knowledge(title, heading)
+        new_text = write_mutation(title, heading, dep_text, retrieved_knowledge)
         # 更新依赖
         cur.heading.dep = dep
         cur.heading.dep_text = dep_text
@@ -153,18 +154,21 @@ def mutation(mutation_prob):
         return False
 
 def write_without_dep(title, heading, retrieved_knowledge):
-    retrieved_knowledge = investigator.get_retrieved_knowledge(title, heading)
+    # retrieved_knowledge = investigator.get_retrieved_knowledge(title, heading)
     new_text = writer.write_without_dep(title, heading, retrieved_knowledge)
+    new_text = writer.formulate(new_text)
     return new_text
 
 def write_with_dep(title, heading, dep_text, retrieved_knowledge) -> str:
-    retrieved_knowledge = investigator.get_retrieved_knowledge(title, heading)
+    # retrieved_knowledge = investigator.get_retrieved_knowledge(title, heading)
     new_text = writer.write_with_dep(title, heading, dep_text, retrieved_knowledge)
+    new_text = writer.formulate(new_text)
     return new_text
 
 def write_mutation(title, heading, dep_text, retrieved_knowledge) -> str:
-    retrieved_knowledge = investigator.get_retrieved_knowledge(title, heading)
+    # retrieved_knowledge = investigator.get_retrieved_knowledge(title, heading)
     new_text = writer.write_mutation(title, heading, dep_text, retrieved_knowledge)
+    new_text = writer.formulate(new_text)
     return new_text
 
 def get_dep_text(content, dep:list[int]) -> str:
@@ -204,12 +208,12 @@ import time
 def main():
     random.seed(time.time())  # 设置随机种子
     
-    content = [
-        Heading(0, "root", [-1], 0),
-        Heading(1, "A", [-1], 1),
-        Heading(2, "B", [-1], 1),
-        Heading(3, "C", [-1], 1)
-    ]
+    # content = [
+    #     Heading(0, "root", [-1], 0),
+    #     Heading(1, "A", [-1], 1),
+    #     Heading(2, "B", [-1], 1),
+    #     Heading(3, "C", [-1], 1)
+    # ]
     
     # content = [
     #     Heading(0, "root", [-1], 0),
@@ -230,7 +234,7 @@ def main():
     from utils import read_content, print_content, get_stats
     # 测试读取 level 范围在 min_level 到 max_level 之间的内容
     file_path = 'test/content.xlsx'
-    content = read_content(file_path, min_level=0, max_level=1) # 由于算法设计缘故，min_level must be 0
+    content = read_content(file_path, min_level=0, max_level=4) # 由于算法设计缘故，min_level must be 0
     print_content(content)
 
     root = TreeNode(content[0])
