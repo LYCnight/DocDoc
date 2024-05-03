@@ -23,7 +23,7 @@ class Writer:
         prompt = WRITE_MUTATION.format(title=title, heading=heading, dep_text=dep_text, retrieved_knowledge=retrieved_knowledge)
         response:str = self.llm(prompt)
         return response 
-    def formulate(text: str) -> str:
+    def formulate(self, text: str) -> str:
         # 替换 #, ##, ###, ####, #####, ###### 等Markdown heading命令
         import re
         text = re.sub(r'#+\s*(.*)', r'\1', text)
