@@ -1,7 +1,9 @@
 from transformers import AutoTokenizer, AutoModel
-from config import MODEL_PATH, TOKENIZER_PATH, EMBEDDING_PATH
-import torch
-device = torch.device("cuda:0") 
+from config import MODEL_PATH, TOKENIZER_PATH, EMBEDDING_PATH, LLM_DEVICE, EMBED_DEVICE
+device = LLM_DEVICE
+embed_device = EMBED_DEVICE
+# import torch
+# device = torch.device("cuda:7") 
 
 class ChatGLM():
     def __init__(self):

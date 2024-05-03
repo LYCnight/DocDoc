@@ -256,7 +256,7 @@ def main():
     from utils import read_content, print_content, get_stats
     # 测试读取 level 范围在 min_level 到 max_level 之间的内容
     # file_path = 'test/content.xlsx'
-    file_path = 'test/content_5h.xlsx'
+    file_path = 'test/content.xlsx'
     content = read_content(file_path, min_level=0, max_level=3) # 由于算法设计缘故，min_level must be 0
     print_content(content)
 
@@ -308,6 +308,7 @@ def main():
     full_text = log + full_text
 
     print(markdown_file_path)
+    print(promptLog_output_path)
     with open(markdown_file_path, 'w', encoding='utf-8') as file:
         file.write(full_text)   
 

@@ -8,6 +8,7 @@
 # 对一个内容的最大审核次数
 MAX_REVIEW_TURNS = 0  
 
+
 # --------算法组模型接口---------
 ProjectPath = "/root/AI4E/lzd/DocDoc" 
 # MODEL_PATH = "/remote-home/share/LLM_model/chatglm3-6b"
@@ -18,6 +19,13 @@ MODEL_PATH = "/root/AI4E/share/Qwen1.5-14B-Chat"
 TOKENIZER_PATH = "/root/AI4E/share/Qwen1.5-14B-Chat"
 EMBEDDING_PATH = "/root/AI4E/share/bge-large-zh"
 # --------算法组模型接口---------
+
+# 运行设备
+import torch
+LLM_DEVICE = torch.device("cuda:7")
+EMBED_DEVICE = torch.device("cuda:7") 
+
+
 
 from pathlib import Path		
 import sys

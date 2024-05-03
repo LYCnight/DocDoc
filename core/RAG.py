@@ -4,7 +4,10 @@ root_path = Path(__file__).parent.parent    # 项目根目录    DocDoc2/
 cur_path = Path(__file__).parent    # 当前目录    DocDoc2/core
 sys.path.append(str(cur_path))
 sys.path.append(str(root_path))
-
+from config import EMBED_DEVICE
+embed_device = EMBED_DEVICE
+# import torch
+# embed_device = torch.device("cuda:7") 
 
 """define local LLM"""
 from typing import Any
@@ -133,7 +136,7 @@ class SentenceWindowRetrieverPack(BaseLlamaPack):
         
         # 本地 embedding
         from llama_index.embeddings.huggingface import HuggingFaceEmbedding
-        embed_model = HuggingFaceEmbedding(model_name="/root/AI4E/share/bge-large-zh")
+        embed_model = HuggingFaceEmbedding(model_name="/root/AI4E/share/bge-large-zh", device=embed_device)
         self.embed_model = embed_model
 
         # 全局会话设置
