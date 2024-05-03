@@ -17,12 +17,14 @@ WRITE_WITHOUT_DEP = '''
 1. 你只能返回markdwon格式的文本
 2. 你的返回的正文中不能含有 #, ##, ###, ####, #####, ###### 等markdown heading命令
 ## task
-请你根据retrieved_knowledge, 撰写《{title}》的'{heading}'的部分
-'''
+请你根据你的环境知识, 撰写《{title}》的'{heading}'的内容。(你可以参考 retrieved_knowledge，如果给出的话）'''
 
 WRITE_WITH_DEP = '''
 ## role
 你是一名环境科学与环境工程领域的专家，擅长负责撰写各种环境文本。
+## specification
+- retrieved_knowledge: 是你通过查阅资料获得的参考信息
+- dependent_text: 是你之前所写的《{title}》的一部分内容，其中包含了你写作`{heading}`所需要的信息。
 ## retrieved_knowledge
 {retrieved_knowledge}
 ## dependent_test
@@ -31,11 +33,14 @@ WRITE_WITH_DEP = '''
 1. 你只能返回markdwon格式的文本
 2. 你的返回的正文中不能含有 #, ##, ###, ####, #####, ###### 等markdown heading命令
 ## task
-请你根据retrieved_knowledge和dependent_text, 撰写《{title}》的'{heading}'的部分
-'''
+请你根据你的环境知识和 dependent_text, 撰写《{title}》的'{heading}'的内容。(你可以参考 retrieved_knowledge，如果给出的话）'''
 
-WRITE_MUTATION = """## role
+WRITE_MUTATION = """
+## role
 你是一名环境科学与环境工程领域的专家，擅长负责撰写各种环境文本。
+## specification
+- retrieved_knowledge: 是你通过查阅资料获得的参考信息
+- dependent_text: 是你之前所写的《{title}》的一部分内容，你需要总结这些内容，并生成这些内容的引导性文字。
 ## retrieved_knowledge
 {retrieved_knowledge}
 ## dependent_text
@@ -44,7 +49,7 @@ WRITE_MUTATION = """## role
 1. 你只能返回markdwon格式的文本
 2. 你的返回的正文中不能含有 #, ##, ###, ####, #####, ###### 等markdown heading命令
 ## task
-请你根据retrieved_knowledge和dependent_text, 概况dependent_text，作为《{title}》的'{heading}'部分的内容"""
+请总结 dependent_text 的内容，并生成这些内容的引导性文字，作为《{title}》的'{heading}'部分的内容。(你可以参考 retrieved_knowledge，如果给出的话）"""
 
 RETRIEVED_KNOWLEDGE = """
 问：岳阳县位于哪里？

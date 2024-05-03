@@ -11,25 +11,24 @@ class Writer:
     def __init__(self, llm):
         self.llm = llm
         print("Agent[Writer] loaded successfully")
-    def write_without_dep(self, title:str, heading:str, retrieved_knowledge:str) -> str:
+    def write_without_dep(self, title:str, heading:str, retrieved_knowledge:str = None) -> tuple[str,str]:
         prompt = WRITE_WITHOUT_DEP.format(title=title, heading=heading, retrieved_knowledge=retrieved_knowledge)
         response:str = self.llm(prompt)
-        return response
-    def write_with_dep(self, title:str, heading:str, dep_text:str, retrieved_knowledge:str) -> str:
+        return (response, prompt)
+    def write_with_dep(self, title:str, heading:str, dep_text:str, retrieved_knowledge:str = None) -> tuple[str,str]:
         prompt = WRITE_WITH_DEP.format(title=title, heading=heading, dep_text=dep_text, retrieved_knowledge=retrieved_knowledge)
         response:str = self.llm(prompt)
-        return response
-    def write_mutation(self, title:str, heading:str, dep_text:str, retrieved_knowledge:str) -> str:
+        return (response, prompt)
+    def write_mutation(self, title:str, heading:str, dep_text:str, retrieved_knowledge:str = None) -> tuple[str,str]:
         prompt = WRITE_MUTATION.format(title=title, heading=heading, dep_text=dep_text, retrieved_knowledge=retrieved_knowledge)
         response:str = self.llm(prompt)
-        return response 
+        return (response, prompt) 
     def formulate(self, text: str) -> str:
         # 替换 #, ##, ###, ####, #####, ###### 等Markdown heading命令
         import re
         text = re.sub(r'#+\s*(.*)', r'\1', text)
         return text
         
-
 
 
 def token_length_control(text:list[str], target:int, cutDown:int):

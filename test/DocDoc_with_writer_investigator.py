@@ -8,6 +8,7 @@ from core.prompt import RETRIEVED_KNOWLEDGE
 import random
 import time
 
+
 # 记录程序开始时间
 start_time = time.time()
 
@@ -110,7 +111,8 @@ def gen_doc_post(title, cur, content):
     if not cur.childlist:  # 如果是叶子节点
         if is_gen_post(cur.heading.dep, cur.heading.id):
             dep_text = get_dep_text(content, cur.heading.dep)
-            retrieved_knowledge = investigator.get_retrieved_knowledge(title, cur.heading.heading)
+            retrieved_knowledge = None
+            # retrieved_knowledge = investigator.get_retrieved_knowledge(title, cur.heading.heading)
             new_text = write_with_dep(title, cur.heading.heading, dep_text, retrieved_knowledge)
             cur.heading.dep_text = dep_text
             cur.heading.text = new_text
@@ -138,7 +140,8 @@ def gen_doc_mutation(cur, title, mutation_prob, content):
         # 获取下一层所有子节点的id，作为当前节点的依赖
         dep.extend([node.heading.id for node in cur.childlist])
         dep_text:str = get_dep_text(content, dep)
-        retrieved_knowledge = investigator.get_retrieved_knowledge(title, heading)
+        retrieved_knowledge = None
+        # retrieved_knowledge = investigator.get_retrieved_knowledge(title, cur.heading.heading)
         new_text = write_mutation(title, heading, dep_text, retrieved_knowledge)
         # 更新依赖
         cur.heading.dep = dep
@@ -155,20 +158,29 @@ def mutation(mutation_prob):
 
 def write_without_dep(title, heading, retrieved_knowledge):
     # retrieved_knowledge = investigator.get_retrieved_knowledge(title, heading)
-    new_text = writer.write_without_dep(title, heading, retrieved_knowledge)
+    new_text, prompt = writer.write_without_dep(title, heading, retrieved_knowledge)
     new_text = writer.formulate(new_text)
+    # 记录 prompt
+    with open(promptLog_output_path, 'a', encoding='utf-8') as file:
+        file.write(f"-------------------- write_without_dep for '{heading}' --------------------\n" + prompt + "\n")
     return new_text
 
-def write_with_dep(title, heading, dep_text, retrieved_knowledge) -> str:
+def write_with_dep(title, heading, dep_text, retrieved_knowledge=None) -> str:
     # retrieved_knowledge = investigator.get_retrieved_knowledge(title, heading)
-    new_text = writer.write_with_dep(title, heading, dep_text, retrieved_knowledge)
+    new_text, prompt = writer.write_with_dep(title, heading, dep_text, retrieved_knowledge)
     new_text = writer.formulate(new_text)
+    # 记录 prompt
+    with open(promptLog_output_path, 'a', encoding='utf-8') as file:
+        file.write(f"-------------------- write_with_dep for '{heading}' --------------------\n" + prompt + "\n")
     return new_text
 
-def write_mutation(title, heading, dep_text, retrieved_knowledge) -> str:
+def write_mutation(title, heading, dep_text, retrieved_knowledge=None) -> str:
     # retrieved_knowledge = investigator.get_retrieved_knowledge(title, heading)
-    new_text = writer.write_mutation(title, heading, dep_text, retrieved_knowledge)
+    new_text, prompt = writer.write_mutation(title, heading, dep_text, retrieved_knowledge)
     new_text = writer.formulate(new_text)
+    # 记录 prompt
+    with open(promptLog_output_path, 'a', encoding='utf-8') as file:
+        file.write(f"-------------------- write_mutation for '{heading}' --------------------\n" + prompt + "\n")
     return new_text
 
 def get_dep_text(content, dep:list[int]) -> str:
@@ -178,7 +190,7 @@ def get_dep_text(content, dep:list[int]) -> str:
             text = content[dep_id].text
             heading = content[dep_id].heading
             if(text is not None):
-                dep_text += f"{index + 1}." +  f"参考自{heading}: " + f"[{text}]，" + "\n"
+                dep_text += f"{index + 1}." +  f"{heading}: " + f"[{text}]，" + "\n\n"
     return dep_text
 
 def is_gen_post(dep, id):
@@ -208,6 +220,16 @@ import time
 def main():
     random.seed(time.time())  # 设置随机种子
     
+    # 生成唯一的文件名，使用时间戳
+    timestamp = time.strftime("%Y%m%d%H%M%S")
+    
+    # prompt日志文件路径
+    global promptLog_output_path    # 声明全局变量
+    promptLog_output_path = str(cur_path) + f'/output/promptLog_{timestamp}.txt'
+    
+    # 生成Doc的文件路径
+    markdown_file_path = str(cur_path) + f'/output/genDoc_{timestamp}.md'
+    
     # content = [
     #     Heading(0, "root", [-1], 0),
     #     Heading(1, "A", [-1], 1),
@@ -234,7 +256,7 @@ def main():
     from utils import read_content, print_content, get_stats
     # 测试读取 level 范围在 min_level 到 max_level 之间的内容
     # file_path = 'test/content.xlsx'
-    file_path = 'test/content_12h.xlsx'
+    file_path = 'test/content_5h.xlsx'
     content = read_content(file_path, min_level=0, max_level=3) # 由于算法设计缘故，min_level must be 0
     print_content(content)
 
@@ -285,9 +307,6 @@ def main():
     log =  f"算法耗时：`{run_time_formatted}`，共生成`{len(content)}`个heading\n"
     full_text = log + full_text
 
-    # 生成唯一的文件名，使用时间戳
-    timestamp = time.strftime("%Y%m%d%H%M%S")
-    markdown_file_path = str(cur_path) + f'/output/genDoc_{timestamp}.md'
     print(markdown_file_path)
     with open(markdown_file_path, 'w', encoding='utf-8') as file:
         file.write(full_text)   
