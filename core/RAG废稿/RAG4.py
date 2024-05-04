@@ -43,7 +43,7 @@ for doc in documents:
     index.insert(doc)
 
 # save index to disk
-index.set_index_id("vector_index")
+index.set_index_id("vector_index")      # 这样可以续写 index，而不是重写index
 index.storage_context.persist(str(cur_path) + "/storage")
 print("here")
 
