@@ -1,3 +1,7 @@
+from pathlib import Path		
+import sys
+root_path = Path(__file__).parent    # 项目根目录
+
 # LOADER = ('txt', 'word', 'pdf')
 # SPLITER = ('NLTK', 'spacy', 'CharacterText', "tiktoken")
 # RETRIEVER = ("simple", "multivector", "parentdoc")
@@ -16,6 +20,7 @@ ProjectPath = "/root/AI4E/lzd/DocDoc"
 # MODEL_PATH = "/root/AI4E/share/chatglm3-6b-128k" 
 # TOKENIZER_PATH = "/root/AI4E/share/chatglm3-6b-128k"
 MODEL_PATH = "/root/AI4E/share/Qwen1.5-14B-Chat" 
+MODEL_CONTEXT_LENGHTH = 32  # llm 窗口大小，单位为 k (tokens)
 TOKENIZER_PATH = "/root/AI4E/share/Qwen1.5-14B-Chat"
 EMBEDDING_PATH = "/root/AI4E/share/bge-large-zh"
 # --------算法组模型接口---------
@@ -25,11 +30,15 @@ import torch
 LLM_DEVICE = torch.device("cuda:7")
 EMBED_DEVICE = torch.device("cuda:7") 
 
+# Index路径
+INDEX_PATH = str(root_path) + "/storage"
+# 知识库路径
+KNOWLEDGE_BASE_PATH = str(root_path) + "/KnowledgeBase"
 
+# Agent[Investigator]
+QUES_COUNT = 2     # 每个写作节点，Investigator 的最大提问数量
+CUT_DOWN = 1  # PROMPT 超出 llm 窗口大小时，从后方裁剪的大小，单位为 k (tokens)
 
-from pathlib import Path		
-import sys
-root_path = Path(__file__).parent    # 项目根目录
 
 from typing import Tuple
 from core.base import Loader, Spliter, Retriever, Vectordb

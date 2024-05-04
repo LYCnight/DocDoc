@@ -5,6 +5,7 @@ core_path = Path(__file__).parent    # 当前目录    DocDoc2/core
 sys.path.append(str(core_path))
 sys.path.append(str(root_path))
 from core.prompt import WRITE_WITHOUT_DEP, WRITE_WITH_DEP, WRITE_MUTATION
+from config import QUES_COUNT, MODEL_CONTEXT_LENGHTH, CUT_DOWN
 
 
 class Writer:
@@ -49,23 +50,23 @@ def tokenCount(text:str):
         
         
 class Investigator:
+
+    ques_count = QUES_COUNT  # 针对单个写作节点，最多问出`ques_count`个问题
     
-    path_to_directory = str(root_path) + "/UserUploadFiles"
-    ques_count = 2  # 最多问出`ques_count`个问题
-    
-    def __init__(self, llm):
-        from llama_index.core import SimpleDirectoryReader
-        from core.RAG import SentenceWindowRetrieverPack        
-        reader = SimpleDirectoryReader(input_dir = self.path_to_directory, recursive = True) 
-        ## 加载用户上传的数据
-        documents = reader.load_data()
-        retriever = SentenceWindowRetrieverPack(llm, documents)
-        query_engine = retriever.query_engine
+    def __init__(self, llm, load_index_From_last_time=False):      
+        self.llm = llm       
         
-        self.llm = llm
-        self.query_engine = query_engine
-        self.retriever = retriever  
+        from core.RAG import SentenceWindowRetrieverPack
+        self.retriever = SentenceWindowRetrieverPack(llm, load_index_From_last_time)
+        self.query_engine = self.retriever.query_engine
         print("Agent[Investigator] loaded successfully")
+
+    def persist_to_disk(self):
+        self.retriever.persist_to_disk()
+
+    def answer(self, prompt:str) -> str:
+        response:str = self.query_engine.query(prompt)
+        return response
     
     def get_retrieved_knowledge(self, title, heading) -> str:
         import time
@@ -96,8 +97,8 @@ class Investigator:
         # relevant_context.append("项目建设期间，评价区由于人为活动增加、外来建筑材料的进入、潮湿的生境，将促使蚊虫滋生，鼠类迁移，这些因素在一定程度上增加了引起病虫害爆发的可能性，但是通过严格处理施工期间产生的生活和建筑垃圾、尽量使用本地经过检疫的生物材料、定期对施工区域消毒等措施，可在很大程度上降低造成病虫害爆发的可能性")
         
         # 控制 relevant_context[0] 的长度（Token数）
-        target = 122880  # token数量, 122880 = 120k
-        cutDown = 1024  # 每次削减的token数量，1024 = 1k
+        target = MODEL_CONTEXT_LENGHTH * 1024  # 单位：K(tokens)
+        cutDown = CUT_DOWN * 1024  # 单位：K(tokens)
         # import time
         # 记录开始时间
         # start_time = time.time()    # debug
@@ -236,7 +237,8 @@ if __name__ == "__main__":
     llm = ChatGLM()
     llm.load_model(MODEL_PATH, TOKENIZER_PATH)
     
-    investigator = Investigator(llm)
+    investigator = Investigator(llm, load_index_From_last_time=False)
+    investigator.persist_to_disk()
     
     # ques = "项目建设期间，哪些因素会促使蚊虫滋生和鼠类迁移？"
     # ans = investigator.get_relevant_answer(ques)
@@ -246,33 +248,4 @@ if __name__ == "__main__":
     heading = "湖南东洞庭湖国家级自然保护区"
     retrieved_knowledge = investigator.get_retrieved_knowledge(title, heading)
     print(retrieved_knowledge)
-    # ques_list = investigator.get_ques_list(title, heading)
-    # print(f"最大问题数量: {investigator.ques_count}")
-    # print(ques_list)
-    # print(len(ques_list))
     
-#     def get_ques_list(question):
-#         prompt = """
-# Q：
-# 1. 请提供武汉市的地理、气象和大气环境现状数据，包括地理位置、气候类型、气象参数（如温度、湿度、风速等）以及大气污染源分布情况。
-# 3. 请提供《武汉市铁水集运煤炭码头一期工程环境影响评价报告书》的环境影响预测评估方法和技术路线。
-# 4. 请提供大气、声环境质量标准和评价方法。
-# 5. 请提供大气、声环境监测数据和预测结果，包括项目施工期和运营期的环境影响预测。
-# 6. 请提供大气、声环境治理和保护措施的技术可行性和经济成本。
-# 7. 请提供大气、声环境治理和保护措施的实施效果监测数据。
-# 8. 请提供大气、声环境治理和保护措施的实施效果评估方法和技术路线。
-# 9. 请提供大气、声环境治理和保护措施的实施效果监测数据和评估结果。
-# 10. 请提供大气、声环境治理和保护措施对周边生态环境、居民生活和经济社会的影响预测和评估。
-
-# A：
-# 1. 武汉市的地理、气象和大气环境现状数据是什么？
-# 2. 《武汉市铁水集运煤炭码头一期工程环境影响评价报告书》的环境影响预测评估方法和技术路线是什么？
-# 3. 大气、声环境的质量标准和评价方法是怎样的？
-# 4. 可以提供大气、声环境监测数据和预测结果吗？特别是项目施工期和运营期的环境影响预测。
-# 5. 大气、声环境治理和保护措施的技术可行性和经济成本如何？
-# 6. 有关大气、声环境治理和保护措施的实施效果监测数据是什么？
-# 7. 大气、声环境治理和保护措施的实施效果评估方法和技术路线是怎样的？
-# 8. 大气、声环境治理和保护措施的实施效果监测数据和评估结果呢？
-# 9. 大气、声环境治理和保护措施对周边生态环境、居民生活和经济社会的影响预测和评估如何？
-
-# Q:"""

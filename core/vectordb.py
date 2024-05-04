@@ -7,8 +7,6 @@ sys.path.append(str(root_path))
 
 from typing import List
 from base import Vectordb
-from langchain.vectorstores import FAISS
-from langchain.docstore.document import Document
 
 class Faiss(Vectordb):
 
