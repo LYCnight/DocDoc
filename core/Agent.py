@@ -195,6 +195,115 @@ A:"""
         return ans_list
             
 
+class ContentExpert:
+    def __init__(self, llm):
+        self.llm = llm
+        print("Agent[ContentExpert] loaded successfully")
+    
+    def gen_content(self, title:str, requirement:str=None) -> str:
+        prompt = """## role
+你是一名环境报告目录专家，擅长根据报告的标题和用户的要求写出优秀的环境报告的目录。
+## specification
+ - id: heading编号
+ - heaidng：heading标题
+ - dep：写作本节内容所需要参考的其他heading的id。若不需要参考，则设置为-1；若需要参考，并且由多个参考id，则用英文逗号","分隔
+ - level: 标题等级，文章title的level为0，其余heading的level从1开始
+## requirement
+ - 短目录：20~60个heading
+ - 中目录：120~180个heading
+ - 长目录：220~280个heading
+## constraints
+请按照specification的要求输出目录
+""" + \
+"""###
+Q: 帮我撰写《湖南省洞庭湖区华容护城涝区六门闸排涝工程环境影响报告书》的目录。要求：生成一份短目录
+A：
+[
+ {"id": 0, "heading": "湖南省洞庭湖区华容护城涝区六门闸排涝工程环境影响报告书", "dep": -1, "level": 0},
+ {"id": 1, "heading": "概述", "dep": -1, "level": 1},
+ {"id": 2, "heading": "项目背景及项目建设特点", "dep": -1, "level": 2},
+ {"id": 3, "heading": "环境影响评价工作过程", "dep": -1, "level": 2},
+ {"id": 4, "heading": "分析判定相关情况", "dep": -1, "level": 2},
+ {"id": 5, "heading": "关注的主要环境问题", "dep": -1, "level": 2},
+ {"id": 6, "heading": "报告书的主要评价结论", "dep": 73, "level": 2},
+ {"id": 7, "heading": "总则", "dep": -1, "level": 1},
+ {"id": 8, "heading": "编制依据", "dep": -1, "level": 2},
+ {"id": 9, "heading": "评价因子与评价标准", "dep": -1, "level": 2},
+ {"id": 10, "heading": "评价工作等级和评价重点", "dep": -1, "level": 2},
+ {"id": 11, "heading": "评价范围及敏感点", "dep": -1, "level": 2},
+ {"id": 12, "heading": "环境功能区划", "dep": -1, "level": 2},
+ {"id": 13, "heading": "建设项目工程分析", "dep": -1, "level": 1},
+ {"id": 14, "heading": "流域概况", "dep": -1, "level": 2},
+ {"id": 15, "heading": "工程健设的必要性分析", "dep": -1, "level": 2},
+ {"id": 16, "heading": "工程建设与相关政策、规划的符合性分析", "dep": -1, "level": 2},
+ {"id": 17, "heading": "与《湖南东洞庭湖国家级自然保护区总体规划》的符合性分析", "dep": -1, "level": 2},
+ {"id": 18, "heading": "与《水产种质资源保护区管理暂行办法》的符合性分析", "dep": -1, "level": 2},
+ {"id": 19, "heading": "工程方案的环境合理性分析", "dep": -1, "level": 2},
+ {"id": 20, "heading": "华容河现有水利工程概况", "dep": -1, "level": 2},
+ {"id": 21, "heading": "现有工程概况", "dep": -1, "level": 2},
+ {"id": 22, "heading": "拟建项目概况", "dep": -1, "level": 2},
+ {"id": 23, "heading": "工程分析", "dep": -1, "level": 2},
+ {"id": 24, "heading": "环境现状调查与评价", "dep": -1, "level": 1},
+ {"id": 25, "heading": "自然环境现状", "dep": -1, "level": 2},
+ {"id": 26, "heading": "生态敏感区概况", "dep": -1, "level": 2},
+ {"id": 27, "heading": "环境质量现状调查", "dep": -1, "level": 2},
+ {"id": 28, "heading": "湖南东洞庭湖国家级自然保护区生态环境现状调查与评价", "dep": -1, "level": 2},
+ {"id": 29, "heading": "东洞庭湖中国圆田螺国家级水产种质资源保护区生态环境现状调查与评价", "dep": -1, "level": 2},
+ {"id": 30, "heading": "区域污染源调查", "dep": -1, "level": 2},
+ {"id": 31, "heading": "区域环境问题", "dep": -1, "level": 2},
+ {"id": 32, "heading": "环境影响预测与评价", "dep": -1, "level": 1},
+ {"id": 33, "heading": "生态环境影响预测和评价", "dep": -1, "level": 2},
+ {"id": 34, "heading": "水文情势预测和评价", "dep": -1, "level": 2},
+ {"id": 35, "heading": "水环境影响预测和评价", "dep": -1, "level": 2},
+ {"id": 36, "heading": "地下水环境影响预测和评价", "dep": -1, "level": 2},
+ {"id": 37, "heading": "水土流失预测和评价", "dep": -1, "level": 2},
+ {"id": 38, "heading": "大气环境影响预测评价", "dep": -1, "level": 2},
+ {"id": 39, "heading": "声环境影响预测和评价", "dep": -1, "level": 2},
+ {"id": 40, "heading": "固体废弃物的环境影响", "dep": -1, "level": 2},
+ {"id": 41, "heading": "移民安置环境影响评价", "dep": -1, "level": 2},
+ {"id": 42, "heading": "社会环境影响评价", "dep": -1, "level": 2},
+ {"id": 43, "heading": "对人群健康的影响", "dep": -1, "level": 2},
+ {"id": 44, "heading": "环境保护措施", "dep": -1, "level": 1},
+ {"id": 45, "heading": "水环境保护措施", "dep": -1, "level": 2},
+ {"id": 46, "heading": "大气环境保护措施", "dep": -1, "level": 2},
+ {"id": 47, "heading": "噪声控制措施", "dep": -1, "level": 2},
+ {"id": 48, "heading": "固体废弃物处置措施", "dep": -1, "level": 2},
+ {"id": 49, "heading": "生态保护措施", "dep": -1, "level": 2},
+ {"id": 50, "heading": "水土流失防护措施", "dep": -1, "level": 2},
+ {"id": 51, "heading": "移民安置保护措施", "dep": -1, "level": 2},
+ {"id": 52, "heading": "人群健康保护措施", "dep": -1, "level": 2},
+ {"id": 53, "heading": "环境风险分析", "dep": -1, "level": 1},
+ {"id": 54, "heading": "环境风险识别", "dep": -1, "level": 2},
+ {"id": 55, "heading": "环境风险潜势划分", "dep": -1, "level": 2},
+ {"id": 56, "heading": "环境风险分析", "dep": -1, "level": 2},
+ {"id": 57, "heading": "环境风险防范与应急措施", "dep": -1, "level": 2},
+ {"id": 58, "heading": "应急预案", "dep": -1, "level": 2},
+ {"id": 59, "heading": "环境管理与环境监测", "dep": -1, "level": 1},
+ {"id": 60, "heading": "环境管理", "dep": -1, "level": 2},
+ {"id": 61, "heading": "环境监理", "dep": -1, "level": 2},
+ {"id": 62, "heading": "环境监测", "dep": -1, "level": 2},
+ {"id": 63, "heading": "环境保护投资与环境影响经济损益分析", "dep": -1, "level": 1},
+ {"id": 64, "heading": "环境保护投资估算", "dep": -1, "level": 2},
+ {"id": 65, "heading": "经济损益分析", "dep": -1, "level": 2},
+ {"id": 66, "heading": "环境影响评价结论", "dep": -1, "level": 1},
+ {"id": 67, "heading": "工程概况", "dep": -1, "level": 2},
+ {"id": 68, "heading": "环境现状评价结论", "dep": -1, "level": 2},
+ {"id": 69, "heading": "环境影响评价结论", "dep": -1, "level": 2},
+ {"id": 70, "heading": "主要环境保护措施", "dep": -1, "level": 2},
+ {"id": 71, "heading": "环境保护投资概算与效益分析", "dep": -1, "level": 2},
+ {"id": 72, "heading": "公众参与结论", "dep": -1, "level": 2},
+ {"id": 73, "heading": "综合评价结论", "dep": -1, "level": 2},
+ {"id": 73, "heading": "综合评价结论", "dep": -1, "level": 2}
+]
+""" + \
+"""
+Q:帮我撰写《{title}》的目录。要求：{requirement}
+A:""".format(title=title, requirement=requirement)
+        print(prompt)
+        print("*"*60)
+        response = self.llm(prompt)
+        return response
+    
 
 question = """
 1. 请提供岳阳县的地理、气象和大气环境现状数据，包括地理位置、气候类型、气象参数（如温度、湿度、风速等）以及大气污染源分布情况。
