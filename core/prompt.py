@@ -178,45 +178,45 @@ id:?, heading:?, dep:?, level=?
 ******
 Q: 帮我撰写《湖南省洞庭湖区华容护城涝区六门闸排涝工程环境影响报告书》的`概述`章节的目录。要求：None
 A:
-id:0, heading:概述, dep:-1, level=1
-id:1, heading:项目由来, dep:-1, level=2
-id:2, heading:环境影响评价的工作过程, dep:-1, level=2
-id:3, heading:分析判定相关环保政策, dep:-1, level=2
-id:4, heading:产业政策相符性分析, dep:-1, level=3
-id:5, heading:法律法规符合性分析, dep:-1, level=3
-id:6, heading:与相关规划符合性分析, dep:-1, level=3
-id:7, heading:与“三线一单"相符性分析, dep:-1, level=3
-id:8, heading:关注的主要环境问题, dep:-1, level=2
-id:9, heading:项目环评报告书的主要结论, dep:-1, level=2
+id:0, heading:概述, dep:-1, level:1
+id:1, heading:项目由来, dep:-1, level:2
+id:2, heading:环境影响评价的工作过程, dep:-1, level:2
+id:3, heading:分析判定相关环保政策, dep:-1, level:2
+id:4, heading:产业政策相符性分析, dep:-1, level:3
+id:5, heading:法律法规符合性分析, dep:-1, level:3
+id:6, heading:与相关规划符合性分析, dep:-1, level:3
+id:7, heading:与“三线一单"相符性分析, dep:-1, level:3
+id:8, heading:关注的主要环境问题, dep:-1, level:2
+id:9, heading:项目环评报告书的主要结论, dep:-1, level:2
 <end>
 
 Q: 帮我撰写《岳阳铁水集运煤炭码头一期工程环境影响报告书》的`结论与建议`章节的目录。要求：None
 A:
-id:0, heading:结论与建议, dep:-1, level=1
-id:1, heading:项目概况, dep:-1, level=2
-id:2, heading:环境质量现状评价结论, dep:-1, level=2
-id:3, heading:地表水水质现状, dep:-1, level=3
-id:4, heading:环境空气质量现状, dep:-1, level=3
-id:5, heading:声环境质量现状, dep:-1, level=3
-id:6, heading:地下水环境质量现状, dep:-1, level=3
-id:7, heading:底泥环境质量现状, dep:-1, level=3
-id:8, heading:生态环境现状结论, dep:-1, level=3
-id:9, heading:环境影响评价结论, dep:-1, level=2
-id:10, heading:水环境影响评价结论, dep:-1, level=3
-id:11, heading:大气环境影响评价结论, dep:-1, level=3
-id:12, heading:声环境影响评价结论, dep:-1, level=3
-id:13, heading:固体废物影响评价结论, dep:-1, level=3
-id:14, heading:生态环境影响评价结论, dep:-1, level=3
-id:15, heading:主要环保措施, dep:-1, level=2
-id:16, heading:废水, dep:-1, level=3
-id:17, heading:废气, dep:-1, level=3
-id:18, heading:噪声, dep:-1, level=3
-id:19, heading:固体废物, dep:-1, level=3
-id:20, heading:生态保护措施, dep:-1, level=3
-id:21, heading:人群健康保护措施, dep:-1, level=3
-id:22, heading:环境影响经济损益分析, dep:-1, level=2
-id:23, heading:环评总结论, dep:-1, level=2
-id:24, heading:建议, dep:-1, level=2
+id:0, heading:结论与建议, dep:-1, level:1
+id:1, heading:项目概况, dep:-1, level:2
+id:2, heading:环境质量现状评价结论, dep:-1, level:2
+id:3, heading:地表水水质现状, dep:-1, level:3
+id:4, heading:环境空气质量现状, dep:-1, level:3
+id:5, heading:声环境质量现状, dep:-1, level:3
+id:6, heading:地下水环境质量现状, dep:-1, level:3
+id:7, heading:底泥环境质量现状, dep:-1, level:3
+id:8, heading:生态环境现状结论, dep:-1, level:3
+id:9, heading:环境影响评价结论, dep:-1, level:2
+id:10, heading:水环境影响评价结论, dep:-1, level:3
+id:11, heading:大气环境影响评价结论, dep:-1, level:3
+id:12, heading:声环境影响评价结论, dep:-1, level:3
+id:13, heading:固体废物影响评价结论, dep:-1, level:3
+id:14, heading:生态环境影响评价结论, dep:-1, level:3
+id:15, heading:主要环保措施, dep:-1, level:2
+id:16, heading:废水, dep:-1, level:3
+id:17, heading:废气, dep:-1, level:3
+id:18, heading:噪声, dep:-1, level:3
+id:19, heading:固体废物, dep:-1, level:3
+id:20, heading:生态保护措施, dep:-1, level:3
+id:21, heading:人群健康保护措施, dep:-1, level:3
+id:22, heading:环境影响经济损益分析, dep:-1, level:2
+id:23, heading:环评总结论, dep:-1, level:2
+id:24, heading:建议, dep:-1, level:2
 <end>
 
 Q: 帮我撰写《{title}》的`{heading}`章节的目录。要求：{requirement}
@@ -235,50 +235,51 @@ GEN_CONTENT_PRELIMINARY = \
 ******
 Q: 帮我撰写《湖南省洞庭湖区华容护城涝区六门闸排涝工程环境影响报告书》的目录。要求：None
 A: 
-id:1, heading:概述, dep:-1, level=1
-id:2, heading:总则, dep:-1, level=1
-id:3, heading:建设项目工程分析, dep:-1, level=1
-id:4, heading:环境现状调查与评价, dep:-1, level=1
-id:5, heading:环境影响预测与评价, dep:-1, level=1
-id:6, heading:环境保护措施, dep:-1, level=1
-id:7, heading:环境风险分析, dep:-1, level=1
-id:8, heading:环境管理与环境监测, dep:-1, level=1
-id:9, heading:环境保护投资与环境影响经济损益分析, dep:-1, level=1
-id:10, heading:环境影响评价结论, dep:-1, level=1
+id:0, heading:湖南省洞庭湖区华容护城涝区六门闸排涝工程环境影响报告书, dep:-1, level:0
+id:1, heading:概述, dep:-1, level:1
+id:2, heading:总则, dep:-1, level:1
+id:3, heading:建设项目工程分析, dep:-1, level:1
+id:4, heading:环境现状调查与评价, dep:-1, level:1
+id:5, heading:环境影响预测与评价, dep:-1, level:1
+id:6, heading:环境保护措施, dep:-1, level:1
+id:7, heading:环境风险分析, dep:-1, level:1
+id:8, heading:环境管理与环境监测, dep:-1, level:1
+id:9, heading:环境保护投资与环境影响经济损益分析, dep:-1, level:1
+id:10, heading:环境影响评价结论, dep:-1, level:1
+
 
 Q: 帮我撰写《华能岳阳电厂码头2#泊位提质改造工程环境影响报告书》的目录。要求：None
 A:
-id:0, heading:华能岳阳电厂码头2#泊位提质改造工程环境影响报告书, dep:-1, level=0
-id:1, heading:概述, dep:-1, level=1
-id:2, heading:总则, dep:-1, level=1
-id:3, heading:工程概况及工程环境影响分析, dep:-1, level=1
-id:4, heading:环境质量现状调查与评价, dep:-1, level=1
-id:5, heading:环境可行性分析, dep:-1, level=1
-id:6, heading:环境影响预测与评价, dep:-1, level=1
-id:7, heading:水产种质资源保护区环境影响评价及保护措施, dep:-1, level=1
-id:8, heading:环境影响减缓措施及技术经济论证, dep:-1, level=1
-id:9, heading:环境经济损益分析, dep:-1, level=1
-id:10, heading:环境保护管理及监测计划, dep:-1, level=1
-id:11, heading:评价结论与建议, dep:-1, level=1
+id:0, heading:华能岳阳电厂码头2#泊位提质改造工程环境影响报告书, dep:-1, level:0
+id:1, heading:概述, dep:-1, level:1
+id:2, heading:总则, dep:-1, level:1
+id:3, heading:工程概况及工程环境影响分析, dep:-1, level:1
+id:4, heading:环境质量现状调查与评价, dep:-1, level:1
+id:5, heading:环境可行性分析, dep:-1, level:1
+id:6, heading:环境影响预测与评价, dep:-1, level:1
+id:7, heading:水产种质资源保护区环境影响评价及保护措施, dep:-1, level:1
+id:8, heading:环境影响减缓措施及技术经济论证, dep:-1, level:1
+id:9, heading:环境经济损益分析, dep:-1, level:1
+id:10, heading:环境保护管理及监测计划, dep:-1, level:1
+id:11, heading:评价结论与建议, dep:-1, level:1
 
 Q: 帮我撰写《岳阳铁水集运煤炭码头一期工程环境影响报告书》的目录。要求：None
 A:
-id:0, heading:岳阳铁水集运煤炭码头一期工程环境影响报告书, dep:-1, level=0
-id:1, heading:概述, dep:-1, level=1
-id:2, heading:总则, dep:-1, level=1
-id:3, heading:工程概况与工程分析, dep:-1, level=1
-id:4, heading:环境现状调查与评价, dep:-1, level=1
-id:5, heading:环境可行性分析, dep:-1, level=1
-id:6, heading:环境影响预测与评价, dep:-1, level=1
-id:7, heading:水产种质资源保护区影响评价及保护措施, dep:-1, level=1
-id:8, heading:环境保护措施及其可行性论证, dep:-1, level=1
-id:9, heading:环境影响经济损益分析, dep:-1, level=1
-id:10, heading:环境管理与监测计划, dep:-1, level=1
-id:11, heading:环境影响评价结论, dep:-1, level=1
+id:0, heading:岳阳铁水集运煤炭码头一期工程环境影响报告书, dep:-1, level:0
+id:1, heading:概述, dep:-1, level:1
+id:2, heading:总则, dep:-1, level:1
+id:3, heading:工程概况与工程分析, dep:-1, level:1
+id:4, heading:环境现状调查与评价, dep:-1, level:1
+id:5, heading:环境可行性分析, dep:-1, level:1
+id:6, heading:环境影响预测与评价, dep:-1, level:1
+id:7, heading:水产种质资源保护区影响评价及保护措施, dep:-1, level:1
+id:8, heading:环境保护措施及其可行性论证, dep:-1, level:1
+id:9, heading:环境影响经济损益分析, dep:-1, level:1
+id:10, heading:环境管理与监测计划, dep:-1, level:1
+id:11, heading:环境影响评价结论, dep:-1, level:1
 
 Q: 帮我撰写《{title}》的目录。要求：{requirement}
 A:"""
-
 
 
 WRITE_WITHOUT_DEP = '''

@@ -7,6 +7,7 @@ sys.path.append(str(root_path))
 from core.prompt import (WRITE_WITHOUT_DEP, WRITE_WITH_DEP, WRITE_MUTATION, 
                          GEN_CONTENT_PRELIMINARY, GEN_CONTENT_COMPLETE)
 from config import QUES_COUNT, MODEL_CONTEXT_LENGHTH, CUT_DOWN
+from DocDoc import Heading
 
 
 class Writer:
@@ -200,19 +201,60 @@ A:"""
 class ContentExpert:
     def __init__(self, llm):
         self.llm = llm
-        print("Agent[ContentExpert] loaded successfully")
-        
-    def gen_content_preliminary(self, title:str, requirement:str=None):
-        prompt = GEN_CONTENT_PRELIMINARY.format(title=title, requirement=requirement)
-        print(prompt)
-        response = self.llm(prompt)
-        return response
+        self.content:list[Heading] = []     # 生成的目录
+        print("Agent[ContentExpert] loaded successfully")   
     
-    def gen_content_complete(self, title:str, heading:str, requirement:str=None):
+    def gen_content_from_title(self, title:str) -> list[Heading]:
+        level_1_heading_list:list[Heading] = self.gen_content_preliminary(title)
+        self.content_assemble(title, level_1_heading_list)
+        return self.content
+    
+    def re_extract(self, text:str) -> list[tuple]:
+        import re
+        # 正则表达式模式
+        pattern = r"id:(\d+), heading:(.*?), dep:(.*?), level:(\d+)"
+        # 使用正则表达式进行匹配
+        matches = re.findall(pattern, text)
+        return matches
+    
+    def content_assemble(self, title:str, level_1_heading_list:list[Heading]) -> None:
+        self.content.clear()    # 先清空上一次生成的目录
+        id = 0
+        level_1_heading_list[0].id = id
+        id += 1
+        self.content.append(level_1_heading_list[0]) # add doc title
+        level_1_heading_list = level_1_heading_list[1:]    # remove title
+        for heading in level_1_heading_list:
+            heading_list:list[Heading] = self.gen_content_for_one_heading(title, heading.heading)
+            for h in heading_list:
+                h.id = id   # 更新序号
+                id += 1
+                self.content.append(h)
+            
+    
+    def gen_content_preliminary(self, title:str, requirement:str=None) -> list[Heading]:
+        prompt = GEN_CONTENT_PRELIMINARY.format(title=title, requirement=requirement)
+        # print(prompt)     # debug
+        response:str = self.llm(prompt)
+        # print(response)   # debug
+        matches:list[tuple] = self.re_extract(response)
+        h_list:list[Heading] = []
+        for match in matches:
+            id,heading,dep,level = match
+            h_list.append(Heading(id, heading, dep, level))
+        return h_list
+    
+    def gen_content_for_one_heading(self, title:str, heading:str, requirement:str=None) -> list[Heading]:
         prompt = GEN_CONTENT_COMPLETE.format(title=title, heading=heading, requirement=requirement)
-        print(prompt)
-        response = self.llm(prompt)
-        return response
+        print(prompt)   # debug
+        response:str = self.llm(prompt)
+        print(response) # debug
+        matches:list[tuple] = self.re_extract(response) # 正则提取
+        h_list:list[Heading] = []
+        for match in matches:
+            id,heading,dep,level = match
+            h_list.append(Heading(id, heading, dep, level))
+        return h_list
     
     def gen_content(self, title:str, requirement:str=None) -> str:
         prompt = """## role
