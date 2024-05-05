@@ -7,6 +7,279 @@ sys.path.append(str(root_path))
 
 from AI.PromptUtil import PromptTemplate
 
+GEN_CONTENT_COMPLETE_COPY = \
+"""## role
+******
+Q: 帮我撰写《岳阳铁水集运煤炭码头一期工程环境影响报告书》的`环境现状调查与评价`章节的目录。要求：None
+A:
+id:0, heading:环境现状调查与评价, dep:-1, level=1
+id:1, heading:自然环境概况, dep:-1, level=2
+id:2, heading:地理位置, dep:-1, level=3
+id:3, heading:地质、地貌, dep:-1, level=3
+id:4, heading:气象气候, dep:-1, level=3
+id:5, heading:水文特征, dep:-1, level=3
+id:6, heading:土壤, dep:-1, level=3
+id:7, heading:植被、生物多样性, dep:-1, level=3
+id:8, heading:项目区生态保护区调查, dep:-1, level=2
+id:9, heading:湖南东洞庭湖国家级自然保护区, dep:-1, level=3
+id:10, heading:岳阳市东洞庭湖江豚市级自然保护区, dep:-1, level=3
+id:11, heading:湖南新墙河国家湿地公园, dep:-1, level=3
+id:12, heading:东洞庭湖鲤鲫黄颡国家级水产种质资源保护区, dep:-1, level=3
+id:13, heading:环境质量现状调查与评价, dep:-1, level=2
+id:14, heading:地表水环境质量现状调查与评价, dep:-1, level=3
+id:15, heading:水环境质量现状调查, dep:-1, level=4
+id:16, heading:评价方法, dep:-1, level=4
+id:17, heading:水环境质量现状监测结果及评价, dep:-1, level=4
+id:18, heading:环境空气现状调查与评价, dep:-1, level=3
+id:19, heading:地下水环境现状调查与评价, dep:-1, level=3
+id:20, heading:声环境现状调查与评价, dep:-1, level=3
+id:21, heading:底泥环境质量现状与评价, dep:-1, level=3
+id:22, heading:生态环境环境质量现状调查与评价, dep:-1, level=3
+id:23, heading:调查范围, dep:-1, level=4
+id:24, heading:调查方法, dep:-1, level=4
+id:25, heading:生态系统现状调查, dep:-1, level=4
+id:26, heading:植被及植物多样性调查, dep:-1, level=4
+id:27, heading:动物多样性现状调查, dep:-1, level=4
+id:28, heading:水生生物调查, dep:-1, level=4
+id:29, heading:主要生态问题调查, dep:-1, level=4
+id:30, heading:水土流失现状, dep:-1, level=4
+id:31, heading:防洪排涝现状, dep:-1, level=2
+id:32, heading:区域防洪工程现状, dep:-1, level=3
+id:33, heading:区域排涝设施现状, dep:-1, level=3
+id:34, heading:区域水资源开发利用现状, dep:-1, level=2
+id:35, heading:区域污染源调查, dep:-1, level=2
+<end>
+
+Q: 帮我撰写《华能岳阳电厂码头2#泊位提质改造工程环境影响报告书》的`总则`章节的目录。要求：None
+A:
+id:0, heading:总则, dep:-1, level=1
+id:1, heading:编制依据, dep:-1, level=2
+id:2, heading:国家法律、法规和政策, dep:-1, level=3
+id:3, heading:地方法规、规划, dep:-1, level=3
+id:4, heading:技术标准及行业规范, dep:-1, level=3
+id:5, heading:其它技术规范及参考依据, dep:-1, level=3
+id:6, heading:评价目的及工作原则, dep:-1, level=2
+id:7, heading:评价目的, dep:-1, level=3
+id:8, heading:评价工作原则, dep:-1, level=3
+id:9, heading:评价标准, dep:-1, level=2
+id:10, heading:环境功能区划, dep:-1, level=3
+id:11, heading:地表水环境功能区, dep:-1, level=4
+id:12, heading:地下水环境功能区, dep:-1, level=4
+id:13, heading:环境空气功能区, dep:-1, level=4
+id:14, heading:声环境功能区, dep:-1, level=4
+id:15, heading:土壤环境功能区, dep:-1, level=4
+id:16, heading:建设项目所在区域环境, dep:-1, level=4
+id:17, heading:环境质量标准, dep:-1, level=3
+id:18, heading:污染物排放标准, dep:-1, level=3
+id:19, heading:水污染物排放标准, dep:-1, level=4
+id:20, heading:大气污染物排放标准, dep:-1, level=4
+id:21, heading:噪声排放标准, dep:-1, level=4
+id:22, heading:固体废物, dep:-1, level=4
+id:23, heading:环境影响因素识别和评价因子筛选, dep:-1, level=2
+id:24, heading:环境影响因素识别, dep:-1, level=3
+id:25, heading:评价因子, dep:-1, level=3
+id:26, heading:评价工作等级及评价范围, dep:-1, level=2
+id:27, heading:地表水环境, dep:-1, level=3
+id:28, heading:大气环境, dep:-1, level=3
+id:29, heading:地下水环境, dep:-1, level=3
+id:30, heading:声环境, dep:-1, level=3
+id:31, heading:生态环境, dep:-1, level=3
+id:32, heading:环境风险, dep:-1, level=3
+id:33, heading:土壤环境, dep:-1, level=3
+id:34, heading:小结, dep:-1, level=3
+id:35, heading:环境敏感目标, dep:-1, level=2
+id:36, heading:生态环境保护目标, dep:-1, level=3
+id:37, heading:水环境保护目标, dep:-1, level=3
+id:38, heading:大气、声环境环境保护目标, dep:-1, level=3
+id:39, heading:评价重点, dep:-1, level=2
+<end>
+
+Q: 帮我撰写《华能岳阳电厂码头2#泊位提质改造工程环境影响报告书》的`项目概况及工程分析`章节的目录。要求：None
+A:
+id:0, heading:项目概况及工程分析, dep:-1, level=1
+id:1, heading:项目区概况及存在的问题, dep:-1, level=2
+id:2, heading:概况, dep:-1, level=3
+id:3, heading:存在的问题, dep:-1, level=3
+id:4, heading:项目基本情况, dep:-1, level=2
+id:5, heading:项目名称及建设性质, dep:-1, level=3
+id:6, heading:工程任务及规模, dep:-1, level=3
+id:7, heading:工程设计, dep:-1, level=2
+id:8, heading:工程等别及洪水标准, dep:-1, level=3
+id:9, heading:整体布局与分区, dep:-1, level=3
+id:10, heading:水系连通工程, dep:-1, level=3
+id:11, heading:水源工程, dep:-1, level=4
+id:12, heading:连通渠道工程, dep:-1, level=4
+id:13, heading:整治湖泊工程, dep:-1, level=4
+id:14, heading:水系连通工程量汇总, dep:-1, level=4
+id:15, heading:河道清障工程, dep:-1, level=3
+id:16, heading:清淤疏浚工程, dep:-1, level=3
+id:17, heading:岸坡整治工程, dep:-1, level=3
+id:18, heading:护岸工程, dep:-1, level=4
+id:19, heading:滨岸带治理工程, dep:-1, level=4
+id:20, heading:堤防险T险段治理, dep:-1, level=3
+id:21, heading:附属工程, dep:-1, level=3
+id:22, heading:水源涵养, dep:-1, level=3
+id:23, heading:工程施工, dep:-1, level=2
+id:24, heading:麻塘垸, dep:-1, level=3
+id:25, heading:料场, dep:-1, level=4
+id:26, heading:施工导流, dep:-1, level=4
+id:27, heading:施工交通运输, dep:-1, level=4
+id:28, heading:水、电供应及通讯, dep:-1, level=4
+id:29, heading:施工办公生活区, dep:-1, level=4
+id:30, heading:弃渣, dep:-1, level=4
+id:31, heading:施工进度安排, dep:-1, level=4
+id:32, heading:施工技术供应, dep:-1, level=4
+id:33, heading:新墙河片区, dep:-1, level=3
+id:34, heading:料场, dep:-1, level=4
+id:35, heading:施工导流, dep:-1, level=4
+id:36, heading:施工交通运输, dep:-1, level=4
+id:37, heading:水、电供应及通讯, dep:-1, level=4
+id:38, heading:施工办公生活区, dep:-1, level=4
+id:39, heading:弃渣, dep:-1, level=4
+id:40, heading:施工进度安排, dep:-1, level=4
+id:41, heading:施工技术供应, dep:-1, level=4
+id:42, heading:工程占地处理及移民安置, dep:-1, level=2
+id:43, heading:工程占地, dep:-1, level=3
+id:44, heading:移民安置, dep:-1, level=3
+id:45, heading:征地补偿, dep:-1, level=3
+id:46, heading:土石方平衡, dep:-1, level=2
+id:47, heading:工程方案合理性分析, dep:-1, level=2
+id:48, heading:工程设计方案合理性分析, dep:-1, level=3
+id:49, heading:施工布置环境合理性分析, dep:-1, level=3
+id:50, heading:工程分析, dep:-1, level=2
+id:51, heading:工艺流程分析, dep:-1, level=3
+id:52, heading:主体工程施工简介, dep:-1, level=4
+id:53, heading:工程影响因素分析, dep:-1, level=4
+id:54, heading:施工期污染源强分析, dep:-1, level=3
+id:55, heading:废气污染源分析, dep:-1, level=4
+id:56, heading:废水污染源分析, dep:-1, level=4
+id:57, heading:噪声污染源分析, dep:-1, level=4
+id:58, heading:固体废物污染源分析, dep:-1, level=4
+id:59, heading:营运期污染源强分析, dep:-1, level=3
+id:60, heading:生态环境影响, dep:-1, level=3
+id:61, heading:水土流失, dep:-1, level=3"""
+
+GEN_CONTENT_COMPLETE = \
+"""## role
+你是一名环境报告目录专家，擅长根据报告的标题和用户的要求写出优秀的环境报告的目录。
+## specification
+ - id: heading编号
+ - heading：heading标题
+ - dep：写作本节内容所需要参考的其他heading的id。若不需要参考，则设置为-1；若需要参考，并且由多个参考id，则用英文逗号","分隔
+ - level: 标题等级，文章title的level为0，其余heading的level从1开始
+## format:
+id:?, heading:?, dep:?, level=?
+## requirement
+ - level 从1开始，最大为4
+ - 请在目录结尾处加上 <end>
+## constraint
+ - dep请设置为 -1
+ - 请严格按照specification 和 format 输出目录，不要输出其他无关内容
+******
+Q: 帮我撰写《湖南省洞庭湖区华容护城涝区六门闸排涝工程环境影响报告书》的`概述`章节的目录。要求：None
+A:
+id:0, heading:概述, dep:-1, level=1
+id:1, heading:项目由来, dep:-1, level=2
+id:2, heading:环境影响评价的工作过程, dep:-1, level=2
+id:3, heading:分析判定相关环保政策, dep:-1, level=2
+id:4, heading:产业政策相符性分析, dep:-1, level=3
+id:5, heading:法律法规符合性分析, dep:-1, level=3
+id:6, heading:与相关规划符合性分析, dep:-1, level=3
+id:7, heading:与“三线一单"相符性分析, dep:-1, level=3
+id:8, heading:关注的主要环境问题, dep:-1, level=2
+id:9, heading:项目环评报告书的主要结论, dep:-1, level=2
+<end>
+
+Q: 帮我撰写《岳阳铁水集运煤炭码头一期工程环境影响报告书》的`结论与建议`章节的目录。要求：None
+A:
+id:0, heading:结论与建议, dep:-1, level=1
+id:1, heading:项目概况, dep:-1, level=2
+id:2, heading:环境质量现状评价结论, dep:-1, level=2
+id:3, heading:地表水水质现状, dep:-1, level=3
+id:4, heading:环境空气质量现状, dep:-1, level=3
+id:5, heading:声环境质量现状, dep:-1, level=3
+id:6, heading:地下水环境质量现状, dep:-1, level=3
+id:7, heading:底泥环境质量现状, dep:-1, level=3
+id:8, heading:生态环境现状结论, dep:-1, level=3
+id:9, heading:环境影响评价结论, dep:-1, level=2
+id:10, heading:水环境影响评价结论, dep:-1, level=3
+id:11, heading:大气环境影响评价结论, dep:-1, level=3
+id:12, heading:声环境影响评价结论, dep:-1, level=3
+id:13, heading:固体废物影响评价结论, dep:-1, level=3
+id:14, heading:生态环境影响评价结论, dep:-1, level=3
+id:15, heading:主要环保措施, dep:-1, level=2
+id:16, heading:废水, dep:-1, level=3
+id:17, heading:废气, dep:-1, level=3
+id:18, heading:噪声, dep:-1, level=3
+id:19, heading:固体废物, dep:-1, level=3
+id:20, heading:生态保护措施, dep:-1, level=3
+id:21, heading:人群健康保护措施, dep:-1, level=3
+id:22, heading:环境影响经济损益分析, dep:-1, level=2
+id:23, heading:环评总结论, dep:-1, level=2
+id:24, heading:建议, dep:-1, level=2
+<end>
+
+Q: 帮我撰写《{title}》的`{heading}`章节的目录。要求：{requirement}
+A:"""
+
+GEN_CONTENT_PRELIMINARY = \
+""" ## role
+你是一名环境报告目录专家，擅长根据报告的标题和用户的要求写出优秀的环境报告的目录。
+## specification
+ - id: heading编号
+ - heading：heading标题
+ - dep：写作本节内容所需要参考的其他heading的id。若不需要参考，则设置为-1；若需要参考，并且由多个参考id，则用英文逗号","分隔
+ - level: 标题等级，文章title的level为0，其余heading的level从1开始
+## constraint
+ - dep请设置为 -1
+******
+Q: 帮我撰写《湖南省洞庭湖区华容护城涝区六门闸排涝工程环境影响报告书》的目录。要求：None
+A: 
+id:1, heading:概述, dep:-1, level=1
+id:2, heading:总则, dep:-1, level=1
+id:3, heading:建设项目工程分析, dep:-1, level=1
+id:4, heading:环境现状调查与评价, dep:-1, level=1
+id:5, heading:环境影响预测与评价, dep:-1, level=1
+id:6, heading:环境保护措施, dep:-1, level=1
+id:7, heading:环境风险分析, dep:-1, level=1
+id:8, heading:环境管理与环境监测, dep:-1, level=1
+id:9, heading:环境保护投资与环境影响经济损益分析, dep:-1, level=1
+id:10, heading:环境影响评价结论, dep:-1, level=1
+
+Q: 帮我撰写《华能岳阳电厂码头2#泊位提质改造工程环境影响报告书》的目录。要求：None
+A:
+id:0, heading:华能岳阳电厂码头2#泊位提质改造工程环境影响报告书, dep:-1, level=0
+id:1, heading:概述, dep:-1, level=1
+id:2, heading:总则, dep:-1, level=1
+id:3, heading:工程概况及工程环境影响分析, dep:-1, level=1
+id:4, heading:环境质量现状调查与评价, dep:-1, level=1
+id:5, heading:环境可行性分析, dep:-1, level=1
+id:6, heading:环境影响预测与评价, dep:-1, level=1
+id:7, heading:水产种质资源保护区环境影响评价及保护措施, dep:-1, level=1
+id:8, heading:环境影响减缓措施及技术经济论证, dep:-1, level=1
+id:9, heading:环境经济损益分析, dep:-1, level=1
+id:10, heading:环境保护管理及监测计划, dep:-1, level=1
+id:11, heading:评价结论与建议, dep:-1, level=1
+
+Q: 帮我撰写《岳阳铁水集运煤炭码头一期工程环境影响报告书》的目录。要求：None
+A:
+id:0, heading:岳阳铁水集运煤炭码头一期工程环境影响报告书, dep:-1, level=0
+id:1, heading:概述, dep:-1, level=1
+id:2, heading:总则, dep:-1, level=1
+id:3, heading:工程概况与工程分析, dep:-1, level=1
+id:4, heading:环境现状调查与评价, dep:-1, level=1
+id:5, heading:环境可行性分析, dep:-1, level=1
+id:6, heading:环境影响预测与评价, dep:-1, level=1
+id:7, heading:水产种质资源保护区影响评价及保护措施, dep:-1, level=1
+id:8, heading:环境保护措施及其可行性论证, dep:-1, level=1
+id:9, heading:环境影响经济损益分析, dep:-1, level=1
+id:10, heading:环境管理与监测计划, dep:-1, level=1
+id:11, heading:环境影响评价结论, dep:-1, level=1
+
+Q: 帮我撰写《{title}》的目录。要求：{requirement}
+A:"""
+
+
 
 WRITE_WITHOUT_DEP = '''
 ## role
@@ -14,7 +287,7 @@ WRITE_WITHOUT_DEP = '''
 ## retrieved_knowledge
 {retrieved_knowledge}
 ## constraints
-1. 你只能返回markdwon格式的文本
+1. 你只能返回markdoWn格式的文本
 2. 你的返回的正文中不能含有 #, ##, ###, ####, #####, ###### 等markdown heading命令
 ## task
 请你根据你的环境知识, 撰写《{title}》的'{heading}'的内容。(你可以参考 retrieved_knowledge，如果给出的话）'''

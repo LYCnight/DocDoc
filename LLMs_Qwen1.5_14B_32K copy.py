@@ -21,8 +21,8 @@ class ChatGLM():
         return response
 
     def load_model(self, 
-                MODEL_PATH: str = MODEL_PATH, 
-                TOKENIZER_PATH: str = TOKENIZER_PATH):
+                MODEL_PATH: str = "/root/AI4E/share/Qwen1.5-14B-Chat", 
+                TOKENIZER_PATH: str = "/root/AI4E/share/Qwen1.5-14B-Chat"):
         '''
         功能：加载模型
         示例：

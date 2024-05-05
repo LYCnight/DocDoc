@@ -13,7 +13,7 @@ import time
 start_time = time.time()
 
 # 加载 LLM 模型
-from config import MODEL_PATH, TOKENIZER_PATH
+from config import MODEL_PATH, TOKENIZER_PATH, EMBEDDING_PATH
 from LLMs import ChatGLM
 llm = ChatGLM()
 llm.load_model(MODEL_PATH, TOKENIZER_PATH)
@@ -213,6 +213,26 @@ def doc_assemble(content):
                 full_text += heading.text + "\n"
     return full_text
 
+def get_current_time() -> str:
+    import time
+    import pytz
+    from datetime import datetime
+
+    # 获取当前时间的时间戳
+    start_time = time.time()
+
+    # 将时间戳转换为datetime对象，并设置时区为UTC
+    utc_time = datetime.utcfromtimestamp(start_time).replace(tzinfo=pytz.utc)
+
+    # 强制设置时区为东八区
+    tz = pytz.timezone('Asia/Shanghai')
+    local_time = utc_time.astimezone(tz)
+
+    # 将强制设置时区后的时间格式化为24小时制的时间字符串
+    formatted_time = local_time.strftime("%Y-%m-%d %H:%M:%S")
+    return formatted_time
+
+
 
 import random
 import time
@@ -226,6 +246,9 @@ def main():
     # prompt日志文件路径
     global promptLog_output_path    # 声明全局变量
     promptLog_output_path = str(cur_path) + f'/output/promptLog_{timestamp}.txt'
+     # 初始化 prompt 日志
+    with open(promptLog_output_path, 'a', encoding='utf-8') as file:
+        file.write(f"运行开始自: {get_current_time()}\n" + f"所用模型：{MODEL_PATH}, 所用Embed_model:{EMBEDDING_PATH}\n")
     
     # 生成Doc的文件路径
     markdown_file_path = str(cur_path) + f'/output/genDoc_{timestamp}.md'
@@ -310,7 +333,10 @@ def main():
 
     print(markdown_file_path)
     print(promptLog_output_path)
-    with open(markdown_file_path, 'w', encoding='utf-8') as file:
+    with open(markdown_file_path, 'a', encoding='utf-8') as file:
+        file.write(f"运行开始自: {get_current_time()}\n" + f"所用模型：{MODEL_PATH}, 所用Embed_model:{EMBEDDING_PATH}\n") 
+        file.write(full_text)   
+    with open(markdown_file_path, 'a', encoding='utf-8') as file:
         file.write(full_text)   
 
 if __name__ == "__main__":

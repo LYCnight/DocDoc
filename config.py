@@ -21,21 +21,29 @@ ProjectPath = "/root/AI4E/lzd/DocDoc"
 # MODEL_PATH = "/root/AI4E/share/chatglm3-6b-128k" 
 # TOKENIZER_PATH = "/root/AI4E/share/chatglm3-6b-128k"
 
-# MODEL_PATH = "/root/AI4E/share/Qwen1.5-14B-Chat" 
-# TOKENIZER_PATH = "/root/AI4E/share/Qwen1.5-14B-Chat"
-# MODEL_CONTEXT_LENGHTH = 32  # llm 窗口大小，单位为 k (tokens)
+MODEL_PATH = "/root/AI4E/share/Qwen1.5-14B-Chat" 
+TOKENIZER_PATH = "/root/AI4E/share/Qwen1.5-14B-Chat"
+MODEL_CONTEXT_LENGHTH = 32  # llm 窗口大小，单位为 k (tokens)
 
-MODEL_PATH = "/root/AI4E/share/Llama3-Chinese"  # 大小为8B
-TOKENIZER_PATH = "/root/AI4E/share/Llama3-Chinese"
-MODEL_CONTEXT_LENGHTH = 8  # llm 窗口大小，单位为 k (tokens)
+# MODEL_PATH = "/root/AI4E/share/Llama3-Chinese"  # 大小为8B
+# TOKENIZER_PATH = "/root/AI4E/share/Llama3-Chinese"
+# MODEL_CONTEXT_LENGHTH = 8  # llm 窗口大小，单位为 k (tokens)
+
+# MODEL_PATH = "/root/AI4E/share/Yi-34B-200K"  # 大小为8B
+# TOKENIZER_PATH = "/root/AI4E/share/Yi-34B-200K"
+# MODEL_CONTEXT_LENGHTH = 200  # llm 窗口大小，单位为 k (tokens)
+
+# MODEL_PATH = "/root/AI4E/share/Baichuan2-13B-Chat"  # 大小为8B
+# TOKENIZER_PATH = "/root/AI4E/share/Baichuan2-13B-Chat"
+# MODEL_CONTEXT_LENGHTH = 2 
 
 EMBEDDING_PATH = "/root/AI4E/share/bge-large-zh"
 # --------算法组模型接口---------
 
 # 运行设备
 import torch
-LLM_DEVICE = torch.device("cuda:2")
-EMBED_DEVICE = torch.device("cuda:2") 
+LLM_DEVICE = torch.device("cuda:1")
+EMBED_DEVICE = torch.device("cuda:1") 
 
 # Index路径
 INDEX_PATH = str(root_path) + "/storage"

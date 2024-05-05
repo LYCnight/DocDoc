@@ -14,7 +14,7 @@ tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_PATH)
 model = AutoModelForCausalLM.from_pretrained(model_id, device_map=LLM_DEVICE)
 
 messages = [
-    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "system", "content": ""},
     {"role": "user", "content": "你好"},
 ]
 

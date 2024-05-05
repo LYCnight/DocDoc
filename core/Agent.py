@@ -4,7 +4,8 @@ root_path = Path(__file__).parent.parent    # 项目根目录    DocDoc2/
 core_path = Path(__file__).parent    # 当前目录    DocDoc2/core
 sys.path.append(str(core_path))
 sys.path.append(str(root_path))
-from core.prompt import WRITE_WITHOUT_DEP, WRITE_WITH_DEP, WRITE_MUTATION
+from core.prompt import (WRITE_WITHOUT_DEP, WRITE_WITH_DEP, WRITE_MUTATION, 
+                         GEN_CONTENT_PRELIMINARY, GEN_CONTENT_COMPLETE)
 from config import QUES_COUNT, MODEL_CONTEXT_LENGHTH, CUT_DOWN
 
 
@@ -169,6 +170,7 @@ A:
 7. 大气、声环境治理和保护措施的实施效果评估方法和技术路线是怎样的？特别是湖南省的评估方法。//
 8. 大气、声环境治理和保护措施的实施效果监测数据和评估结果呢？//
 9. 大气、声环境治理和保护措施对周边生态环境、居民生活和经济社会的影响预测和评估如何？//
+<END>
 
 Q:请分析为了写作《{title}》的`{heading}`章节的内容，需要获取哪些信息？
 A:"""
@@ -199,13 +201,25 @@ class ContentExpert:
     def __init__(self, llm):
         self.llm = llm
         print("Agent[ContentExpert] loaded successfully")
+        
+    def gen_content_preliminary(self, title:str, requirement:str=None):
+        prompt = GEN_CONTENT_PRELIMINARY.format(title=title, requirement=requirement)
+        print(prompt)
+        response = self.llm(prompt)
+        return response
+    
+    def gen_content_complete(self, title:str, heading:str, requirement:str=None):
+        prompt = GEN_CONTENT_COMPLETE.format(title=title, heading=heading, requirement=requirement)
+        print(prompt)
+        response = self.llm(prompt)
+        return response
     
     def gen_content(self, title:str, requirement:str=None) -> str:
         prompt = """## role
 你是一名环境报告目录专家，擅长根据报告的标题和用户的要求写出优秀的环境报告的目录。
 ## specification
  - id: heading编号
- - heaidng：heading标题
+ - heading：heading标题
  - dep：写作本节内容所需要参考的其他heading的id。若不需要参考，则设置为-1；若需要参考，并且由多个参考id，则用英文逗号","分隔
  - level: 标题等级，文章title的level为0，其余heading的level从1开始
 ## requirement

@@ -1,4 +1,5 @@
-from transformers import AutoTokenizer, AutoModel
+from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers.generation.utils import GenerationConfig
 from config import MODEL_PATH, TOKENIZER_PATH, EMBEDDING_PATH, LLM_DEVICE, EMBED_DEVICE
 device = LLM_DEVICE
 embed_device = EMBED_DEVICE
@@ -11,13 +12,9 @@ class ChatGLM():
         self.model: object = None
 
     def __call__(self, prompt: str) -> str:  # 模型响应
-
-        messages = [{"role": "user", "content": prompt}]
-        text = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-        model_inputs = self.tokenizer([text], return_tensors="pt").to(device)
-        generated_ids = self.model.generate(model_inputs.input_ids, max_new_tokens=512)
-        generated_ids = [output_ids[len(input_ids):] for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)]
-        response = self.tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+        messages = []
+        messages.append({"role": "user", "content": prompt})
+        response = self.model.chat(self.tokenizer, messages)
         return response
 
     def load_model(self, 
@@ -28,9 +25,14 @@ class ChatGLM():
         示例：
             llm.load_model(MODEL_PATH, TOKENIZER_PATH)
         '''
-        from transformers import AutoModelForCausalLM, AutoTokenizer
-        self.model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, device_map=device)
-        self.tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_PATH)
+        self.tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_PATH,
+            revision="v2.0",
+            trust_remote_code=True)
+        self.model = AutoModelForCausalLM.from_pretrained(MODEL_PATH,
+            revision="v2.0",
+            device_map=LLM_DEVICE,
+            trust_remote_code=True)
+        self.model.generation_config = GenerationConfig.from_pretrained(MODEL_PATH, revision="v2.0")
 
 def init_llm_and_embedding(MODEL_PATH=MODEL_PATH, TOKENIZER_PATH=TOKENIZER_PATH, EMBEDDING_PATH=EMBEDDING_PATH):
     llm = ChatGLM()
