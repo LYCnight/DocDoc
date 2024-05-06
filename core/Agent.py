@@ -204,9 +204,49 @@ class ContentExpert:
         self.content:list[Heading] = []     # 生成的目录
         print("Agent[ContentExpert] loaded successfully")   
     
+    def print_content_with_format(self, content:list[Heading]):
+        if(content == None):
+            content = self.content    
+        for h in content:
+            print(f"id:{h.id}, type:{type(h.id).__name__}  ||  heading:{h.heading}, type:{type(h.heading).__name__}  ||  dep:{h.dep}, type:{type(h.dep).__name__}  ||  level:{h.level}, type:{type(h.level).__name__}")
+    
+    def print_content(self, content:list[Heading]):
+        if(content == None):
+            content = self.content
+        for h in content:
+            print(f"id:{h.id}, heading:{h.heading}, dep:{h.dep} , level:{h.level}")
+    
+    def check_content_format(self, content:list[Heading]) -> None:
+        if(len(content) == 0):
+            print("content is Null")
+            return
+        for h in content:
+            assert isinstance(h.heading, str), f"h.heading's type must be str, but now is {type(h.heading).__name__}, and the value is {h.heading}"
+            assert isinstance(h.id, int), f"h.id's type must be int, but now is {type(h.id).__name__}, and the value is {h.id}"
+            if isinstance(h.dep, list):
+                assert all(isinstance(item, int) for item in h.dep), f"Elements in h.dep must be integers, but now is {type(h.dep).__name__}, and the value is {h.dep}"
+            else:
+                assert isinstance(h.dep, int), f"h.dep's type must be int, but now is {type(h.dep).__name__}, and the value is {h.dep}"
+            assert isinstance(h.level, int), f"h.level's type must be int, but now is {type(h.level).__name__}, and the value is {h.level}"
+        print("content's format is qualified")
+    
+    def format_content(self, content:list[Heading]) -> list[Heading]:
+        for h in content:
+            if(isinstance(h.id, str)):
+                h.id = eval(h.id)
+            if(isinstance(h.dep, str)):
+                h.dep = eval(h.dep)
+            if(isinstance(h.level, str)):
+                h.level = eval(h.level)
+        return content
+    
     def gen_content_from_title(self, title:str) -> list[Heading]:
-        level_1_heading_list:list[Heading] = self.gen_content_preliminary(title)
-        self.content_assemble(title, level_1_heading_list)
+        level_1_heading_list:list[Heading] = self.gen_content_preliminary(title)    # 生成一级heading
+        content = self.content_assemble(title, level_1_heading_list)  # 生成完整目录
+        content = self.format_content(content)    # 目录格式化
+        self.check_content_format(content)        # 检查目录格式是否合格
+        self.content.clear()    # 先清空上一次生成的目录
+        self.content = content
         return self.content
     
     def re_extract(self, text:str) -> list[tuple]:
@@ -217,20 +257,20 @@ class ContentExpert:
         matches = re.findall(pattern, text)
         return matches
     
-    def content_assemble(self, title:str, level_1_heading_list:list[Heading]) -> None:
-        self.content.clear()    # 先清空上一次生成的目录
+    def content_assemble(self, title:str, level_1_heading_list:list[Heading]) -> list[Heading]:
+        content:list[Heading] = []  
         id = 0
         level_1_heading_list[0].id = id
         id += 1
-        self.content.append(level_1_heading_list[0]) # add doc title
+        content.append(level_1_heading_list[0]) # add doc title
         level_1_heading_list = level_1_heading_list[1:]    # remove title
         for heading in level_1_heading_list:
             heading_list:list[Heading] = self.gen_content_for_one_heading(title, heading.heading)
             for h in heading_list:
                 h.id = id   # 更新序号
                 id += 1
-                self.content.append(h)
-            
+                content.append(h)
+        return content
     
     def gen_content_preliminary(self, title:str, requirement:str=None) -> list[Heading]:
         prompt = GEN_CONTENT_PRELIMINARY.format(title=title, requirement=requirement)
@@ -246,9 +286,9 @@ class ContentExpert:
     
     def gen_content_for_one_heading(self, title:str, heading:str, requirement:str=None) -> list[Heading]:
         prompt = GEN_CONTENT_COMPLETE.format(title=title, heading=heading, requirement=requirement)
-        print(prompt)   # debug
+        # print(prompt)   # debug
         response:str = self.llm(prompt)
-        print(response) # debug
+        # print(response) # debug
         matches:list[tuple] = self.re_extract(response) # 正则提取
         h_list:list[Heading] = []
         for match in matches:

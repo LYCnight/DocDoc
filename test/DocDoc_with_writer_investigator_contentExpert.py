@@ -267,7 +267,13 @@ def main():
 
     # 生成目录
     title = "岳阳县水系连通及农村水系综合整治工程建设项目环境影响报告书"
-    content:list[Heading] = contentExpert.gen_content_from_title(title)
+    # 生成一级heading
+    content = contentExpert.gen_content_preliminary(title)
+    content = contentExpert.format_content(content)    # 目录格式化
+    contentExpert.check_content_format(content)        # 检查目录格式是否合格
+    contentExpert.print_content_with_format(content)
+    # 生成完整目录
+    # content:list[Heading] = contentExpert.gen_content_from_title(title)
 
     # 提取根节点
     root = TreeNode(content[0])

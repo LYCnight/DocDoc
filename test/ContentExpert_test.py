@@ -67,10 +67,80 @@ contentExpert = ContentExpert(llm)
 #     print(h.id, h.heading, h.dep, h.level)
 # print("here")
 
-# 全流程测试
-content:list[Heading] = contentExpert.gen_content_from_title(title="岳阳县水系连通及农村水系综合整治工程建设项目环境影响报告书")
-for h in content:
-    print(h.id, h.heading, h.dep, h.level)
+# # 全流程测试
+# content:list[Heading] = contentExpert.gen_content_from_title(title="岳阳县水系连通及农村水系综合整治工程建设项目环境影响报告书")
+# for h in content:
+#     print(h.id, h.heading, h.dep, h.level)
+    
+# for h in content:
+#     print(h.heading, type(h.dep))
+
+# 测试 gen_content_preliminary() 得到的heading的各项属性的类型
+# h_list = contentExpert.gen_content_preliminary(title="岳阳县水系连通及农村水系综合整治工程建设项目环境影响报告书")
+# # print(h_list)
+# for h in h_list:
+#     print(h.id, h.heading, h.dep, h.level)
+# print("******** id ********")
+# for h in h_list:
+#     print(h.id, type(h.id))  
+# print("******** heading ********")
+# for h in h_list:
+#     print(h.heading, type(h.heading))     
+# print("******** dep ********")
+# for h in h_list:
+#     print(h.dep, type(h.dep)) 
+# print("******** level ********")
+# for h in h_list:
+#     print(h.level, type(h.level)) 
+
+# 测试 gen_content_for_one_heading() 得到的heading的各项属性的类型
+# h_list = contentExpert.gen_content_for_one_heading(title="岳阳县水系连通及农村水系综合整治工程建设项目环境影响报告书", heading="概述")
+# # print(h_list)
+# for h in h_list:
+#     print(h.id, h.heading, h.dep, h.level)
+# print("******** id ********")
+# for h in h_list:
+#     print(h.id, type(h.id))  
+# print("******** heading ********")
+# for h in h_list:
+#     print(h.heading, type(h.heading))     
+# print("******** dep ********")
+# for h in h_list:
+#     print(h.dep, type(h.dep)) 
+# print("******** level ********")
+# for h in h_list:
+#     print(h.level, type(h.level)) 
+
+# ---- 测试 check_content_format ----
+# content = [Heading(id="1", heading="北大", dep="-1", level = "1")]
+# content = [Heading(id=1, heading="北大", dep=-1, level = 1)]
+# contentExpert.check_content_format(content)
+
+# content = [Heading(id=1, heading="北大", dep=[-1, 2], level = 1)]
+# contentExpert.check_content_format(content)
+
+# content = [Heading(id=1, heading="北大", dep=[-1, 2], level = "1")]
+# contentExpert.check_content_format(content)
+
+# content = []
+# contentExpert.check_content_format(content)
+
+# content = [Heading(id=1, heading=123, dep=-1, level=1)]
+# contentExpert.check_content_format(content)
+
+# content = [Heading(id=1, heading="北大", dep="test", level=1)]
+# contentExpert.check_content_format(content)
+
+# content = [Heading(id=1, heading="北大", dep=[-1, "test"], level=1)]
+# contentExpert.check_content_format(content)
 
 
+# ---- 测试 小连招 ----
+# content = contentExpert.gen_content_preliminary(title="岳阳县水系连通及农村水系综合整治工程建设项目环境影响报告书")
+# content = contentExpert.format_content(content)    # 目录格式化
+# contentExpert.check_content_format(content)        # 检查目录格式是否合格
+# contentExpert.print_content_with_format(content)
 
+# ---- 最终测试 ---- 
+content = contentExpert.gen_content_from_title(title="岳阳县水系连通及农村水系综合整治工程建设项目环境影响报告书")
+contentExpert.print_content_with_format(content)
