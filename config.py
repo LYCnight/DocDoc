@@ -42,8 +42,8 @@ EMBEDDING_PATH = "/root/AI4E/share/bge-large-zh"
 
 # 运行设备
 import torch
-LLM_DEVICE = torch.device("cuda:1")
-EMBED_DEVICE = torch.device("cuda:1") 
+LLM_DEVICE = torch.device("cuda:5")
+EMBED_DEVICE = torch.device("cuda:5") 
 
 # Index路径
 INDEX_PATH = str(root_path) + "/storage"

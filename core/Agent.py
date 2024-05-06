@@ -1,12 +1,12 @@
 from pathlib import Path		
 import sys
 root_path = Path(__file__).parent.parent    # 项目根目录    DocDoc2/
-core_path = Path(__file__).parent    # 当前目录    DocDoc2/core
-sys.path.append(str(core_path))
+cur_path = Path(__file__).parent    # 当前目录    DocDoc2/core
+sys.path.append(str(cur_path))
 sys.path.append(str(root_path))
 from core.prompt import (WRITE_WITHOUT_DEP, WRITE_WITH_DEP, WRITE_MUTATION, 
-                         GEN_CONTENT_PRELIMINARY, GEN_CONTENT_COMPLETE)
-from config import QUES_COUNT, MODEL_CONTEXT_LENGHTH, CUT_DOWN
+                         GEN_CONTENT_PRELIMINARY, GEN_CONTENT_FOR_ONE_HEADING,)
+from config import QUES_COUNT, MODEL_CONTEXT_LENGHTH, CUT_DOWN, MODEL_PATH
 from DocDoc import Heading
 
 
@@ -202,7 +202,145 @@ class ContentExpert:
     def __init__(self, llm):
         self.llm = llm
         self.content:list[Heading] = []     # 生成的目录
-        print("Agent[ContentExpert] loaded successfully")   
+        self.trace_log:bool = False
+        self.trace_log_text:str = ""
+        self.trace_log_file_path:str = ""
+        self.timestamp:str = ""     # gen_content_from_title() 运行时间戳
+        self.start_time = ""    # gen_content_from_title() 运行开始时间
+        print("Agent[ContentExpert] loaded successfully")  
+    
+    def persist_to_markdown(self, content:list[Heading]=None, timestamp:str=None) -> None:
+        if content is not None:
+            if(timestamp is not None):
+                pass
+            else:                       # 生成唯一的文件名，使用时间戳
+                import time
+                timestamp = time.strftime("%Y%m%d%H%M%S")    
+        else:
+            if(timestamp is not None):
+                raise ValueError("when content is None, timestamp must be None, too.")
+            else:
+                content = self.content
+                timestamp = self.timestamp
+        # debug
+        # content = [Heading(1, "中国大学榜单", [-1], 0), Heading(1, "北大", [-1], 1), Heading(1, "清华", [2,3,4], 2)] 
+        # timestamp = "2024.5.6"
+        # 构造 markdown
+        text:str = ""
+        for h in content:
+            if(h.level == 0):
+                text +=  f"**{h.heading}**\n"
+            elif(h.level > 0):
+                text += "#" * h.level + " " + h.heading + "\n"
+        # 写入markdown
+        content_markdown_path = str(root_path) + "/test/content/"
+        with open(content_markdown_path + f"content_{timestamp}.md" , 'w', encoding='utf-8') as file:
+            file.write(text)
+        
+
+    def get_current_content(self) -> list[Heading]:
+        """返回当前目录"""
+        return self.content
+    
+    def persist_to_xlsx(self, content: list[Heading]=None) -> None:
+        """将当前目录保存为xlsx格式"""
+        if(content == None):
+            content = self.content 
+        # # debug
+        # content = [Heading(1, "北大", [-1], 1), Heading(1, "清华", [2,3,4], 2)]   
+        import pandas as pd
+        # 将数据转换为字典列表
+        data = [{"id": item.id, "heading": item.heading, "dep": item.dep, "level": item.level} for item in content]
+        # 创建 DataFrame 对象
+        df = pd.DataFrame(data)
+        # 检测目标文件夹是否存在，不存在则创建它
+        import os
+        target_folder = str(root_path) + "/test/content/"
+        if not os.path.exists(target_folder):
+            os.makedirs(target_folder)
+        # 将数据写入 Excel 文件
+        xlsx_file_path = target_folder + f"content_{self.timestamp}.xlsx"
+        df.to_excel(xlsx_file_path, index=False)
+        print(f"content persisted on {xlsx_file_path}")
+    
+    def gen_content_from_title(self, title:str, trace_log:bool=False, timestamp:str=None) -> list[Heading]:
+        """传入title，生成完整content"""
+        # 日志
+        self.trace_log = trace_log
+        if(self.trace_log == True):
+            if(timestamp == None):
+                import time
+                # 记录程序开始时间
+                self.start_time = time.time()
+                # 生成唯一的文件名，使用时间戳
+                self.timestamp = time.strftime("%Y%m%d%H%M%S")
+            else:
+                self.timestamp = timestamp
+            self.trace_log_file_path = str(root_path) + f"/test/output/contentLog_{self.timestamp}.txt"
+        # 生成目录    
+        level_1_heading_list:list[Heading] = self.gen_content_preliminary(title)    # 生成一级heading
+        content = self.content_assemble(title, level_1_heading_list)  # 生成完整目录
+        content = self.format_content(content)    # 目录格式化
+        self.check_content_format(content)        # 检查目录格式是否合格
+        self.content.clear()    # 先清空上一次生成的目录
+        self.content = content
+        # 记录时间
+        if(self.trace_log == True):
+            # 计算程序运行时间，并保留两位小数
+            end_time = time.time()
+            run_time_seconds = round(end_time - self.start_time, 2) # 秒
+            # 将秒数转换为分钟和秒的形式
+            minutes = int(run_time_seconds // 60)
+            seconds = run_time_seconds % 60
+            # 格式化为 n分m秒 的形式
+            run_time_formatted = f"{minutes}分{seconds:.2f}秒"
+            # 记录生成章节数目、程序运行时间
+            content = [1,2,3,4] # debug
+            run_time =  f"目录算法耗时：`{run_time_formatted}`，共生成`{len(content)}`个heading\n"
+            model_info = f"所用模型：`{MODEL_PATH}`\n"
+            # 打开目录文件，读取原始内容
+            with open(self.trace_log_file_path, 'r', encoding='utf-8') as file:
+                origin_log = file.read()
+            # 拼接新log
+            new_log = run_time + model_info + origin_log
+            # 再次打开文件，以写入模式覆盖原内容
+            with open(self.trace_log_file_path, 'w', encoding='utf-8') as file:
+                file.write(new_log)
+            # 最后将 self.trace__log 还原为 False
+            self.trace_log = False
+                
+        return self.content 
+    
+    def gen_content_preliminary(self, title:str, requirement:str=None) -> list[Heading]:
+        """传入 title，生成一级heading"""
+        prompt = GEN_CONTENT_PRELIMINARY.format(title=title, requirement=requirement)
+        response:str = self.llm(prompt)
+        if(self.trace_log == True):
+            with open(self.trace_log_file_path, 'a', encoding='utf-8') as file:
+                # file.write(f"----- prompt for gen_content_preliminary(), title:{title} -----\n" + prompt + "\n")  # 打印 prompt
+                file.write(f"----- response for gen_content_preliminary(), title:{title} -----\n" + response + "\n")    # 打印 response
+        matches:list[tuple] = self.re_extract(response)
+        h_list:list[Heading] = []
+        for match in matches:
+            id,heading,dep,level = match
+            h_list.append(Heading(id, heading, dep, level))
+        return h_list
+    
+    def gen_content_for_one_heading(self, title:str, heading:str, requirement:str=None) -> list[Heading]:
+        """传入 heading，生成其下层content"""
+        prompt = GEN_CONTENT_FOR_ONE_HEADING.format(title=title, heading=heading, requirement=requirement)
+        response:str = self.llm(prompt)      
+        if(self.trace_log == True):
+            with open(self.trace_log_file_path, 'a', encoding='utf-8') as file:
+                # file.write(f"----- prompt for gen_content_for_one_heading(), heading:{heading} -----\n" + prompt + "\n")  # 打印 prompt
+                file.write(f"----- response for gen_content_for_one_heading(), heading:{heading} -----\n" + response + "\n")    # 打印 response
+        matches:list[tuple] = self.re_extract(response) # 正则提取
+        h_list:list[Heading] = []
+        for match in matches:
+            id,heading,dep,level = match
+            h_list.append(Heading(id, heading, dep, level))
+        return h_list
+    
     
     def print_content_with_format(self, content:list[Heading]):
         if(content == None):
@@ -240,15 +378,6 @@ class ContentExpert:
                 h.level = eval(h.level)
         return content
     
-    def gen_content_from_title(self, title:str) -> list[Heading]:
-        level_1_heading_list:list[Heading] = self.gen_content_preliminary(title)    # 生成一级heading
-        content = self.content_assemble(title, level_1_heading_list)  # 生成完整目录
-        content = self.format_content(content)    # 目录格式化
-        self.check_content_format(content)        # 检查目录格式是否合格
-        self.content.clear()    # 先清空上一次生成的目录
-        self.content = content
-        return self.content
-    
     def re_extract(self, text:str) -> list[tuple]:
         import re
         # 正则表达式模式
@@ -271,134 +400,6 @@ class ContentExpert:
                 id += 1
                 content.append(h)
         return content
-    
-    def gen_content_preliminary(self, title:str, requirement:str=None) -> list[Heading]:
-        prompt = GEN_CONTENT_PRELIMINARY.format(title=title, requirement=requirement)
-        # print(prompt)     # debug
-        response:str = self.llm(prompt)
-        # print(response)   # debug
-        matches:list[tuple] = self.re_extract(response)
-        h_list:list[Heading] = []
-        for match in matches:
-            id,heading,dep,level = match
-            h_list.append(Heading(id, heading, dep, level))
-        return h_list
-    
-    def gen_content_for_one_heading(self, title:str, heading:str, requirement:str=None) -> list[Heading]:
-        prompt = GEN_CONTENT_COMPLETE.format(title=title, heading=heading, requirement=requirement)
-        # print(prompt)   # debug
-        response:str = self.llm(prompt)
-        # print(response) # debug
-        matches:list[tuple] = self.re_extract(response) # 正则提取
-        h_list:list[Heading] = []
-        for match in matches:
-            id,heading,dep,level = match
-            h_list.append(Heading(id, heading, dep, level))
-        return h_list
-    
-    def gen_content(self, title:str, requirement:str=None) -> str:
-        prompt = """## role
-你是一名环境报告目录专家，擅长根据报告的标题和用户的要求写出优秀的环境报告的目录。
-## specification
- - id: heading编号
- - heading：heading标题
- - dep：写作本节内容所需要参考的其他heading的id。若不需要参考，则设置为-1；若需要参考，并且由多个参考id，则用英文逗号","分隔
- - level: 标题等级，文章title的level为0，其余heading的level从1开始
-## requirement
- - 短目录：20~60个heading
- - 中目录：120~180个heading
- - 长目录：220~280个heading
-## constraints
-请按照specification的要求输出目录
-""" + \
-"""###
-Q: 帮我撰写《湖南省洞庭湖区华容护城涝区六门闸排涝工程环境影响报告书》的目录。要求：生成一份短目录
-A：
-[
- {"id": 0, "heading": "湖南省洞庭湖区华容护城涝区六门闸排涝工程环境影响报告书", "dep": -1, "level": 0},
- {"id": 1, "heading": "概述", "dep": -1, "level": 1},
- {"id": 2, "heading": "项目背景及项目建设特点", "dep": -1, "level": 2},
- {"id": 3, "heading": "环境影响评价工作过程", "dep": -1, "level": 2},
- {"id": 4, "heading": "分析判定相关情况", "dep": -1, "level": 2},
- {"id": 5, "heading": "关注的主要环境问题", "dep": -1, "level": 2},
- {"id": 6, "heading": "报告书的主要评价结论", "dep": 73, "level": 2},
- {"id": 7, "heading": "总则", "dep": -1, "level": 1},
- {"id": 8, "heading": "编制依据", "dep": -1, "level": 2},
- {"id": 9, "heading": "评价因子与评价标准", "dep": -1, "level": 2},
- {"id": 10, "heading": "评价工作等级和评价重点", "dep": -1, "level": 2},
- {"id": 11, "heading": "评价范围及敏感点", "dep": -1, "level": 2},
- {"id": 12, "heading": "环境功能区划", "dep": -1, "level": 2},
- {"id": 13, "heading": "建设项目工程分析", "dep": -1, "level": 1},
- {"id": 14, "heading": "流域概况", "dep": -1, "level": 2},
- {"id": 15, "heading": "工程健设的必要性分析", "dep": -1, "level": 2},
- {"id": 16, "heading": "工程建设与相关政策、规划的符合性分析", "dep": -1, "level": 2},
- {"id": 17, "heading": "与《湖南东洞庭湖国家级自然保护区总体规划》的符合性分析", "dep": -1, "level": 2},
- {"id": 18, "heading": "与《水产种质资源保护区管理暂行办法》的符合性分析", "dep": -1, "level": 2},
- {"id": 19, "heading": "工程方案的环境合理性分析", "dep": -1, "level": 2},
- {"id": 20, "heading": "华容河现有水利工程概况", "dep": -1, "level": 2},
- {"id": 21, "heading": "现有工程概况", "dep": -1, "level": 2},
- {"id": 22, "heading": "拟建项目概况", "dep": -1, "level": 2},
- {"id": 23, "heading": "工程分析", "dep": -1, "level": 2},
- {"id": 24, "heading": "环境现状调查与评价", "dep": -1, "level": 1},
- {"id": 25, "heading": "自然环境现状", "dep": -1, "level": 2},
- {"id": 26, "heading": "生态敏感区概况", "dep": -1, "level": 2},
- {"id": 27, "heading": "环境质量现状调查", "dep": -1, "level": 2},
- {"id": 28, "heading": "湖南东洞庭湖国家级自然保护区生态环境现状调查与评价", "dep": -1, "level": 2},
- {"id": 29, "heading": "东洞庭湖中国圆田螺国家级水产种质资源保护区生态环境现状调查与评价", "dep": -1, "level": 2},
- {"id": 30, "heading": "区域污染源调查", "dep": -1, "level": 2},
- {"id": 31, "heading": "区域环境问题", "dep": -1, "level": 2},
- {"id": 32, "heading": "环境影响预测与评价", "dep": -1, "level": 1},
- {"id": 33, "heading": "生态环境影响预测和评价", "dep": -1, "level": 2},
- {"id": 34, "heading": "水文情势预测和评价", "dep": -1, "level": 2},
- {"id": 35, "heading": "水环境影响预测和评价", "dep": -1, "level": 2},
- {"id": 36, "heading": "地下水环境影响预测和评价", "dep": -1, "level": 2},
- {"id": 37, "heading": "水土流失预测和评价", "dep": -1, "level": 2},
- {"id": 38, "heading": "大气环境影响预测评价", "dep": -1, "level": 2},
- {"id": 39, "heading": "声环境影响预测和评价", "dep": -1, "level": 2},
- {"id": 40, "heading": "固体废弃物的环境影响", "dep": -1, "level": 2},
- {"id": 41, "heading": "移民安置环境影响评价", "dep": -1, "level": 2},
- {"id": 42, "heading": "社会环境影响评价", "dep": -1, "level": 2},
- {"id": 43, "heading": "对人群健康的影响", "dep": -1, "level": 2},
- {"id": 44, "heading": "环境保护措施", "dep": -1, "level": 1},
- {"id": 45, "heading": "水环境保护措施", "dep": -1, "level": 2},
- {"id": 46, "heading": "大气环境保护措施", "dep": -1, "level": 2},
- {"id": 47, "heading": "噪声控制措施", "dep": -1, "level": 2},
- {"id": 48, "heading": "固体废弃物处置措施", "dep": -1, "level": 2},
- {"id": 49, "heading": "生态保护措施", "dep": -1, "level": 2},
- {"id": 50, "heading": "水土流失防护措施", "dep": -1, "level": 2},
- {"id": 51, "heading": "移民安置保护措施", "dep": -1, "level": 2},
- {"id": 52, "heading": "人群健康保护措施", "dep": -1, "level": 2},
- {"id": 53, "heading": "环境风险分析", "dep": -1, "level": 1},
- {"id": 54, "heading": "环境风险识别", "dep": -1, "level": 2},
- {"id": 55, "heading": "环境风险潜势划分", "dep": -1, "level": 2},
- {"id": 56, "heading": "环境风险分析", "dep": -1, "level": 2},
- {"id": 57, "heading": "环境风险防范与应急措施", "dep": -1, "level": 2},
- {"id": 58, "heading": "应急预案", "dep": -1, "level": 2},
- {"id": 59, "heading": "环境管理与环境监测", "dep": -1, "level": 1},
- {"id": 60, "heading": "环境管理", "dep": -1, "level": 2},
- {"id": 61, "heading": "环境监理", "dep": -1, "level": 2},
- {"id": 62, "heading": "环境监测", "dep": -1, "level": 2},
- {"id": 63, "heading": "环境保护投资与环境影响经济损益分析", "dep": -1, "level": 1},
- {"id": 64, "heading": "环境保护投资估算", "dep": -1, "level": 2},
- {"id": 65, "heading": "经济损益分析", "dep": -1, "level": 2},
- {"id": 66, "heading": "环境影响评价结论", "dep": -1, "level": 1},
- {"id": 67, "heading": "工程概况", "dep": -1, "level": 2},
- {"id": 68, "heading": "环境现状评价结论", "dep": -1, "level": 2},
- {"id": 69, "heading": "环境影响评价结论", "dep": -1, "level": 2},
- {"id": 70, "heading": "主要环境保护措施", "dep": -1, "level": 2},
- {"id": 71, "heading": "环境保护投资概算与效益分析", "dep": -1, "level": 2},
- {"id": 72, "heading": "公众参与结论", "dep": -1, "level": 2},
- {"id": 73, "heading": "综合评价结论", "dep": -1, "level": 2},
- {"id": 73, "heading": "综合评价结论", "dep": -1, "level": 2}
-]
-""" + \
-"""
-Q:帮我撰写《{title}》的目录。要求：{requirement}
-A:""".format(title=title, requirement=requirement)
-        print(prompt)
-        print("*"*60)
-        response = self.llm(prompt)
-        return response
     
 
 question = """

@@ -141,6 +141,30 @@ contentExpert = ContentExpert(llm)
 # contentExpert.check_content_format(content)        # 检查目录格式是否合格
 # contentExpert.print_content_with_format(content)
 
-# ---- 最终测试 ---- 
-content = contentExpert.gen_content_from_title(title="岳阳县水系连通及农村水系综合整治工程建设项目环境影响报告书")
-contentExpert.print_content_with_format(content)
+# # ---- 最终测试 ---- 
+# 不输出日志
+# content = contentExpert.gen_content_from_title(title="岳阳县水系连通及农村水系综合整治工程建设项目环境影响报告书")
+# contentExpert.print_content_with_format(content)
+
+# # 测试 ---- persist_to_xlsx() ---- 
+# contentExpert.persist_to_xlsx()
+# print("here")
+
+# 测试 ---- persist_to_markdown() ----
+# content 和 timestamp 都没有指定
+# contentExpert.persist_to_markdown()
+# 指定了 content，但是没指定 timestamp
+# contentExpert.persist_to_markdown(content=[Heading(1, "Test", [-1], 1)])
+# 没指定 content，但是指定了 timestamp
+# contentExpert.persist_to_markdown(timestamp="1898") # ValueError: when content is None, timestamp must be None, too.
+# 同时指定 content 与 timestamp
+# contentExpert.persist_to_markdown(content=[Heading(1, "Test", [-1], 1)], timestamp="1898")
+# print("here")
+
+# # ---- 最终测试 ---- 
+# 输出日志
+content = contentExpert.gen_content_from_title(title="岳阳县水系连通及农村水系综合整治工程建设项目环境影响报告书", trace_log=True)
+contentExpert.persist_to_xlsx()
+contentExpert.persist_to_markdown()
+print(contentExpert.trace_log_file_path)    # 日志文件路径
+print("here")

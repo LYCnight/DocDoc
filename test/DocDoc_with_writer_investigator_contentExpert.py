@@ -258,7 +258,7 @@ def main():
     markdown_file_path = str(cur_path) + f'/output/genDoc_{timestamp}.md'
 
     # 读取目录
-    # from utils import read_content, print_content, get_stats
+    from utils import read_content, print_content, get_stats
     # # 测试读取 level 范围在 min_level 到 max_level 之间的内容
     # # file_path = 'test/content.xlsx'
     # file_path = 'test/content.xlsx'
@@ -268,13 +268,12 @@ def main():
     # 生成目录
     title = "岳阳县水系连通及农村水系综合整治工程建设项目环境影响报告书"
     # 生成一级heading
-    content = contentExpert.gen_content_preliminary(title)
-    content = contentExpert.format_content(content)    # 目录格式化
-    contentExpert.check_content_format(content)        # 检查目录格式是否合格
-    contentExpert.print_content_with_format(content)
+    # content = contentExpert.gen_content_preliminary(title)
+    # content = contentExpert.format_content(content)    # 目录格式化
+    # contentExpert.check_content_format(content)        # 检查目录格式是否合格
+    # contentExpert.print_content_with_format(content)
     # 生成完整目录
-    # content:list[Heading] = contentExpert.gen_content_from_title(title)
-
+    content:list[Heading] = contentExpert.gen_content_from_title(title=title, trace_log=True, timestamp=timestamp)  # 追踪记录content生成日志
     # 提取根节点
     root = TreeNode(content[0])
     
@@ -323,13 +322,12 @@ def main():
     log =  f"算法耗时：`{run_time_formatted}`，共生成`{len(content)}`个heading\n"
     full_text = log + full_text
 
-    print(markdown_file_path)
-    print(promptLog_output_path)
+    print(markdown_file_path)   # Doc
+    print(promptLog_output_path)    # prompts for generating Doc
+    print(contentExpert.trace_log_file_path)   # process log for generating content   
     with open(markdown_file_path, 'a', encoding='utf-8') as file:
-        file.write(f"运行开始自: {get_current_time()}\n" + f"所用模型：{MODEL_PATH}, 所用Embed_model:{EMBEDDING_PATH}\n") 
+        file.write(f"运行开始自: {get_current_time()}\n" + f"所用模型：`{MODEL_PATH}`, 所用Embed_model:`{EMBEDDING_PATH}`\n") 
         file.write(full_text)   
-    with open(markdown_file_path, 'a', encoding='utf-8') as file:
-        file.write(full_text)   
-
+        
 if __name__ == "__main__":
     main()
