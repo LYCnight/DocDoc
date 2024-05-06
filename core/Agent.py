@@ -209,6 +209,49 @@ class ContentExpert:
         self.start_time = ""    # gen_content_from_title() 运行开始时间
         print("Agent[ContentExpert] loaded successfully")  
     
+    def get_state_from_xlsx(self, xlsx_file_path) -> tuple[int, int, int]:
+        """获取 Excel 文件中 heading 的数量、最小 level 和最大 level"""
+        import pandas as pd
+        df = pd.read_excel(xlsx_file_path)
+        num_headings = len(df)
+        df_min_level = df['level'].min()
+        df_max_level = df['level'].max()
+        message = f"`{xlsx_file_path}`信息：\n  - `{num_headings}`个heading\n  - level 范围为 [{df_min_level}, {df_max_level}]\n"
+        print(message)
+        return num_headings, df_min_level, df_max_level
+    
+    def read_content_from_xlsx(self, xlsx_file_path:str, min_level:int=None, max_level:int=None) -> list[Heading]:
+        """
+            - 从xlsx文件中读取指定level范围的目录
+            - min_level和max_level用于筛选目录
+            - 出于算法底层原理，min_level 必须设置为0，才能让 Agent[Writer] 正常运行
+        """
+        import pandas as pd
+        # 读取 Excel 文件
+        df = pd.read_excel(xlsx_file_path)
+        # 获取content状态
+        num_headings = len(df)          # heading数量
+        df_min_level = df['level'].min()   # 最小level
+        df_max_level = df['level'].max()   # 最大level
+        # 设置本次读取的level范围
+        if(min_level == None):
+            # min_level = df_min_level   # 最小level
+            min_level = 0   # 出于算法底层原理，min_level 必须设置为0，才能让 Agent[Writer] 正常运行
+        if(max_level == None):
+            max_level = df_max_level   # 最大level
+        # 根据 Excel 中的数据构造 Heading 对象的列表
+        content:list[Heading] = []
+        for index, row in df.iterrows():
+            if min_level <= row['level'] <= max_level:
+                heading_obj = Heading(row['id'], row['heading'], [row['dep']], row['level'])
+                content.append(heading_obj)
+        # 输出信息
+        message_1 = f"{xlsx_file_path}信息：\n  - `{num_headings}`个heading\n  - level 范围为 [{df_min_level}, {df_max_level}]\n"
+        message_2 = f"共读取`{num_headings}`个heading，读取的 level 范围为 [{min_level}, {max_level}]"
+        message = message_1 + message_2
+        print(message)
+        return content
+        
     def persist_to_markdown(self, content:list[Heading]=None, timestamp:str=None) -> None:
         if content is not None:
             if(timestamp is not None):
@@ -264,7 +307,12 @@ class ContentExpert:
         print(f"content persisted on {xlsx_file_path}")
     
     def gen_content_from_title(self, title:str, trace_log:bool=False, timestamp:str=None) -> list[Heading]:
-        """传入title，生成完整content"""
+        """
+            - 传入 title，生成完整的目录
+            - 默认使用 trace_log 模式，即记录运行日志
+            - 默认使用 timestamp 模式，即生成唯一的文件名，使用时间戳
+            - trace_log 模式下，记录运行日志，并生成唯一的文件名，使用时间戳
+        """
         # 日志
         self.trace_log = trace_log
         if(self.trace_log == True):
@@ -295,8 +343,7 @@ class ContentExpert:
             # 格式化为 n分m秒 的形式
             run_time_formatted = f"{minutes}分{seconds:.2f}秒"
             # 记录生成章节数目、程序运行时间
-            content = [1,2,3,4] # debug
-            run_time =  f"目录算法耗时：`{run_time_formatted}`，共生成`{len(content)}`个heading\n"
+            run_time =  f"目录算法耗时：`{run_time_formatted}`，共生成`{len(self.content)}`个heading\n"
             model_info = f"所用模型：`{MODEL_PATH}`\n"
             # 打开目录文件，读取原始内容
             with open(self.trace_log_file_path, 'r', encoding='utf-8') as file:
