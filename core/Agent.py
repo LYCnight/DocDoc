@@ -8,6 +8,7 @@ from core.prompt import (WRITE_WITHOUT_DEP, WRITE_WITH_DEP, WRITE_MUTATION,
                          GEN_CONTENT_PRELIMINARY, GEN_CONTENT_FOR_ONE_HEADING,)
 from config import QUES_COUNT, MODEL_CONTEXT_LENGHTH, CUT_DOWN, MODEL_PATH
 from DocDoc import Heading
+import time
 
 
 class Writer:
@@ -71,7 +72,6 @@ class Investigator:
         return response
     
     def get_retrieved_knowledge(self, title, heading) -> str:
-        import time
         # 记录开始时间
         start_time = time.time()    # debug
         ques_list = self.get_ques_list(title, heading)
@@ -101,7 +101,6 @@ class Investigator:
         # 控制 relevant_context[0] 的长度（Token数）
         target = MODEL_CONTEXT_LENGHTH * 1024  # 单位：K(tokens)
         cutDown = CUT_DOWN * 1024  # 单位：K(tokens)
-        # import time
         # 记录开始时间
         # start_time = time.time()    # debug
         relevant_context[0] = token_length_control(relevant_context, target, cutDown)
@@ -206,7 +205,7 @@ class ContentExpert:
         self.trace_log_text:str = ""
         self.trace_log_file_path:str = ""
         self.timestamp:str = ""     # gen_content_from_title() 运行时间戳
-        self.start_time = ""    # gen_content_from_title() 运行开始时间
+        self.start_time:float    # gen_content_from_title() 运行开始时间
         print("Agent[ContentExpert] loaded successfully")  
     
     def get_state_from_xlsx(self, xlsx_file_path) -> tuple[int, int, int]:
@@ -257,7 +256,6 @@ class ContentExpert:
             if(timestamp is not None):
                 pass
             else:                       # 生成唯一的文件名，使用时间戳
-                import time
                 timestamp = time.strftime("%Y%m%d%H%M%S")    
         else:
             if(timestamp is not None):
@@ -315,11 +313,10 @@ class ContentExpert:
         """
         # 日志
         self.trace_log = trace_log
+        # 记录程序开始时间
+        self.start_time = time.time()
         if(self.trace_log == True):
             if(timestamp == None):
-                import time
-                # 记录程序开始时间
-                self.start_time = time.time()
                 # 生成唯一的文件名，使用时间戳
                 self.timestamp = time.strftime("%Y%m%d%H%M%S")
             else:
@@ -335,7 +332,7 @@ class ContentExpert:
         # 记录时间
         if(self.trace_log == True):
             # 计算程序运行时间，并保留两位小数
-            end_time = time.time()
+            end_time:float = time.time()
             run_time_seconds = round(end_time - self.start_time, 2) # 秒
             # 将秒数转换为分钟和秒的形式
             minutes = int(run_time_seconds // 60)

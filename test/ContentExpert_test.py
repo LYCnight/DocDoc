@@ -171,10 +171,10 @@ xlsx_file_path = str(root_path) + "/test/content.xlsx"
 content:list[Heading] = contentExpert.read_content_from_xlsx(xlsx_file_path)
 contentExpert.persist_to_markdown(content=content, timestamp="2024.5.6")
 
-# # ---- 最终测试 ---- 
+# ---- 最终测试 ---- 
 # 输出日志
-# content = contentExpert.gen_content_from_title(title="岳阳县水系连通及农村水系综合整治工程建设项目环境影响报告书", trace_log=True)
-# contentExpert.persist_to_xlsx()
-# contentExpert.persist_to_markdown()
-# print(contentExpert.trace_log_file_path)    # 日志文件路径
-# print("here")
+content = contentExpert.gen_content_from_title(title="岳阳县水系连通及农村水系综合整治工程建设项目环境影响报告书", trace_log=True)
+contentExpert.persist_to_xlsx()
+contentExpert.persist_to_markdown()
+print(contentExpert.trace_log_file_path)    # 日志文件路径
+print("here")
