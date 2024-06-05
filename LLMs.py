@@ -7,17 +7,24 @@ embed_device = EMBED_DEVICE
 
 class ChatGLM():
     def __init__(self):
+        import os
+        os.environ["OPENAI_API_KEY"] = "sk-zojBY7XNiHrUW96X957dCc90889c47219a328173F20eA50d" #输入网站发给你的转发key
+        os.environ["OPENAI_BASE_URL"] = "https://gtapi.xiaoerchaoren.com:8932/v1"
         self.tokenizer: object = None
         self.model: object = None
 
     def __call__(self, prompt: str) -> str:  # 模型响应
-
-        messages = [{"role": "user", "content": prompt}]
-        text = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-        model_inputs = self.tokenizer([text], return_tensors="pt").to(device)
-        generated_ids = self.model.generate(model_inputs.input_ids, max_new_tokens=512)
-        generated_ids = [output_ids[len(input_ids):] for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)]
-        response = self.tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+        from openai import OpenAI
+        client = OpenAI()
+        completion = client.chat.completions.create(
+        model="gpt-4o-2024-05-13",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt}
+            # {"role": "user", "content": fake_history}
+        ]
+        )
+        response : str = completion.choices[0].message.content
         return response
 
     def load_model(self, 

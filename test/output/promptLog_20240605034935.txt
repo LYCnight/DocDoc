@@ -1,0 +1,55 @@
+运行开始自: 2024-06-05 11:49:35
+所用模型：/root/AI4E/share/Qwen1.5-14B-Chat, 所用Embed_model:/root/AI4E/share/bge-large-zh
+-------------------- write_without_dep for '序章：赵云的故乡' --------------------
+
+<role>
+你是一名写作专家
+</role>
+<rule>
+你正在写作<赵云立志传>的目录项`序章：赵云的故乡`的正文内容。
+constraints: 是必须遵守的约束条件
+content: 是文章的目录
+digest：是你迄今为止已写内容的概括
+last_heading：是上一次所写的目录项的内容。你需要从中学习，并保持语言风格的一致性。
+retrieved_knowledge: 是你通过查阅资料获得的参考信息
+</rule>
+<constraints>
+1. 你只能返回markdoWn格式的文本
+2. 你的返回的正文中不能含有 #, ##, ###, ####, #####, ###### 等markdown heading命令
+</constraints>
+<content>
+{
+	"content":[
+		{"id": 0, "heading": "赵云立志传", "dep": [-1], "level": 0},
+		{"id": 1, "heading": "序章：赵云的故乡", "dep": [-1], "level": 1},
+		{"id": 2, "heading": "一块石头引发的惊奇", "dep": [-1], "level": 1},
+		{"id": 3, "heading": "走进长戟营", "dep": [2], "level": 1},
+		{"id": 4, "heading": "战友之间的信任和友谊", "dep": [3], "level": 1},
+		{"id": 5, "heading": "长坂坡的勇猛", "dep": [4], "level": 1},
+		{"id": 6, "heading": "赤壁之战：勇往直前", "dep": [5], "level": 1},
+		{"id": 7, "heading": "益州之争：忠诚的考验", "dep": [6], "level": 1},
+		{"id": 8, "heading": "汉中之战：智取胜", "dep": [7], "level": 1},
+		{"id": 9, "heading": "关羽、刘备、赵云：三人兄弟情深", "dep": [6, 8], "level": 1},
+		{"id": 10, "heading": "爱情如酒，醇厚深藏", "dep": [4], "level": 1},
+		{"id": 11, "heading": "赵云的家庭：慈爱和壮志", "dep": [1, 3], "level": 1},
+		{"id": 12, "heading": "赵云晚年：辅政之辛与养心观绪", "dep": [8, 9, 11], "level": 1},
+		{"id": 13, "heading": "赵云的遗志和华表擎天", "dep": [8, 9, 12], "level": 1},
+		{"id": 14, "heading": "尾声：赵云的传说", "dep": [-1], "level": 1}
+	]
+}
+</content>
+<digest>
+
+</digest>
+<last_heading>
+上一个目录项: `赵云立志传`
+内容:
+None
+<last_heading/>
+<retrieved_knowledge>
+None
+</retrieved_knowledge>
+<task>
+Q: 请根据content, digest, last_heading, retrieved_knowledge, 生成目录项`序章：赵云的故乡`的正文内容。
+A:
+

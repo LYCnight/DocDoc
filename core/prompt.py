@@ -282,48 +282,153 @@ Q: 帮我撰写《{title}》的目录。要求：{requirement}
 A:"""
 
 
+WRITE_DIGEST = """
+<role>
+你是一名写作专家, 正在写作<{title}>
+digest 是你迄今为止所写的内容的摘要。
+text 是目录项'{heading}'的正文。
+</role>
+<rule>
+digest 为目录项(0~i)的内容摘要。
+text 是 第(i+1)个目录项的的正文。
+digest 为目录项(0~i)的内容摘要。
+text 是 第(i+1)个目录项的的正文。
+请你总结text(i+1)的重点信息，并融入到digest(0~i)中，形成新的digest(0~i+1)。在此过程中，应避免直接复制前面的内容，而是通过重新组织来提炼信息，确保摘要的最终长度相对稳定，且随着添加的内容逐渐丰富。
+</rule>
+<content>
+{content}
+</content>
+<text>
+{text}
+</text>
+<digest>
+{digest}
+</digest>
+<task>
+Q: 请你根据digest和text，更新digest。请直接输出digest的内容。
+A: 
+"""
+
 WRITE_WITHOUT_DEP = '''
-## role
-你是一名环境科学与环境工程领域的专家，擅长负责撰写各种环境文本。
-## retrieved_knowledge
-{retrieved_knowledge}
-## constraints
+<role>
+你是一名写作专家
+</role>
+<rule>
+你正在写作<{title}>的目录项`{heading}`的正文内容。
+constraints: 是必须遵守的约束条件
+content: 是文章的目录
+digest：是你迄今为止已写内容的概括
+last_heading：是上一次所写的目录项的内容。你需要从中学习，并保持语言风格的一致性。
+retrieved_knowledge: 是你通过查阅资料获得的参考信息
+</rule>
+<constraints>
 1. 你只能返回markdoWn格式的文本
 2. 你的返回的正文中不能含有 #, ##, ###, ####, #####, ###### 等markdown heading命令
-## task
-请你根据你的环境知识, 撰写《{title}》的'{heading}'的内容。(你可以参考 retrieved_knowledge，如果给出的话）'''
+</constraints>
+<content>
+{content}
+</content>
+<digest>
+{digest}
+</digest>
+<last_heading>
+{last_heading}
+<last_heading/>
+<retrieved_knowledge>
+{retrieved_knowledge}
+</retrieved_knowledge>
+<attention>
+请记住，你是一名写作专家，正在写作这一节的正文内容。
+所以你需要观察last_heading的语言风格和写作特征，保证你写作风格的一致性，确保你的内容更像人类写作出来的而不是像AI的风格。
+</attention>
+<task>
+Q: 请根据content, digest, last_heading, retrieved_knowledge, 生成目录项`{heading}`的正文内容。
+A:
+'''
 
 WRITE_WITH_DEP = '''
-## role
-你是一名环境科学与环境工程领域的专家，擅长负责撰写各种环境文本。
-## specification
-- retrieved_knowledge: 是你通过查阅资料获得的参考信息
-- dependent_text: 是你之前所写的《{title}》的一部分内容，其中包含了你写作`{heading}`所需要的信息。
-## retrieved_knowledge
-{retrieved_knowledge}
-## dependent_test
-{dep_text}
-## constraints
-1. 你只能返回markdwon格式的文本
+<role>
+你是一名写作专家
+</role>
+<rule>
+你正在写作<{title}>的目录项`{heading}`的正文内容。
+constraints: 是必须遵守的约束条件
+content: 是文章的目录
+digest：是你迄今为止已写内容的概括
+last_heading：是上一次所写的目录项的内容。你需要从中学习，并保持语言风格的一致性。
+retrieved_knowledge: 是你通过查阅资料获得的参考信息
+dep_text: 是你已经完成的内容，你需要依赖这些内容来写作本节内容
+</rule>
+<constraints>
+1. 你只能返回markdoWn格式的文本
 2. 你的返回的正文中不能含有 #, ##, ###, ####, #####, ###### 等markdown heading命令
-## task
-请你根据你的环境知识和 dependent_text, 撰写《{title}》的'{heading}'的内容。(你可以参考 retrieved_knowledge，如果给出的话）'''
+</constraints>
+</rule>
+<content>
+{content}
+</content>
+<digest>
+{digest}
+</digest>
+<last_heading>
+{last_heading}
+<last_heading/>
+<retrieved_knowledge>
+{retrieved_knowledge}
+</retrieved_knowledge>
+<dep_text>
+{dep_text}
+</dep_text>
+<attention>
+请记住，你是一名写作专家，正在写作这一节的正文内容。
+所以你需要观察last_heading的语言风格和写作特征，保证你写作风格的一致性，确保你的内容更像人类写作出来的而不是像AI的风格。
+</attention>
+<task>
+Q: 请根据content, digest, last_heading, dep_text, retrieved_knowledge, 生成目录项`{heading}`的正文内容。
+A:
+'''
 
 WRITE_MUTATION = """
-## role
-你是一名环境科学与环境工程领域的专家，擅长负责撰写各种环境文本。
-## specification
-- retrieved_knowledge: 是你通过查阅资料获得的参考信息
-- dependent_text: 是你之前所写的《{title}》的一部分内容，你需要总结这些内容，并生成这些内容的引导性文字。
-## retrieved_knowledge
-{retrieved_knowledge}
-## dependent_text
-{dep_text}
-## constraints
-1. 你只能返回markdwon格式的文本
+<role>
+你是一名写作专家
+</role>
+<rule>
+你正在写作<{title}>的目录项`{heading}`的正文内容。
+constraints: 是必须遵守的约束条件
+content: 是文章的目录
+digest：是你迄今为止已写内容的概括
+last_heading：是上一次所写的目录项的内容。你需要从中学习，并保持语言风格的一致性。
+retrieved_knowledge: 是你通过查阅资料获得的参考信息
+dep_text: 是你之前所写的内容，你需要总结这些内容，并生成这些内容的引导性文字
+</rule>
+<constraints>
+1. 你只能返回markdoWn格式的文本
 2. 你的返回的正文中不能含有 #, ##, ###, ####, #####, ###### 等markdown heading命令
-## task
-请总结 dependent_text 的内容，并生成这些内容的引导性文字，作为《{title}》的'{heading}'部分的内容。(你可以参考 retrieved_knowledge，如果给出的话）"""
+</constraints>
+</rule>
+<content>
+{content}
+</content>
+<digest>
+{digest}
+</digest>
+<last_heading>
+{last_heading}
+<last_heading/>
+<retrieved_knowledge>
+{retrieved_knowledge}
+</retrieved_knowledge>
+<dep_text>
+{dep_text}
+</dep_text>
+<attention>
+请记住，你是一名写作专家，正在写作这一节的正文内容。
+所以你需要观察last_heading的语言风格和写作特征，保证你写作风格的一致性，确保你的内容更像人类写作出来的而不是像AI的风格。
+</attention>
+<task>
+Q: 请根据content, digest, last_heading, dep_text, retrieved_knowledge, 生成目录项`{heading}`的正文内容。
+A:
+"""
 
 RETRIEVED_KNOWLEDGE = """
 问：岳阳县位于哪里？

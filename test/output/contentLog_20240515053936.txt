@@ -1,0 +1,213 @@
+----- response for gen_content_preliminary(), title:岳阳县水系连通及农村水系综合整治工程建设项目环境影响报告书 -----
+id:0, heading:岳阳县水系连通及农村水系综合整治工程建设项目环境影响报告书, dep:[-1], level:0
+id:1, heading:概述, dep:[-1], level:1
+id:2, heading:总则, dep:[-1], level:1
+id:3, heading:项目背景与总体介绍, dep:[-1], level:1
+id:4, heading:工程概况与地理位置, dep:[-1], level:1
+id:5, heading:环境现状调查与评估, dep:[-1], level:1
+id:6, heading:环境影响源识别与分析, dep:[-1], level:1
+id:7, heading:水环境影响预测与评价, dep:[-1], level:1
+id:8, heading:生态影响分析, dep:[-1], level:1
+id:9, heading:噪声与振动环境影响, dep:[-1], level:1
+id:10, heading:社会经济影响分析, dep:[-1], level:1
+id:11, heading:环境保护措施与对策, dep:[-1], level:1
+id:12, heading:环境风险与应急预案, dep:[-1], level:1
+id:13, heading:环境经济影响与损益分析, dep:[-1], level:1
+id:14, heading:环境管理与监测计划, dep:[-1], level:1
+id:15, heading:公众参与与结论, dep:[-1], level:1
+----- response for gen_content_for_one_heading(), heading:概述 -----
+id:0, heading:概述, dep:[-1], level:1
+id:1, heading:项目背景与目标, dep:[-1], level:2
+id:2, heading:工程地理位置与范围, dep:[-1], level:3
+id:3, heading:项目简介, dep:[-1], level:3
+id:4, heading:建设必要性分析, dep:[-1], level:3
+id:5, heading:项目历史沿革, dep:[-1], level:3
+id:6, heading:关联区域水文特征, dep:[-1], level:3
+id:7, heading:水系现状问题, dep:[-1], level:3
+id:8, heading:环境问题影响评估, dep:[-1], level:3
+id:9, heading:社会经济发展需求, dep:[-1], level:3
+id:10, heading:项目与地方发展规划契合度, dep:[-1], level:3
+id:11, heading:环境保护目标与指标, dep:[-1], level:2
+id:12, heading:环境影响预测与识别, dep:[-1], level:2
+<end>
+----- response for gen_content_for_one_heading(), heading:总则 -----
+id:0, heading:总则, dep:[-1], level:1
+id:1, heading:项目简介, dep:[-1], level:2
+id:2, heading:项目背景与必要性, dep:[-1], level:3
+id:3, heading:项目地理位置与范围, dep:[-1], level:3
+id:4, heading:建设目标与任务, dep:[-1], level:3
+id:5, heading:项目实施计划, dep:[-1], level:3
+id:6, heading:项目环境影响概述, dep:[-1], level:3
+id:7, heading:环境保护目标与指标, dep:[-1], level:3
+id:8, heading:环境管理体系与制度, dep:[-1], level:3
+id:9, heading:法律法规依据, dep:[-1], level:3
+id:10, heading:报告编制依据与原则, dep:[-1], level:3
+id:11, heading:公众参与与信息公开, dep:[-1], level:3
+id:12, heading:术语与定义, dep:[-1], level:3
+<end>
+----- response for gen_content_for_one_heading(), heading:项目背景与总体介绍 -----
+id:0, heading:项目背景与总体介绍, dep:[-1], level:1
+id:1, heading:项目概况, dep:[-1], level:2
+id:2, heading:项目地理位置, dep:[-1], level:3
+id:3, heading:项目地理位置图, dep:[-1], level:4
+id:4, heading:项目区自然地理条件, dep:[-1], level:3
+id:5, heading:气候与水文条件, dep:[-1], level:4
+id:6, heading:土壤类型与植被状况, dep:[-1], level:4
+id:7, heading:项目发起与建设必要性, dep:[-1], level:3
+id:8, heading:政策驱动与市场需求, dep:[-1], level:4
+id:9, heading:地方经济发展需求, dep:[-1], level:4
+id:10, heading:水资源供需矛盾分析, dep:[-1], level:4
+id:11, heading:项目实施目标与主要内容, dep:[-1], level:3
+id:12, heading:工程分期与规模, dep:[-1], level:4
+id:13, heading:与其他相关项目的关联性, dep:[-1], level:4
+id:14, heading:项目对区域发展的影响预测, dep:[-1], level:3
+<end>
+----- response for gen_content_for_one_heading(), heading:工程概况与地理位置 -----
+id:0, heading:工程概况与地理位置, dep:[-1], level:1
+id:1, heading:工程项目简介, dep:[-1], level:2
+id:2, heading:项目名称及编号, dep:[-1], level:3
+id:3, heading:建设单位信息, dep:[-1], level:3
+id:4, heading:项目背景与必要性, dep:[-1], level:3
+id:5, heading:建设规模与内容, dep:[-1], level:3
+id:6, heading:建设地点与范围, dep:[-1], level:3
+id:7, heading:地理位置描述, dep:[-1], level:3
+id:8, heading:周边环境特征, dep:[-1], level:3
+id:9, heading:地形地貌与地质条件, dep:[-1], level:3
+id:10, heading:气候与水文条件, dep:[-1], level:3
+id:11, heading:交通条件与基础设施, dep:[-1], level:3
+id:12, heading:关联项目与区划关系, dep:[-1], level:3
+id:13, heading:项目分期与计划, dep:[-1], level:3
+id:14, heading:项目实施时间表, dep:[-1], level:3
+<end>
+----- response for gen_content_for_one_heading(), heading:环境现状调查与评估 -----
+id:0, heading:环境现状调查与评估, dep:[-1], level:1
+id:1, heading:项目区域概况, dep:[-1], level:2
+id:2, heading:地理、气候与地质条件, dep:[-1], level:3
+id:3, heading:水文水资源状况, dep:[-1], level:3
+id:4, heading:生态环境现状, dep:[-1], level:3
+   - id:4.1, heading:植被类型与分布, dep:[-1], level:4
+   - id:4.2, heading:生物多样性, dep:[-1], level:4
+id:5, heading:土地利用现状, dep:[-1], level:3
+id:6, heading:水污染源分析, dep:[-1], level:3
+   - id:6.1, heading:工业污染源, dep:[-1], level:4
+   - id:6.2, heading:农业污染源, dep:[-1], level:4
+   - id:6.3, heading:生活污染源, dep:[-1], level:4
+id:7, heading:噪声与振动现状, dep:[-1], level:3
+id:8, heading:空气污染现状, dep:[-1], level:3
+id:9, heading:固体废弃物管理现状, dep:[-1], level:3
+id:10, heading:社会经济与人文因素, dep:[-1], level:3
+id:11, heading:环境质量现状评价, dep:[-1], level:2
+<end>
+----- response for gen_content_for_one_heading(), heading:环境影响源识别与分析 -----
+id:0, heading:环境影响源识别与分析, dep:[-1], level:1
+id:1, heading:项目概况与工程分区, dep:[-1], level:2
+id:2, heading:物理污染源分析, dep:[-1], level:3
+id:3, heading:施工扬尘, dep:[-1], level:4
+id:4, heading:建材运输过程中的尘埃, dep:[-1], level:4
+id:5, heading:机械设备噪声, dep:[-1], level:4
+id:6, heading:废水来源与类型, dep:[-1], level:3
+id:7, heading:施工废水, dep:[-1], level:4
+id:8, heading:生活污水, dep:[-1], level:4
+id:9, heading:化学污染源分析, dep:[-1], level:3
+id:10, heading:建筑材料污染物, dep:[-1], level:4
+id:11, heading:施工过程中的化学物质排放, dep:[-1], level:4
+id:12, heading:固体废弃物产生与处理, dep:[-1], level:3
+id:13, heading:建筑垃圾, dep:[-1], level:4
+id:14, heading:工程弃土, dep:[-1], level:4
+id:15, heading:生态影响源分析, dep:[-1], level:3
+id:16, heading:土地扰动对生物的影响, dep:[-1], level:4
+id:17, heading:水域生态扰动与恢复, dep:[-1], level:4
+id:18, heading:植被破坏与恢复措施, dep:[-1], level:4
+id:19, heading:气候变化与碳排放, dep:[-1], level:4
+id:20, heading:环境风险评估, dep:[-1], level:3
+id:21, heading:自然灾害风险, dep:[-1], level:4
+id:22, heading:人为事故风险, dep:[-1], level:4
+<end>
+----- response for gen_content_for_one_heading(), heading:水环境影响预测与评价 -----
+id:0, heading:水环境影响预测与评价, dep:[-1], level:1
+id:1, heading:项目概况与研究范围, dep:[-1], level:2
+id:2, heading:水质模型建立与参数设定, dep:[-1], level:3
+id:3, heading:地表水环境影响预测, dep:[-1], level:4
+id:4.1, heading:径流与污染物输入预测, dep:[-1], level:5
+id:4.2, heading:水质变化趋势预测, dep:[-1], level:5
+id:5, heading:地下水环境影响预测, dep:[-1], level:4
+id:5.1, heading:开采补给与污染迁移预测, dep:[-1], level:5
+id:5.2, heading:地下水位变化预测, dep:[-1], level:5
+id:6, heading:水生生态系统影响评价, dep:[-1], level:4
+id:6.1, heading:物种多样性评估, dep:[-1], level:5
+id:6.2, heading:生态完整性影响分析, dep:[-1], level:5
+id:7, heading:敏感目标保护措施评价, dep:[-1], level:4
+id:8, heading:不确定性分析, dep:[-1], level:3
+id:9, heading:预测结果与评价结论, dep:[-1], level:2
+<end>
+----- response for gen_content_for_one_heading(), heading:生态影响分析 -----
+id:0, heading:生态影响分析, dep:[-1], level:1
+id:1, heading:项目概况与地理位置, dep:[-1], level:2
+id:2, heading:生态敏感性与脆弱性分析, dep:[-1], level:3
+id:3, heading:受影响的生态系统类型, dep:[-1], level:4
+id:4, heading:生物多样性影响, dep:[-1], level:4
+id:5, heading:土地利用变化影响, dep:[-1], level:4
+id:6, heading:水生生态影响, dep:[-1], level:4
+id:7, heading:湿地生态影响, dep:[-1], level:4
+id:8, heading:地质灾害风险评估, dep:[-1], level:4
+id:9, heading:气候变化影响评估, dep:[-1], level:4
+id:10, heading:生态修复与补偿措施, dep:[-1], level:3
+id:11, heading:生态影响预测与量化分析, dep:[-1], level:4
+id:12, heading:环境影响减缓技术与策略, dep:[-1], level:4
+id:13, heading:生态环境影响后评估计划, dep:[-1], level:4
+id:14, heading:区域生态平衡影响分析, dep:[-1], level:3
+id:15, heading:与生态保护红线的关系分析, dep:[-1], level:4
+id:16, heading:社会经济发展与生态影响的协调性分析, dep:[-1], level:3
+id:17, heading:结论与建议, dep:[-1], level:2
+<end>
+----- response for gen_content_for_one_heading(), heading:噪声与振动环境影响 -----
+id:0, heading:噪声与振动环境影响, dep:[-1], level:1
+id:1, heading:项目概况, dep:[0], level:2
+id:2, heading:噪声源识别, dep:[-1], level:3
+id:3, heading:施工期噪声源分析, dep:[-1], level:4
+id:4, heading:运营期噪声源分析, dep:[-1], level:4
+id:5, heading:噪声控制措施, dep:[-1], level:3
+id:6, heading:振动源分析, dep:[-1], level:4
+id:7, heading:施工期振动控制措施, dep:[-1], level:4
+id:8, heading:运营期振动管理措施, dep:[-1], level:4
+id:9, heading:受影响区域敏感点分析, dep:[-1], level:3
+id:10, heading:噪声与振动影响预测, dep:[-1], level:3
+id:11, heading:预测结果与评价, dep:[-1], level:4
+id:12, heading:环境噪声排放标准与达标分析, dep:[-1], level:4
+id:13, heading:减缓措施建议, dep:[-1], level:3
+id:14, heading:受影响社区的沟通与管理, dep:[-1], level:3
+id:15, heading:监测计划与执行, dep:[-1], level:3
+id:16, heading:后续跟踪与改进措施, dep:[-1], level:3
+<end>
+----- response for gen_content_for_one_heading(), heading:社会经济影响分析 -----
+id:0, heading:社会经济影响分析, dep:[-1], level:1
+id:1, heading:项目背景与意义, dep:[-1], level:2
+id:2, heading:项目对当地经济发展的影响, dep:[-1], level:3
+id:3, heading:就业机会与收入增长, dep:[-1], level:4
+id:4, heading:产业结构优化, dep:[-1], level:4
+id:5, heading:投资与经济效益分析, dep:[-1], level:3
+id:6, heading:财政收支影响, dep:[-1], level:4
+id:7, heading:区域竞争力提升, dep:[-1], level:4
+id:8, heading:基础设施建设带动作用, dep:[-1], level:4
+id:9, heading:产业链延伸与关联效应, dep:[-1], level:4
+id:10, heading:社区发展与社会稳定, dep:[-1], level:3
+id:11, heading:文化与旅游影响, dep:[-1], level:4
+id:12, heading:移民安置与社区融合, dep:[-1], level:4
+id:13, heading:社区服务设施改善, dep:[-1], level:4
+id:14, heading:环境教育与公众参与, dep:[-1], level:4
+id:15, heading:环境风险与应急预案, dep:[-1], level:4
+id:16, heading:社会接受度评估, dep:[-1], level:3
+id:17, heading:可持续发展能力分析, dep:[-1], level:3
+<end>
+----- response for gen_content_for_one_heading(), heading:环境保护措施与对策 -----
+id:0, heading:环境保护措施与对策, dep:[-1], level:1
+id:1, heading:项目概况, dep:[-1], level:2
+id:2, heading:预防措施, dep:[-1], level:3
+   - id:2.1, heading:水污染防控, dep:[-1], level:4
+   - id:2.2, heading:生态恢复与保护, dep:[-1], level:4
+   - id:2.3, heading:土壤污染防治, dep:[-1], level:4
+id:3, heading:施工期环境管理, dep:[-1], level:3
+   - id:3.1, heading:扬尘控制, dep:[-1], level:4
+   - id:3.2, heading:噪声控制, dep:[-1], level:4
+   - id:3.3, heading:废水管理, dep:[-1], level:4
+id:4, heading:运营期�

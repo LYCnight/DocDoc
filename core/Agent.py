@@ -4,7 +4,7 @@ root_path = Path(__file__).parent.parent    # 项目根目录    DocDoc2/
 cur_path = Path(__file__).parent    # 当前目录    DocDoc2/core
 sys.path.append(str(cur_path))
 sys.path.append(str(root_path))
-from core.prompt import (WRITE_WITHOUT_DEP, WRITE_WITH_DEP, WRITE_MUTATION, 
+from core.prompt import (WRITE_WITHOUT_DEP, WRITE_WITH_DEP, WRITE_MUTATION, WRITE_DIGEST, 
                          GEN_CONTENT_PRELIMINARY, GEN_CONTENT_FOR_ONE_HEADING,)
 from config import QUES_COUNT, MODEL_CONTEXT_LENGHTH, CUT_DOWN, MODEL_PATH
 from DocDoc import Heading
@@ -15,16 +15,23 @@ class Writer:
     def __init__(self, llm):
         self.llm = llm
         print("Agent[Writer] loaded successfully")
-    def write_without_dep(self, title:str, heading:str, retrieved_knowledge:str = None) -> tuple[str,str]:
-        prompt = WRITE_WITHOUT_DEP.format(title=title, heading=heading, retrieved_knowledge=retrieved_knowledge)
+    def write_without_dep(self, title:str, heading:str, content:str, digest:str, last_heading:str, retrieved_knowledge:str = None) -> tuple[str,str]:
+        prompt = WRITE_WITHOUT_DEP.format(title=title, heading=heading, content=content,  digest=digest, last_heading=last_heading, retrieved_knowledge=retrieved_knowledge)
         response:str = self.llm(prompt)
+        # response = "response" # test
         return (response, prompt)
-    def write_with_dep(self, title:str, heading:str, dep_text:str, retrieved_knowledge:str = None) -> tuple[str,str]:
-        prompt = WRITE_WITH_DEP.format(title=title, heading=heading, dep_text=dep_text, retrieved_knowledge=retrieved_knowledge)
+    def write_with_dep(self, title:str, heading:str, content:str, digest:str, last_heading:str, dep_text:str, retrieved_knowledge:str = None) -> tuple[str,str]:
+        prompt = WRITE_WITH_DEP.format(title=title, heading=heading, content=content, digest=digest, last_heading=last_heading, dep_text=dep_text, retrieved_knowledge=retrieved_knowledge)
         response:str = self.llm(prompt)
+        # response = "response" # test
         return (response, prompt)
-    def write_mutation(self, title:str, heading:str, dep_text:str, retrieved_knowledge:str = None) -> tuple[str,str]:
-        prompt = WRITE_MUTATION.format(title=title, heading=heading, dep_text=dep_text, retrieved_knowledge=retrieved_knowledge)
+    def write_mutation(self, title:str, heading:str, content:str, digest:str, last_heading:str, dep_text:str, retrieved_knowledge:str = None) -> tuple[str,str]:
+        prompt = WRITE_MUTATION.format(title=title, heading=heading, content=content, digest=digest, last_heading=last_heading, dep_text=dep_text, retrieved_knowledge=retrieved_knowledge)
+        response:str = self.llm(prompt)
+        # response = "response" # test
+        return (response, prompt) 
+    def write_digest(self, title:str, heading:str, text:str, digest:str, content:str) -> tuple[str,str]:
+        prompt = WRITE_DIGEST.format(title=title, heading=heading, text=text, digest=digest, content=content)
         response:str = self.llm(prompt)
         return (response, prompt) 
     def formulate(self, text: str) -> str:
@@ -208,6 +215,87 @@ class ContentExpert:
         self.start_time:float    # gen_content_from_title() 运行开始时间
         print("Agent[ContentExpert] loaded successfully")  
     
+    def chat(self, prompt:str) -> str:
+        import os
+        os.environ["OPENAI_API_KEY"] = "sk-zojBY7XNiHrUW96X957dCc90889c47219a328173F20eA50d" #输入网站发给你的转发key
+        os.environ["OPENAI_BASE_URL"] = "https://gtapi.xiaoerchaoren.com:8932/v1"
+        from openai import OpenAI
+        client = OpenAI()
+        completion = client.chat.completions.create(
+          model="gpt-4",
+          messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt}
+            # {"role": "user", "content": fake_history}
+          ]
+        )
+        response = completion.choices[0].message.content
+        return response
+        
+    def gen_content(self, prompt:str) -> list[Heading]:
+        '''核心方法：传入prompt，生成content'''
+        response:str = self.llm(prompt)
+        # response:str = self.chat(prompt)
+        print(response) # test
+        json_data:dict = self.extract_json_from_str(response)
+        content:list[Heading] = self.read_content_from_json(json_data)
+        # -- test --
+        # print("content is generated succeed")
+        # def printContent(content:list[Heading]):
+        #     for i in range(len(content)):
+        #         print(content[i].id, content[i].heading, content[i].dep, content[i].level)
+        # printContent(content) # 打印目录
+        return content
+        
+    def extract_json_from_str(self, str:str) -> dict:
+        '''
+            从字符串中提取 JSON 数据
+            str:str
+            return:dict
+        '''
+        import re, json
+        json_str = re.search(r'<JSON>(.*?)</JSON>', str, re.DOTALL).group(1)
+        try:
+            # 尝试解析JSON数据
+            json_data:dict = json.loads(json_str)
+            # print("JSON格式正确") 
+            # 可选：输出解析后的JSON数据，验证内容
+            # print(json.dumps(json_data, indent=4, ensure_ascii=False))
+        except json.JSONDecodeError as e:
+            print("JSON格式错误:", e)
+        return json_data
+        
+    
+    def read_content_from_json(self, json_data:dict) -> list[Heading]:
+        '''
+            从 JSON 数据中读取 content
+            json_data:dict
+            return:list[Heading]
+        '''
+        content:list[Heading] = []
+        # print(json_data['content'])
+        for row in json_data['content']:
+            heading_obj = Heading(row['id'], row['heading'], row['dep'], row['level'])
+            content.append(heading_obj)
+        return content
+    
+    def content_to_jsonStr(self, content:list[Heading]) -> str:
+        '''
+            将 content 转换为 JSON 格式字符串
+            content:list[Heading]
+            return:str
+        '''
+        json_str = "{\n\t\"content\":[\n"
+        length = len(content)
+        for i in range(length - 1):
+            json_str += '\t\t' + '{"id": ' + str(content[i].id) + ', "heading": "' + content[i].heading + '", "dep": ' + str(content[i].dep) + ', "level": ' + str(content[i].level) + '},'
+            json_str += '\n'
+        json_str += '\t\t' + '{"id": ' + str(content[length - 1].id) + ', "heading": "' + content[length - 1].heading + '", "dep": ' + str(content[length - 1].dep) + ', "level": ' + str(content[length - 1].level) + '}'
+        json_str += '\n'
+        json_str += '\t]\n}'
+        return json_str
+    
+    # ------------ #
     def get_state_from_xlsx(self, xlsx_file_path) -> tuple[int, int, int]:
         """获取 Excel 文件中 heading 的数量、最小 level 和最大 level"""
         import pandas as pd
@@ -252,6 +340,7 @@ class ContentExpert:
         return content
         
     def persist_to_markdown(self, content:list[Heading]=None, timestamp:str=None) -> None:
+        # 生成的目录保存到`markdown`文件中
         if content is not None:
             if(timestamp is not None):
                 pass
@@ -431,6 +520,7 @@ class ContentExpert:
         return matches
     
     def content_assemble(self, title:str, level_1_heading_list:list[Heading]) -> list[Heading]:
+        # 组装目录
         content:list[Heading] = []  
         id = 0
         level_1_heading_list[0].id = id

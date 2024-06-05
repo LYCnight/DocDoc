@@ -7,12 +7,12 @@ sys.path.append(str(root_path))
 
 class Heading:
     def __init__(self, id, heading, dep, level):
-        self.id = id
-        self.heading = heading
-        self.dep = dep
-        self.level = level
-        self.text = None
-        self.dep_text = []
+        self.id:int = id
+        self.heading:str = heading
+        self.dep:list[int] = dep
+        self.level:int = level
+        self.text:str = None
+        self.dep_text:list[str] = []
 
 class TreeNode:
     def __init__(self, heading):
