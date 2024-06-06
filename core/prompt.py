@@ -284,16 +284,15 @@ A:"""
 
 WRITE_DIGEST = """
 <role>
-你是一名写作专家, 正在写作<{title}>
-digest 是你迄今为止所写的内容的摘要。
-text 是目录项'{heading}'的正文。
+You are a writing expert working on <{title}>.
+Digest is a summary of what you've written so far.
+Text is the content of the table of contents item '{heading}'.
 </role>
 <rule>
-digest 为目录项(0~i)的内容摘要。
-text 是 第(i+1)个目录项的的正文。
-digest 为目录项(0~i)的内容摘要。
-text 是 第(i+1)个目录项的的正文。
-请你总结text(i+1)的重点信息，并融入到digest(0~i)中，形成新的digest(0~i+1)。在此过程中，应避免直接复制前面的内容，而是通过重新组织来提炼信息，确保摘要的最终长度相对稳定，且随着添加的内容逐渐丰富。
+Content: This is the article's table of contents.
+Digest is the summary of the contents of items (0~i).
+Text is the body of the (i+1)th item in the table of contents.
+Please summarize the key information from text (i+1) and integrate it into digest (0~i), forming a new digest (0~i+1). In this process, avoid directly copying the previous content. Instead, rephrase to distill the information, ensuring the final length of the summary remains relatively stable and gradually becomes more enriched as new content is added.
 </rule>
 <content>
 {content}
@@ -305,25 +304,25 @@ text 是 第(i+1)个目录项的的正文。
 {digest}
 </digest>
 <task>
-Q: 请你根据digest和text，更新digest。请直接输出digest的内容。
-A: 
+Q: Please update the digest based on digest and text. Directly output the updated digest.
+A:
 """
 
 WRITE_WITHOUT_DEP = '''
 <role>
-你是一名写作专家
+You are a writing expert.
 </role>
 <rule>
-你正在写作<{title}>的目录项`{heading}`的正文内容。
-constraints: 是必须遵守的约束条件
-content: 是文章的目录
-digest：是你迄今为止已写内容的概括
-last_heading：是上一次所写的目录项的内容。你需要从中学习，并保持语言风格的一致性。
-retrieved_knowledge: 是你通过查阅资料获得的参考信息
+You are writing the body content of the table of contents item `{heading}` for the title <{title}>.
+constraints: These are the constraints that must be followed.
+content: This is the table of contents of the article.
+digest: This is a summary of what you have written so far.
+last_heading: This is the content of the last item in the table of contents that you wrote. You need to learn from it and maintain a consistent writing style.
+retrieved_knowledge: This is reference information you obtained through research.
 </rule>
 <constraints>
-1. 你只能返回markdoWn格式的文本
-2. 你的返回的正文中不能含有 #, ##, ###, ####, #####, ###### 等markdown heading命令
+1. You can only return text in Markdown format.
+2. Your returned text must not contain Markdown heading commands such as #, ##, ###, ####, #####, ######.
 </constraints>
 <content>
 {content}
@@ -333,37 +332,36 @@ retrieved_knowledge: 是你通过查阅资料获得的参考信息
 </digest>
 <last_heading>
 {last_heading}
-<last_heading/>
+</last_heading>
 <retrieved_knowledge>
 {retrieved_knowledge}
 </retrieved_knowledge>
 <attention>
-请记住，你是一名写作专家，正在写作这一节的正文内容。
-所以你需要观察last_heading的语言风格和写作特征，保证你写作风格的一致性，确保你的内容更像人类写作出来的而不是像AI的风格。
+Remember, you are a writing expert creating the body content for this section.
+Therefore, you need to observe the language style and writing characteristics of the last_heading to ensure consistency in writing style, making your content appear human-written rather than AI-generated.
 </attention>
 <task>
-Q: 请根据content, digest, last_heading, retrieved_knowledge, 生成目录项`{heading}`的正文内容。
-A:
+Q: Based on the content, digest, last_heading, and retrieved_knowledge, generate the body content for the table of contents item `{heading}`.
+A: 
 '''
 
 WRITE_WITH_DEP = '''
 <role>
-你是一名写作专家
+You are a writing expert.
 </role>
 <rule>
-你正在写作<{title}>的目录项`{heading}`的正文内容。
-constraints: 是必须遵守的约束条件
-content: 是文章的目录
-digest：是你迄今为止已写内容的概括
-last_heading：是上一次所写的目录项的内容。你需要从中学习，并保持语言风格的一致性。
-retrieved_knowledge: 是你通过查阅资料获得的参考信息
-dep_text: 是你已经完成的内容，你需要依赖这些内容来写作本节内容
+You are writing the body content of the table of contents item `{heading}` for the title <{title}>.
+constraints: These are the constraints that must be followed.
+content: This is the table of contents of the article.
+digest: This is a summary of what you have written so far.
+last_heading: This is the content of the last item in the table of contents that you wrote. You need to learn from it and maintain a consistent writing style.
+retrieved_knowledge: This is reference information you obtained through research.
+dep_text: This is the content you have already completed. You need to rely on this content to write this section.
 </rule>
 <constraints>
-1. 你只能返回markdoWn格式的文本
-2. 你的返回的正文中不能含有 #, ##, ###, ####, #####, ###### 等markdown heading命令
+1. You can only return text in Markdown format.
+2. Your returned text must not contain Markdown heading commands such as #, ##, ###, ####, #####, ######.
 </constraints>
-</rule>
 <content>
 {content}
 </content>
@@ -372,7 +370,7 @@ dep_text: 是你已经完成的内容，你需要依赖这些内容来写作本�
 </digest>
 <last_heading>
 {last_heading}
-<last_heading/>
+</last_heading>
 <retrieved_knowledge>
 {retrieved_knowledge}
 </retrieved_knowledge>
@@ -380,32 +378,30 @@ dep_text: 是你已经完成的内容，你需要依赖这些内容来写作本�
 {dep_text}
 </dep_text>
 <attention>
-请记住，你是一名写作专家，正在写作这一节的正文内容。
-所以你需要观察last_heading的语言风格和写作特征，保证你写作风格的一致性，确保你的内容更像人类写作出来的而不是像AI的风格。
+Remember, you are a writing expert creating the body content for this section.
+Therefore, you need to observe the language style and writing characteristics of the last_heading to ensure consistency in writing style, making your content appear human-written rather than AI-generated.
 </attention>
 <task>
-Q: 请根据content, digest, last_heading, dep_text, retrieved_knowledge, 生成目录项`{heading}`的正文内容。
-A:
+Q: Based on the content, digest, last_heading, dep_text, and retrieved_knowledge, generate the body content for the table of contents item `{heading}`.
 '''
 
 WRITE_MUTATION = """
 <role>
-你是一名写作专家
+You are a writing expert.
 </role>
 <rule>
-你正在写作<{title}>的目录项`{heading}`的正文内容。
-constraints: 是必须遵守的约束条件
-content: 是文章的目录
-digest：是你迄今为止已写内容的概括
-last_heading：是上一次所写的目录项的内容。你需要从中学习，并保持语言风格的一致性。
-retrieved_knowledge: 是你通过查阅资料获得的参考信息
-dep_text: 是你之前所写的内容，你需要总结这些内容，并生成这些内容的引导性文字
+You are writing the body content of the table of contents item `{heading}` for the title <{title}>.
+constraints: These are the constraints that must be followed.
+content: This is the table of contents of the article.
+digest: This is a summary of what you have written so far.
+last_heading: This is the content of the last item in the table of contents that you wrote. You need to learn from it and maintain a consistent writing style.
+retrieved_knowledge: This is reference information you obtained through research.
+dep_text: This is the content you have previously written. You need to summarize this content and generate introductory text for it.
 </rule>
 <constraints>
-1. 你只能返回markdoWn格式的文本
-2. 你的返回的正文中不能含有 #, ##, ###, ####, #####, ###### 等markdown heading命令
+1. You can only return text in Markdown format.
+2. Your returned text must not contain Markdown heading commands such as #, ##, ###, ####, #####, ######.
 </constraints>
-</rule>
 <content>
 {content}
 </content>
@@ -414,7 +410,7 @@ dep_text: 是你之前所写的内容，你需要总结这些内容，并生成�
 </digest>
 <last_heading>
 {last_heading}
-<last_heading/>
+</last_heading>
 <retrieved_knowledge>
 {retrieved_knowledge}
 </retrieved_knowledge>
@@ -422,12 +418,12 @@ dep_text: 是你之前所写的内容，你需要总结这些内容，并生成�
 {dep_text}
 </dep_text>
 <attention>
-请记住，你是一名写作专家，正在写作这一节的正文内容。
-所以你需要观察last_heading的语言风格和写作特征，保证你写作风格的一致性，确保你的内容更像人类写作出来的而不是像AI的风格。
+Remember, you are a writing expert creating the body content for this section.
+Therefore, you need to observe the language style and writing characteristics of the last_heading to ensure consistency in writing style, making your content appear human-written rather than AI-generated.
 </attention>
 <task>
-Q: 请根据content, digest, last_heading, dep_text, retrieved_knowledge, 生成目录项`{heading}`的正文内容。
-A:
+Q: Based on the content, digest, last_heading, dep_text, and retrieved_knowledge, generate the body content for the table of contents item `{heading}`.
+A: 
 """
 
 RETRIEVED_KNOWLEDGE = """

@@ -25,147 +25,144 @@ json = """{
 # A: 
 
 prompt_template = """
-目录存储于json数据结构中，并用<JSON></JSON>封装，例如：
+The directory is stored in a JSON data structure and encapsulated within <JSON></JSON>, for example:
 <JSON>
 {
-        "content":[
-                {"id": 0, "heading": "岳阳县水系连通及农村水系综合整治工程建设项目环境影响报告书", "dep": [-1], "level": 0},
-                {"id": 1, "heading": "概述", "dep": [-1], "level": 1},
-                {"id": 2, "heading": "分析判定相关环保政策", "dep": [-1], "level": 2},
-                {"id": 3, "heading": "产业政策相符性分析", "dep": [-1], "level": 3},
-                {"id": 4, "heading": "法律法规符合性分析", "dep": [-1], "level": 3},
-                {"id": 5, "heading": "与相关规划符合性分析", "dep": [-1], "level": 3},
-                {"id": 6, "heading": "项目环评报告书的主要结论", "dep": [12], "level": 2},
-                {"id": 7, "heading": "结论与建议", "dep": [-1], "level": 1},
-                {"id": 8, "heading": "项目概况", "dep": [-1], "level": 2},
-                {"id": 9, "heading": "环境管理", "dep": [3], "level": 3},
-                {"id": 10, "heading": "主要环保措施", "dep": [-1], "level": 2},
-                {"id": 11, "heading": "环境影响经济损益分析", "dep": [-1], "level": 3},
-                {"id": 12, "heading": "环评总结论", "dep": [-1], "level": 3}
-        ]
+    "content": [
+        {"id": 0, "heading": "Environmental Impact Assessment Report on the Construction Project of Comprehensive Treatment of Water System Connection and Rural Water System in Yueyang County", "dep": [-1], "level": 0},
+        {"id": 1, "heading": "Overview", "dep": [-1], "level": 1},
+        {"id": 2, "heading": "Analysis and Judgment of Relevant Environmental Protection Policies", "dep": [-1], "level": 2},
+        {"id": 3, "heading": "Analysis of Consistency with Industrial Policies", "dep": [-1], "level": 3},
+        {"id": 4, "heading": "Analysis of Compliance with Laws and Regulations", "dep": [-1], "level": 3},
+        {"id": 5, "heading": "Analysis of Consistency with Relevant Plans", "dep": [-1], "level": 3},
+        {"id": 6, "heading": "Main Conclusions of the Project's Environmental Impact Assessment Report", "dep": [12], "level": 2},
+        {"id": 7, "heading": "Conclusions and Recommendations", "dep": [-1], "level": 1},
+        {"id": 8, "heading": "Project Overview", "dep": [-1], "level": 2},
+        {"id": 9, "heading": "Environmental Management", "dep": [3], "level": 3},
+        {"id": 10, "heading": "Main Environmental Protection Measures", "dep": [-1], "level": 2},
+        {"id": 11, "heading": "Economic Analysis of Environmental Impacts", "dep": [-1], "level": 3},
+        {"id": 12, "heading": "Summary of Environmental Impact Assessment", "dep": [-1], "level": 3}
+    ]
 }
-<JSON>
+</JSON>
 
-各个字段的含义
-- "id"：表示每个目录项的唯一标识符，可以用来区别不同的目录项。
-- "heading"：表示每个目录项的标题，描述了目录项的内容。
-- "dep"：代表当前目录项的依赖项，这是一个数组，包含了当前目录项所依赖或关联的其他目录项的id。"-1"通常表示当前目录项是一个顶级项，也就是说它不依赖任何其他项。例如，id为6的"项目环评报告书的主要结论"这一目录项，它的dep值为[12]，表示它依赖于id为12的"环评总结论"这一目录项。
-(注意：任何目录项的 dep 都不会依赖于 (id:0), 因为 (id:0) 是一个顶级目录项，表示文章的标题。)
-- "level"：代表目录项的等级或深度。"0"通常表示这是一级目录，"1"表示二级目录，"2"表示三级目录，以此类推。比如"id"为0的目录项的"level"为0, 它是文本的title; "id"为1的目录项的"level"为1, 它是一级标题。这个字段可以帮助我们了解目录的层次结构。
 
-### 目录结构规律
-所有的文本都可以按目录深度来分类：
-- Shallow：浅层目录结构，level 为 0~1 , 线性叙事，不包含多级目录项。。
-  - Fiction、News、Opinion articlle
-- Medium：多级目录结构,level 为 0~3，包含多级目录项。
-  - Academic paper、Encyclopedia article
-- Deep：深层目录结构 level 为 0~6，包含深度多级目录项。
-  - IT: Software Development Report
-  - Medicine: Clinical Study Report
-  - Finance: Risk Assessment Report
-  - Education: Course Evaluation Report
-  - Law: Case Assessment Report
-  - Management: Project Management Report
-  - Manufacturing: Manufacturing Process Report
+### Meaning of Each Field:
+- "id": Represents the unique identifier of each directory item, used to distinguish between different directory items.
+- "heading": Represents the title of each directory item, describing its content.
+- "dep": Represents the dependency of the current directory item. This is an array containing the id(s) of other directory items that the current item depends on or is related to. "-1" usually indicates that the current directory item is a top-level item, meaning it does not depend on any other items. For example, for the directory item with id 6, "Main Conclusions of the Project's Environmental Impact Assessment Report," its dep value is [12], indicating that it depends on the directory item with id 12, "Summary of Environmental Impact Assessment."
+(Note: The dep of any directory item will not depend on (id:0), because (id:0) is a top-level directory item representing the title of the article.)
+- "level": Represents the level or depth of the directory item. "0" usually indicates a first-level directory, "1" indicates a second-level directory, "2" indicates a third-level directory, and so on. For example, for the directory item with id 0, its "level" is 0, indicating that it is the title of the text; for the directory item with id 1, its "level" is 1, indicating that it is a first-level title. This field helps us understand the hierarchical structure of the directory.
 
-### 目录项依赖规则：
-1. 在目录结构中，一个目录项可以依赖于一个或者多个其它目录项。这种依赖关系表示写作时需要参考被依赖的文本。
-比如在小说中，一个情节的写作需要依赖上一个情节或者更早期的情节。又或者在多级目录文本中，一个更广泛的主题可能依赖于许多更具体的子主题的详细信息。
-2. 在浅层目录中（比如小说目录），目录项通常是线性的，下一项的内容大概率会基于上一项的内容。如果存在伏笔手法，则需要基于更初期的情节或者设定。
-例如:
+### Directory Structure Rules:
+All texts can be classified according to the depth of the directory:
+- Shallow: Shallow directory structure, with levels ranging from 0 to 1, linear narrative, and no multiple-level directory items.
+    - Fiction, News, Opinion articles
+- Medium: Multi-level directory structure, with levels ranging from 0 to 3, containing multiple-level directory items.
+    - Academic paper, Encyclopedia article
+- Deep: Deep directory structure, with levels ranging from 0 to 6, containing deeply multi-level directory items.
+    - IT: Software Development Report
+    - Medicine: Clinical Study Report
+    - Finance: Risk Assessment Report
+    - Education: Course Evaluation Report
+    - Law: Case Assessment Report
+    - Management: Project Management Report
+    - Manufacturing: Manufacturing Process Report
+
+### Directory Item Dependency Rules:
+1. In the directory structure, a directory item can depend on one or more other directory items. This dependency relationship indicates that the referenced text is needed during writing.
+For example, in a novel, the writing of a plot may depend on a previous plot or an earlier setting. Or in a multi-level directory text, a broader topic may depend on many more specific subtopics for detailed information.
+2. In shallow directory structures (such as novel directories), directory items are usually linear, and the content of the next item is likely based on the content of the previous item. If there is foreshadowing, it needs to be based on earlier plots or settings.
+For example:
     {"id": i-1, "heading": "A", "dep": [i-6], "level": 1},
     {"id": i, "heading": "B", "dep": [i-1], "level": 1},
     {"id": i+1, "heading": "C", "dep": [i], "level": 1},
-3. 在多级或者深层目录中（比如分析文章、研究报告等），父目录项（更高级别的目录项）通常依赖于它的子目录项（更详细或者更具体的目录项）。因为在这种情况下，一个大的主题或观点被分解为多个子主题或观点，并且每个子主题或观点都会为父主题或观点提供支持。这符合总-分的写作逻辑。
-例如：
+3. On Medium and Deep levels, parent directory items typically depend on their child directory items. This is because, in such cases, a larger theme or viewpoint is broken down into multiple sub-themes or viewpoints, and each sub-theme or viewpoint supports the parent theme or viewpoint. This follows a hierarchical writing logic.
+For example:
     {"id": i, "heading": "A", "dep": [i+1, i+2, i+3], "level": 1},
     {"id": i+1, "heading": "A", "dep": [-1], "level": 1},
     {"id": i+2, "heading": "B", "dep": [-1], "level": 1},
     {"id": i+3, "heading": "C", "dep": [-1], "level": 1},
-4. 对于文章的引言和结论部分，它们通常没有依赖，但结论可能需要读者对整个文章的内容有所了解。然而，如果结论是对前面几个关键点的总结，那么它可以视作依赖于那些关键点。
-5. 目录项的 dep 都不会依赖于 (id:0), 因为 id:0 是一个顶级目录项，表示文章的标题。
-6. 最后，值得注意的是，目录的依赖关系并不一定是线性的。根据文章内容的不同，某些目录项可能需要同时依赖于多个其他目录项。
+4. For the introduction and conclusion sections of an article, they typically have no dependencies, but the conclusion may require readers to have an understanding of the entire article's content. However, if the conclusion summarizes the preceding key points, it can be considered dependent on those key points.
+5. None of the directory items' dependencies will depend on (id:0) because (id:0) represents a top-level directory item, indicating the title of the article.
+6. Finally, it's worth noting that the dependency relationships in the directory are not necessarily linear. Depending on the content of the article, some directory items may need to depend on multiple other directory items simultaneously.
 
-Q: 我想写一本以月球为主题的科幻小说《月影之下》，请你生成小说《月影之下》的目录，并详细说明目录项的依赖关系。
-A: 
-### 分析：
-小说属于Shallow类型的文本，level为 0~1，不包含多级目录项。
-为了让情节更精彩，我将使用伏笔手法，一些情节会依赖于早期的情节或设定。
-### 目录
-<JSON>
-{
-    "content":[
-        {"id": 0, "heading": "月影之下", "dep": [-1], "level": 0},
-        {"id": 1, "heading": "序言", "dep": [-1], "level": 1},
-        {"id": 2, "heading": "神秘的邀请函", "dep": [-1], "level": 1},
-        {"id": 3, "heading": "地球上的准备", "dep": [2], "level": 1},
-        {"id": 4, "heading": "太空之旅启程", "dep": [3], "level": 1},
-        {"id": 5, "heading": "宇宙中的异样", "dep": [4, 2], "level": 1},
-        {"id": 6, "heading": "月亮的邀请", "dep": [5], "level": 1},
-        {"id": 7, "heading": "落月的秘密", "dep": [6], "level": 1},
-        {"id": 8, "heading": "月影村落", "dep": [7], "level": 1},
-        {"id": 9, "heading": "月影族人", "dep": [8], "level": 1},
-        {"id": 10, "heading": "神秘的传说", "dep": [9,2], "level": 1},
-        {"id": 11, "heading": "月亮矿石的秘密", "dep": [10], "level": 1},
-        {"id": 12, "heading": "危险的决定", "dep": [11,2], "level": 1},
-        {"id": 13, "heading": "再见，地球", "dep": [12], "level": 1},
-        {"id": 14, "heading": "归航中的挑战", "dep": [13,2], "level": 1},
-        {"id": 15, "heading": "勇敢的牺牲", "dep": [14], "level": 1},
-        {"id": 16, "heading": "安全归航", "dep": [15], "level": 1},
-        {"id": 17, "heading": "回归之后", "dep": [16], "level": 1},
-        {"id": 18, "heading": "新的前景", "dep": [17], "level": 1},
-        {"id": 19, "heading": "解开的秘密", "dep": [18,2], "level": 1},
-        {"id": 20, "heading": "结语", "dep": [-1], "level": 1}
-    ]
-}
-</JSON>
-### 说明：
-1. "神秘的邀请函"(id:2)包含了故事的伏笔，这一伏笔在后面的情节中会不断展开和解释，为听众展示了未知的世界和隐藏的秘密。
-2. "地球上的准备"(id:3)依赖于id为2的"神秘的邀请函"，在这一章中，主角们接收到了神秘的邀请，开始准备他们的太空旅行。
-3. "宇宙中的异样"(id:5)这里的情节不只是依赖于他们已经启程，更是和最初的那份神秘邀请函有所关联，这也是为了揭示伏笔。
-4. "神秘的传说"(id:10)这一章节依赖于他们已经进入月影村落和最初的神秘邀请函，传说和邀请函中的秘密有关。
-5. "危险的决定"(id:12)，这一章的情节也依赖于神秘的邀请函，那份邀请函让他们面临此刻的决定，也成为了他们内心挣扎的主要原因之一。
-6. "归航中的挑战"(id:14)，这个章节的情节是建立在他们即将回地球的情景之上，并且这份挑战和收到的那份神秘邀请函有关。
-7. "新的前景"(id:17)和"解开的秘密"(id:18)，这两章的情节建立在归航之后，主角们处理了他们的生活并揭示了他们旅途中的神秘秘密。
-8. "结语"(id:20)，总结了这次的旅程，预示了新的开始，它是无依赖的结尾，但是读者需要对全篇的主要内容有大致的了解。
 
-Q: 我想写一则以关于特朗普在2020美国总统大选中落选的Opinion article，标题为《美国大选2020|特朗普落选的三个原因》，请你生成Opinion article的目录，并详细说明目录项的依赖关系。
+Q: I want to write a science fiction novel with the theme of the moon titled "Under the Moonlight." Could you generate the table of contents for the novel "Under the Moonlight" and provide a detailed explanation of the dependencies between the items in the table of contents?
 A:
-### 分析：
-对于一篇关于特朗普落选的Opinion article，主要内容应包括对特朗普竞选失败的理由的分析。在此，我们设定每个原因（或观点）作为二级目录，三级目录为支持每个观点的详细解释或实例。
-
-### 分析：
-Opinion article属于Medium类型的文本，level通常为 0~3。在写作这篇Opinion article时，我认为最大level设置为2更为合适，即：level = 0~2
-当我们撰写一篇观点文章时，主要目标是阐明和支持我们的观点。在这篇关于特朗普落选的文章中，3个原因均为大的议论点，而具体的例证和论述则为支撑这些议论点的子点。因此，每一个原因（父目录项）应该依赖于那些用来解释或支持其的详细条目（子目录项）。
-### 目录
+### Analysis:
+The novel falls under the Shallow type of text, with levels ranging from 0 to 1, and does not contain multiple levels of directory items. To make the plot more exciting, I'll use foreshadowing, where some plot points will depend on earlier events or settings.
+### Directory:
 <JSON>
 {
     "content":[
-        {"id": 0, "heading": "美国大选2020|特朗普落选的三个原因", "dep": [-1], "level": 0},
-        {"id": 1, "heading": "引言", "dep": [-1], "level": 1},
-        {"id": 2, "heading": "第一原因：新冠疫情的处理", "dep": [3,4,5], "level": 1},
-        {"id": 3, "heading": "新冠疫情的严重性", "dep": [-1], "level": 2},
-        {"id": 4, "heading": "特朗普政府的应对措施和问题", "dep": [-1], "level": 2},
-        {"id": 5, "heading": "公众对特朗普政府应对疫情的评价", "dep": [-1], "level": 2},
-        {"id": 6, "heading": "第二原因：贸易战问题", "dep": [7,8,9], "level": 1},
-        {"id": 7, "heading": "特朗普政权实施的贸易政策", "dep": [-1], "level": 2},
-        {"id": 8, "heading": "贸易政策带来的影响", "dep": [-1], "level": 2},
-        {"id": 9, "heading": "公众对特朗普贸易战的反应", "dep": [-1], "level": 2},
-        {"id": 10, "heading": "第三原因：种族问题", "dep": [11,12,13], "level": 1},
-        {"id": 11, "heading": "特朗普政府下的种族紧张", "dep": [-1], "level": 2},
-        {"id": 12, "heading": "种族问题对选民的影响", "dep": [-1], "level": 2},
-        {"id": 13, "heading": "美国公众对特朗普种族问题立场的评价", "dep": [-1], "level": 2},
-        {"id": 14, "heading": "结论", "dep": [2,6,10], "level": 1}
+        {"id": 0, "heading": "Under the Moonlight", "dep": [-1], "level": 0},
+        {"id": 1, "heading": "Prologue", "dep": [-1], "level": 1},
+        {"id": 2, "heading": "The Mysterious Invitation", "dep": [-1], "level": 1},
+        {"id": 3, "heading": "Preparation on Earth", "dep": [2], "level": 1},
+        {"id": 4, "heading": "Embarking on the Space Journey", "dep": [3], "level": 1},
+        {"id": 5, "heading": "Anomalies in Space", "dep": [4, 2], "level": 1},
+        {"id": 6, "heading": "The Moon's Invitation", "dep": [5], "level": 1},
+        {"id": 7, "heading": "Secrets of the Falling Moon", "dep": [6], "level": 1},
+        {"id": 8, "heading": "Moonshadow Village", "dep": [7], "level": 1},
+        {"id": 9, "heading": "Moonshadow Tribe", "dep": [8], "level": 1},
+        {"id": 10, "heading": "Mysterious Legends", "dep": [9,2], "level": 1},
+        {"id": 11, "heading": "The Secret of Moon Ore", "dep": [10], "level": 1},
+        {"id": 12, "heading": "Dangerous Decision", "dep": [11,2], "level": 1},
+        {"id": 13, "heading": "Farewell, Earth", "dep": [12], "level": 1},
+        {"id": 14, "heading": "Challenges During Return Journey", "dep": [13,2], "level": 1},
+        {"id": 15, "heading": "Brave Sacrifice", "dep": [14], "level": 1},
+        {"id": 16, "heading": "Safe Return", "dep": [15], "level": 1},
+        {"id": 17, "heading": "After the Return", "dep": [16], "level": 1},
+        {"id": 18, "heading": "New Horizons", "dep": [17], "level": 1},
+        {"id": 19, "heading": "Unveiling Secrets", "dep": [18,2], "level": 1},
+        {"id": 20, "heading": "Conclusion", "dep": [-1], "level": 1}
     ]
 }
 </JSON>
-### 说明：
-1. "引言" (id:1)是文章的开始，没有依赖性。
-2. "第一原因：新冠疫情的处理" (id:2) 是父目录项，其内容依赖于下面的三个子目录项 "新冠疫情的严重性" (id:3)， "特朗普政府的应对措施和问题" (id:4) 和 "公众对特朗普政府应对疫情的评价" (id:5)。这三个子目录项都会提供具体的例子和数据以支持 "第一原因" 的观点。写作顺序应该是先写完三个子目录项，再写"第一原因：新冠疫情的处理" (id:2)。
-3. "第二原因：贸易战问题" (id:6) 是父目录项，易读性、逻辑性及论证的完整性都严重依赖于其下的三个子目录项，即"特朗普政权实施的贸易政策" (id:7)， "贸易政策带来的影响" (id:8) 和 "公众对特朗普贸易战的反应" (id:9)。这在写作联系凝练、有力的观点时尤其重要。写作顺序应该是先写完三个子目录项，再写"第二原因：贸易战问题" (id:6)。
-4. "第三原因：种族问题" (id:10)，作为一个父目录项，其完整性和深度离不开以下三个子目录项："特朗普政府下的种族紧张" (id:11)， "种族问题对选民的影响" (id:12) 和 "美国公众对特朗普种族问题立场的评价" (id:13)。这个目录员要求一种层次分明的写作方式，内容的展开方式应按照子目录项的顺序来进一步支持父目录项的论述。写作顺序应该是先写完三个子目录项，再写"第三原因：种族问题" (id:10)。
-5. "结论" (id:14)，作为文章的结束，需要依赖于前面所有的观点或原因，即 "第一原因：新冠疫情的处理" (id:2)， "第二原因：贸易战问题" (id:6)，和 "第三原因：种族问题" (id:10)。在结论中，作者应根据前面论述的所有观点来对问题进行总结，并加以评论或者提出见解。
+### Explanation:
+1. "The Mysterious Invitation" (id:2) contains the foreshadowing of the story, which unfolds and explains in subsequent plots, showcasing unknown worlds and hidden secrets to the audience.
+2. "Preparation on Earth" (id:3) depends on "The Mysterious Invitation" (id:2). In this chapter, the protagonists receive a mysterious invitation and begin their preparations for the space journey.
+3. "Anomalies in Space" (id:5) The plot here not only depends on their journey commencement but also relates back to the initial mysterious invitation, serving to reveal foreshadowing.
+4. "Mysterious Legends" (id:10) This chapter depends on their entry into Moonshadow Village and the initial mysterious invitation, as the legends are related to the secrets in both the invitation and the village.
+5. "Dangerous Decision" (id:12) This chapter's plot also depends on the mysterious invitation, which presents them with the decision they face at that moment and becomes one of the main reasons for their inner struggles.
+6. "Challenges During Return Journey" (id:14) The plot of this chapter is built upon their impending return to Earth, and these challenges are related to the received mysterious invitation.
+7. "New Horizons" (id:17) and "Unveiling Secrets" (id:18), The plots of these two chapters are established after the return, where the protagonists deal with their lives and reveal the mysterious secrets encountered during their journey.
+8. "Conclusion" (id:20) summarizes the journey, foreshadows new beginnings, and is an independent ending, but readers need a rough understanding of the main content of the entire work.
 
+
+Q: I want to write an opinion article about Trump's defeat in the 2020 US presidential election, titled "2020 US Election | Three Reasons for Trump's Defeat." Could you generate the table of contents for the opinion article and provide a detailed explanation of the dependencies between the items in the table of contents?
+A:
+### Analysis:
+Opinion articles belong to the Medium category of text, with levels typically ranging from 0 to 3. When writing this opinion article, I believe setting the maximum level to 2 is more appropriate, i.e., level = 0~2. When composing an opinion article, the main goal is to elucidate and support our viewpoints. In this article about Trump's defeat, all three reasons are major points of discussion, while specific examples and arguments serve as sub-points that support these major points. Therefore, each reason (parent entry) should depend on the detailed items used to explain or support it (child entries).
+### Directory:
+<JSON>
+{
+    "content":[
+        {"id": 0, "heading": "2020 US Election | Three Reasons for Trump's Defeat", "dep": [-1], "level": 0},
+        {"id": 1, "heading": "Introduction", "dep": [-1], "level": 1},
+        {"id": 2, "heading": "First Reason: Handling of the COVID-19 Pandemic", "dep": [3,4,5], "level": 1},
+        {"id": 3, "heading": "Severity of the COVID-19 Pandemic", "dep": [-1], "level": 2},
+        {"id": 4, "heading": "Trump Administration's Response Measures and Issues", "dep": [-1], "level": 2},
+        {"id": 5, "heading": "Public Perception of the Trump Administration's Handling of the Pandemic", "dep": [-1], "level": 2},
+        {"id": 6, "heading": "Second Reason: Trade War Issues", "dep": [7,8,9], "level": 1},
+        {"id": 7, "heading": "Trade Policies Implemented by the Trump Administration", "dep": [-1], "level": 2},
+        {"id": 8, "heading": "Impact of Trade Policies", "dep": [-1], "level": 2},
+        {"id": 9, "heading": "Public Reaction to Trump's Trade War", "dep": [-1], "level": 2},
+        {"id": 10, "heading": "Third Reason: Racial Issues", "dep": [11,12,13], "level": 1},
+        {"id": 11, "heading": "Racial Tensions under the Trump Administration", "dep": [-1], "level": 2},
+        {"id": 12, "heading": "Impact of Racial Issues on Voters", "dep": [-1], "level": 2},
+        {"id": 13, "heading": "Public Perception of Trump's Stance on Racial Issues", "dep": [-1], "level": 2},
+        {"id": 14, "heading": "Conclusion", "dep": [2,6,10], "level": 1}
+    ]
+}
+</JSON>
+### Explanation:
+1. "Introduction" (id:1) marks the beginning of the article and has no dependencies.
+2. "First Reason: Handling of the COVID-19 Pandemic" (id:2) is a parent entry that depends on three child entries: "Severity of the COVID-19 Pandemic" (id:3), "Trump Administration's Response Measures and Issues" (id:4), and "Public Perception of the Trump Administration's Handling of the Pandemic" (id:5). These three child entries provide specific examples and data to support the viewpoint of the "First Reason." The writing sequence should involve completing the three child entries before writing "First Reason: Handling of the COVID-19 Pandemic" (id:2).
+3. "Second Reason: Trade War Issues" (id:6) is a parent entry that heavily relies on its three child entries: "Trade Policies Implemented by the Trump Administration" (id:7), "Impact of Trade Policies" (id:8), and "Public Reaction to Trump's Trade War" (id:9). This hierarchical structure is crucial for maintaining readability, logic, and the completeness of arguments. The writing sequence should involve completing the three child entries before writing "Second Reason: Trade War Issues" (id:6).
+4. "Third Reason: Racial Issues" (id:10) is a parent entry that depends on its three child entries: "Racial Tensions under the Trump Administration" (id:11), "Impact of Racial Issues on Voters" (id:12), and "Public Perception of Trump's Stance on Racial Issues" (id:13). This structured approach requires a clear and organized writing style, with content unfolding in the sequence of the child entries. The writing sequence should involve completing the three child entries before writing "Third Reason: Racial Issues" (id:10).
+5. "Conclusion" (id:14) serves as the end of the article and depends on all the preceding viewpoints or reasons: "First Reason: Handling of the COVID-19 Pandemic" (id:2), "Second Reason: Trade War Issues" (id:6), and "Third Reason: Racial Issues" (id:10). In the conclusion, the author should summarize all the arguments presented earlier and provide commentary or insights.
 """
 
 prompt = """ 
