@@ -178,7 +178,7 @@ print(response)
 # from core.Agent import Writer
 # from LLMs import ChatGLM
 # from prompt import fake_text, fake_digest, fake_content
-# llm = ChatGLM()
+# lfrom LLMs import ChatGLM
 # writer = Writer(llm)
 # contentExpert = ContentExpert(llm)
 # title = "基于JavaSprint与React的云计算平台开发技术报告"
@@ -193,3 +193,11 @@ print(response)
 # print(prompt)
 # print("*"*100)
 # print(response)
+
+# -- test content_response --
+from LLMs import ChatGLM
+llm = ChatGLM()
+contentExpert = ContentExpert(llm)
+prompt = "我想写一本软件工程专业的毕业论文，《基于Java Spring和React的全栈电子商务平台开发》。请你生成目录，并详细说明目录项的依赖关系。"
+content, content_response = contentExpert.gen_content(prompt)
+print(content_response)

@@ -232,7 +232,7 @@ class ContentExpert:
         response = completion.choices[0].message.content
         return response
         
-    def gen_content(self, prompt:str) -> list[Heading]:
+    def gen_content(self, prompt:str) -> tuple[list[Heading],str]:
         '''核心方法：传入prompt，生成content'''
         response:str = self.llm(prompt)
         # response:str = self.chat(prompt)
@@ -245,7 +245,7 @@ class ContentExpert:
         #     for i in range(len(content)):
         #         print(content[i].id, content[i].heading, content[i].dep, content[i].level)
         # printContent(content) # 打印目录
-        return content
+        return content, response
         
     def extract_json_from_str(self, str:str) -> dict:
         '''
