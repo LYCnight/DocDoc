@@ -1,1 +1,0 @@
-I want to write one Physics Paper, titled "Research on the Influence and Physical Mechanism of Magnetic Field Disturbances on the Behavior of High-Energy Particles in EAST Device." Could you generate the table of contents for the opinion article and provide a detailed explanation of the dependencies between the items in the table of contents?

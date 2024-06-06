@@ -1,1 +1,0 @@
-I want to write one Psychology Paper, titled "The Cognitive Impact of Social Media Usage: A Comprehensive Study" Could you generate the table of contents for the opinion article and provide a detailed explanation of the dependencies between the items in the table of contents?

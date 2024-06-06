@@ -14,19 +14,23 @@ class ChatGLM():
         self.model: object = None
 
     def __call__(self, prompt: str) -> str:  # 模型响应
+        import os
+        os.environ["OPENAI_API_KEY"] = "sk-JlMLbWkryswSpPygBf8eA723Aa0b4a49A7747eAb9986B71e" #输入网站发给你的转发key
+        os.environ["OPENAI_BASE_URL"] = "https://api.gptapi.us/v1/chat/completions"
         from openai import OpenAI
         client = OpenAI()
         completion = client.chat.completions.create(
-        model="gpt-4o-2024-05-13",
+        model="gpt-4o",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": prompt}
+            # {"role": "user", "content": prompt}
             # {"role": "user", "content": fake_history}
         ]
         )
-        response : str = completion.choices[0].message.content
+        response = completion.choices[0].message.content
         return response
-
+        
     def load_model(self, 
                 MODEL_PATH: str = MODEL_PATH, 
                 TOKENIZER_PATH: str = TOKENIZER_PATH):

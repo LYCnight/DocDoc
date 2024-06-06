@@ -337,8 +337,11 @@ retrieved_knowledge: This is reference information you obtained through research
 {retrieved_knowledge}
 </retrieved_knowledge>
 <attention>
-Remember, you are a writing expert creating the body content for this section.
+1.Remember, you are a writing expert creating the body content for this section.
 Therefore, you need to observe the language style and writing characteristics of the last_heading to ensure consistency in writing style, making your content appear human-written rather than AI-generated.
+2.Don't wrap your text with ```markdown (text) ```， just generate the text directly.
+3.When needed, you can use markdown syntax to draw some tables to enhance the readability of the text (highly recommended)
+4.When needed, you can draw some sketches with the characters to enhance the readability of the text (highly recommended)
 </attention>
 <task>
 Q: Based on the content, digest, last_heading, and retrieved_knowledge, generate the body content for the table of contents item `{heading}`.
@@ -378,11 +381,15 @@ dep_text: This is the content you have already completed. You need to rely on th
 {dep_text}
 </dep_text>
 <attention>
-Remember, you are a writing expert creating the body content for this section.
+1.Remember, you are a writing expert creating the body content for this section.
 Therefore, you need to observe the language style and writing characteristics of the last_heading to ensure consistency in writing style, making your content appear human-written rather than AI-generated.
+2.Don't wrap your text with ```markdown (text) ```， just generate the text directly.
+3.When needed, you can use markdown syntax to draw some tables to enhance the readability of the text (highly recommended)
+4.When needed, you can draw some sketches with the characters to enhance the readability of the text (highly recommended)
 </attention>
 <task>
 Q: Based on the content, digest, last_heading, dep_text, and retrieved_knowledge, generate the body content for the table of contents item `{heading}`.
+A: 
 '''
 
 WRITE_MUTATION = """
@@ -418,8 +425,11 @@ dep_text: This is the content you have previously written. You need to summarize
 {dep_text}
 </dep_text>
 <attention>
-Remember, you are a writing expert creating the body content for this section.
+1.Remember, you are a writing expert creating the body content for this section.
 Therefore, you need to observe the language style and writing characteristics of the last_heading to ensure consistency in writing style, making your content appear human-written rather than AI-generated.
+2.Don't wrap your text with ```markdown (text) ```， just generate the text directly.
+3.When needed, you can use markdown syntax to draw some tables to enhance the readability of the text (highly recommended)
+4.When needed, you can draw some sketches with the characters to enhance the readability of the text (highly recommended)
 </attention>
 <task>
 Q: Based on the content, digest, last_heading, dep_text, and retrieved_knowledge, generate the body content for the table of contents item `{heading}`.

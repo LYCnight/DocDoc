@@ -17,9 +17,11 @@ def write(prompt:str, title:str):
     print(f"I am writing <{title}>")
     # write the text to a file
     file_path:str = DocDoc_write(prompt)
-    # file_path = str(cur_path) + "/output/DocDoc/" + title + ".md"   # for test
-    with open(file_path, "w") as f:
-        f.write(prompt)
+    # -- for test -- 
+    # file_path = str(cur_path) + "/output/DocDoc/" + title + ".md"   
+    # with open(file_path, "w") as f:
+    #     f.write(prompt)
+    # --------------
     print(f"{title} has been written to {file_path}")
     return file_path
 
@@ -55,19 +57,28 @@ def make_prompt(title:str, category:str) -> str:
 # - test for make_prompt" 
 # print(make_prompt("AAa", "BBB"))
 
-xlsx_file_path:str =  "/root/AI4E/lzd/DocDoc/test/GPT4_test/output_refined.xlsx"
-excel = ExcelHandler(xlsx_file_path)
+# xlsx_file_path:str =  "/root/AI4E/lzd/DocDoc/test/GPT4_test/output_refined.xlsx"
+# excel = ExcelHandler(xlsx_file_path)
 
-# Iterate through each row in the Excel file
-for row_num, row in enumerate(excel, start=2):
-    title: str = row['Title']
-    category: str = row['Category']
-    prompt: str = make_prompt(title, category)
-    file_path: str = write(prompt, title)
-    excel.update_row(row_num, 'Prompt', prompt)
-    excel.update_row(row_num, 'Text', file_path)
+# # Iterate through each row in the Excel file
+# for row_num, row in enumerate(excel, start=2):
+#     title: str = row['Title']
+#     category: str = row['Category']
+#     prompt: str = make_prompt(title, category)
+#     file_path: str = write(prompt, title)
+#     excel.update_row(row_num, 'Prompt', prompt)
+#     excel.update_row(row_num, 'Text', file_path)
 
-# Save the updated Excel file
-excel.save()
+# # Save the updated Excel file
+# excel.save()
 
-print("completed successfully!")
+# print("completed successfully!")
+
+# -- test --
+"""write one doc, count token used, money expenditure and time"""
+title = """The Museum Murder Mystery"""
+prompt = """I want to write one Mystery Fiction, titled "The Museum Murder Mystery" Could you generate the table of contents for the opinion article and provide a detailed explanation of the dependencies between the items in the table of contents?"""
+file_path = write(prompt=prompt, title=title)
+print(f"successed! file_path: {file_path}")
+
+    

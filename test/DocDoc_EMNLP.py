@@ -250,7 +250,7 @@ def get_last_heading(id:int, content: list[Heading]) -> str:
     LastHeading: Heading = content[id - 1]
     last_heading_heading = LastHeading.heading
     last_heading_text = LastHeading.text
-    prompt:str = f"""上一个目录项: `{last_heading_heading}`\n内容:\n{last_heading_text}"""
+    prompt:str = f"""last contents item: `{last_heading_heading}`\ntext:\n{last_heading_text}"""
     return prompt    
     
     
@@ -320,16 +320,6 @@ def DocDoc_write(prompt:str) -> str:
     
     # 生成唯一的文件名，使用时间戳
     timestamp = time.strftime("%Y%m%d%H%M%S")
-    
-    # prompt日志文件路径
-    global promptLog_output_path    # 声明全局变量
-    promptLog_output_path = str(cur_path) + f'/output/promptLog_{timestamp}.txt'
-     # 初始化 prompt 日志
-    with open(promptLog_output_path, 'a', encoding='utf-8') as file:
-        file.write(f"运行开始自: {get_current_time()}\n" + f"所用模型：{MODEL_PATH}, 所用Embed_model:{EMBEDDING_PATH}\n")
-    
-    # 生成Doc的文件路径
-    markdown_file_path = str(cur_path) + f'/output/genDoc_{timestamp}.md'
 
     # 读取目录
     from utils import read_content, print_content, get_stats
@@ -362,6 +352,24 @@ def DocDoc_write(prompt:str) -> str:
     title = content[0].heading  # 获取文章标题
     mutation_prob = 1  # 突变概率
     
+    # ------------------- 输出文件 和 日志文件 地址记录-----------------
+    # prompt日志文件路径
+    global promptLog_output_path    # 声明全局变量
+    # 时间戳命名
+    # promptLog_output_path = str(cur_path) + f'/output/promptLog_{timestamp}.txt'
+    # title命名
+    promptLog_output_path = str(cur_path) + f'/GPT4_test/output/DocDoc/Log/Log_{title}.md'
+    
+     # 初始化 prompt 日志
+    with open(promptLog_output_path, 'a', encoding='utf-8') as file:
+        file.write(f"运行开始自: {get_current_time()}\n" + f"所用模型：{MODEL_PATH}, 所用Embed_model:{EMBEDDING_PATH}\n")
+    
+    # 生成Doc的文件路径
+    # 时间戳命名
+    # markdown_file_path = str(cur_path) + f'/GPT4_test/output/DocDoc/Gen/genDoc_{timestamp}.md' 
+    # title命名
+    markdown_file_path = str(cur_path) + f'/GPT4_test/output/DocDoc/Gen/{title}.md'
+    # ---------------------------------------------------------------
     
     gen_doc_pre(root, title, mutation_prob, content)  # 生成文本（反向依赖生成）
     

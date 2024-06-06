@@ -1,1 +1,0 @@
-I want to write one IT Report, titled "Development Technical Report on an Automatic License Plate Recognition System Based on Python and YOLOv8" Could you generate the table of contents for the opinion article and provide a detailed explanation of the dependencies between the items in the table of contents?

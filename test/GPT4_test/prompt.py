@@ -163,6 +163,166 @@ Opinion articles belong to the Medium category of text, with levels typically ra
 3. "Second Reason: Trade War Issues" (id:6) is a parent entry that heavily relies on its three child entries: "Trade Policies Implemented by the Trump Administration" (id:7), "Impact of Trade Policies" (id:8), and "Public Reaction to Trump's Trade War" (id:9). This hierarchical structure is crucial for maintaining readability, logic, and the completeness of arguments. The writing sequence should involve completing the three child entries before writing "Second Reason: Trade War Issues" (id:6).
 4. "Third Reason: Racial Issues" (id:10) is a parent entry that depends on its three child entries: "Racial Tensions under the Trump Administration" (id:11), "Impact of Racial Issues on Voters" (id:12), and "Public Perception of Trump's Stance on Racial Issues" (id:13). This structured approach requires a clear and organized writing style, with content unfolding in the sequence of the child entries. The writing sequence should involve completing the three child entries before writing "Third Reason: Racial Issues" (id:10).
 5. "Conclusion" (id:14) serves as the end of the article and depends on all the preceding viewpoints or reasons: "First Reason: Handling of the COVID-19 Pandemic" (id:2), "Second Reason: Trade War Issues" (id:6), and "Third Reason: Racial Issues" (id:10). In the conclusion, the author should summarize all the arguments presented earlier and provide commentary or insights.
+
+
+
+Q: I want to write an Environmental Impact Assessment Report, titled "Environmental Impact Report of the Hua Rong City Flood Drainage Project at the Six-Gate Sluice in the Dongting Lake Area, Hunan Province". Please Write a table of contents for me.
+A:
+### Analysis:
+Environmental Impact Assessment Report generally has a deep catalog structure, so I think it should belong to the Deep type Text. Given this theme, I set the max level to 4, whose category structure can fit well with this report.
+<JSON>
+{
+    "content": [
+        {"id": 0, "heading": "Environmental Impact Assessment Report of Liumen Sluice Drainage Project in Huarong Flood Control Area of Dongting Lake, Hunan Province", "dep": [-1], "level": 0},
+        {"id": 1, "heading": "Overview", "dep": [2,3,4,5,6], "level": 1},
+        {"id": 2, "heading": "Project Background and Project Construction Characteristics", "dep": [-1], "level": 2},
+        {"id": 3, "heading": "Environmental Impact Assessment Work Process", "dep": [-1], "level": 2},
+        {"id": 4, "heading": "Analysis and Determination of Relevant Situations", "dep": [-1], "level": 2},
+        {"id": 5, "heading": "Main Environmental Issues of Concern", "dep": [-1], "level": 2},
+        {"id": 6, "heading": "Main Evaluation Conclusions of the Report", "dep": [-1], "level": 2},
+        {"id": 7, "heading": "General Provisions", "dep": [-1], "level": 1},
+        {"id": 8, "heading": "Construction Project Engineering Analysis", "dep": [-1], "level": 1},
+        {"id": 9, "heading": "Environmental Status Survey and Evaluation", "dep": [-1], "level": 1},
+        {"id": 10, "heading": "Prediction and Evaluation of Environmental Impacts", "dep": [11,12,17,20,23,29,35,41,44,45,48], "level": 1},
+        {"id": 11, "heading": "Prediction and Evaluation of Ecological Environmental Impacts", "dep": [-1], "level": 2},
+        {"id": 12, "heading": "Prediction and Evaluation of Hydrological Conditions", "dep": [13,16], "level": 2},
+        {"id": 13, "heading": "Hydrological Conditions during Construction Period", "dep": [14,15], "level": 3},
+        {"id": 14, "heading": "Impact on Surface Hydrological Conditions of River Sections", "dep": [-1], "level": 4},
+        {"id": 15, "heading": "Impact on Surrounding Groundwater Hydrological Conditions of River Sections", "dep": [-1], "level": 4},
+        {"id": 16, "heading": "Hydrological Conditions during Operation Period", "dep": [-1], "level": 3},
+        {"id": 17, "heading": "Prediction and Evaluation of Water Environment Impacts", "dep": [18,19], "level": 2},
+        {"id": 18, "heading": "Surface Water Environment Impacts during Construction Period", "dep": [-1], "level": 3},
+        {"id": 19, "heading": "Surface Water Environment Impacts during Operation Period", "dep": [-1], "level": 3},
+        {"id": 20, "heading": "Prediction and Evaluation of Groundwater Environment Impacts", "dep": [21,22], "level": 2},
+        {"id": 21, "heading": "Groundwater Environment Impacts during Construction Period", "dep": [-1], "level": 3},
+        {"id": 22, "heading": "Groundwater Environment Impacts during Operation Period", "dep": [-1], "level": 3},
+        {"id": 23, "heading": "Prediction and Evaluation of Soil Erosion", "dep": [24,25,26], "level": 2},
+        {"id": 24, "heading": "Affected Range and Prediction Period", "dep": [-1], "level": 3},
+        {"id": 25, "heading": "Content and Methods of Soil Erosion Prediction", "dep": [-1], "level": 3},
+        {"id": 26, "heading": "Prediction Results", "dep": [27,28], "level": 3},
+        {"id": 27, "heading": "Potential Hazards of Soil Erosion", "dep": [-1], "level": 4},
+        {"id": 28, "heading": "Analysis and Results of Soil Erosion Prediction", "dep": [-1], "level": 4},
+        {"id": 29, "heading": "Prediction and Evaluation of Atmospheric Environment Impacts", "dep": [30,34], "level": 2},
+        {"id": 30, "heading": "Analysis of Environmental Impacts during Construction Period", "dep": [31,32,33], "level": 3},
+        {"id": 31, "heading": "Analysis of Construction Dust Impact", "dep": [-1], "level": 4},
+        {"id": 32, "heading": "Analysis of Construction Exhaust Gas Impact", "dep": [-1], "level": 4},
+        {"id": 33, "heading": "Analysis of Construction Camp Canteen Fume Impact", "dep": [-1], "level": 4},
+        {"id": 34, "heading": "Analysis of Environmental Impacts during Operation Period", "dep": [-1], "level": 3},
+        {"id": 35, "heading": "Prediction and Evaluation of Sound Environment Impacts", "dep": [36,40], "level": 2},
+        {"id": 36, "heading": "Evaluation of Noise Impact during Construction Period", "dep": [37,38,39], "level": 3},
+        {"id": 37, "heading": "Impact of Fixed Noise Sources", "dep": [-1], "level": 4},
+        {"id": 38, "heading": "Impact of Mobile Noise Sources", "dep": [-1], "level": 4},
+        {"id": 39, "heading": "Prediction of Noise Impact on Sound Environment Sensitive Points", "dep": [-1], "level": 4},
+        {"id": 40, "heading": "Evaluation of Noise Impact during Operation Period", "dep": [-1], "level": 3},
+        {"id": 41, "heading": "Environmental Impacts of Solid Waste", "dep": [42,43], "level": 2},
+        {"id": 42, "heading": "Environmental Impact Assessment of Solid Waste during Construction Period", "dep": [-1], "level": 3},
+        {"id": 43, "heading": "Environmental Impact Assessment of Solid Waste during Operation Period", "dep": [-1], "level": 3},
+        {"id": 44, "heading": "Environmental Impact Assessment of Resettlement", "dep": [-1], "level": 2},
+        {"id": 45, "heading": "Environmental Impact Assessment of Social Environment", "dep": [46,47], "level": 2},
+        {"id": 46, "heading": "Impact on Social Environment during Construction Period", "dep": [-1], "level": 3},
+        {"id": 47, "heading": "Impact on Social Environment during Operation Period", "dep": [-1], "level": 3},
+        {"id": 48, "heading": "Impact on Public Health", "dep": [-1], "level": 2},
+        {"id": 49, "heading": "Conclusion of Environmental Impact Assessment", "dep": [50,51,53,61,62,63,64,65], "level": 1},
+        {"id": 50, "heading": "Project Overview", "dep": [-1], "level": 2},
+        {"id": 51, "heading": "Conclusion of Environmental Status Assessment", "dep": [52], "level": 2},
+        {"id": 52, "heading": "Current Status of Environmental Quality", "dep": [-1], "level": 3},
+        {"id": 53, "heading": "Conclusion of Environmental Impact Assessment", "dep": [54,55,56,57,58,59,60], "level": 2},
+        {"id": 54, "heading": "Hydrological Conditions", "dep": [-1], "level": 3},
+        {"id": 55, "heading": "Water Environment Impact", "dep": [-1], "level": 3},
+        {"id": 56, "heading": "Ecological Environment Impact", "dep": [-1], "level": 3},
+        {"id": 57, "heading": "Soil Erosion Impact", "dep": [-1], "level": 3},
+        {"id": 58, "heading": "Atmospheric and Sound Environment Impact", "dep": [-1], "level": 3},
+        {"id": 59, "heading": "Resettlement Environmental Impact", "dep": [-1], "level": 3},
+        {"id": 60, "heading": "Social Environment Impact", "dep": [-1], "level": 3},
+        {"id": 61, "heading": "Main Environmental Protection Measures", "dep": [-1], "level": 2},
+        {"id": 62, "heading": "Environmental Protection Investment Budget and Benefit Analysis", "dep": [-1], "level": 2},
+        {"id": 63, "heading": "Conclusion of Public Participation", "dep": [-1], "level": 2},
+        {"id": 64, "heading": "Comprehensive Evaluation Conclusion", "dep": [-1], "level": 2},
+        {"id": 65, "heading": "Recommendations", "dep": [-1], "level": 2}
+    ]
+}
+</JSON>
+### Explanation:
+1. **Overview (id: 1)**: This section provides a general introduction to the project and its environmental impact assessment. It depends on several detailed sections that provide the necessary background and context:
+   - **Project Background and Project Construction Characteristics (id: 2)**
+   - **Environmental Impact Assessment Work Process (id: 3)**
+   - **Analysis and Determination of Relevant Situations (id: 4)**
+   - **Main Environmental Issues of Concern (id: 5)**
+   - **Main Evaluation Conclusions of the Report (id: 6)**
+2. **General Provisions (id: 7)**: This section outlines the general guidelines and provisions for the environmental impact assessment. It stands alone and does not depend on other sections.
+3. **Construction Project Engineering Analysis (id: 8)**: This section analyzes the engineering aspects of the construction project. It is independent and does not rely on other sections.
+4. **Environmental Status Survey and Evaluation (id: 9)**: This section surveys and evaluates the current environmental status. It is also independent.
+5. **Prediction and Evaluation of Environmental Impacts (id: 10)**: This is a comprehensive section that predicts and evaluates various environmental impacts. It depends on multiple detailed subsections:
+   - **Prediction and Evaluation of Ecological Environmental Impacts (id: 11)**
+   - **Prediction and Evaluation of Hydrological Conditions (id: 12)**
+   - **Prediction and Evaluation of Water Environment Impacts (id: 17)**
+   - **Prediction and Evaluation of Groundwater Environment Impacts (id: 20)**
+   - **Prediction and Evaluation of Soil Erosion (id: 23)**
+   - **Prediction and Evaluation of Atmospheric Environment Impacts (id: 29)**
+   - **Prediction and Evaluation of Sound Environment Impacts (id: 35)**
+   - **Environmental Impacts of Solid Waste (id: 41)**
+   - **Environmental Impact Assessment of Resettlement (id: 44)**
+   - **Environmental Impact Assessment of Social Environment (id: 45)**
+   - **Impact on Public Health (id: 48)**
+6. **Prediction and Evaluation of Hydrological Conditions (id: 12)**: This section depends on:
+   - **Hydrological Conditions during Construction Period (id: 13)**
+   - **Hydrological Conditions during Operation Period (id: 16)**
+7. **Hydrological Conditions during Construction Period (id: 13)**: This section further depends on:
+   - **Impact on Surface Hydrological Conditions of River Sections (id: 14)**
+   - **Impact on Surrounding Groundwater Hydrological Conditions of River Sections (id: 15)**
+8. **Prediction and Evaluation of Water Environment Impacts (id: 17)**: This section depends on:
+   - **Surface Water Environment Impacts during Construction Period (id: 18)**
+   - **Surface Water Environment Impacts during Operation Period (id: 19)**
+9. **Prediction and Evaluation of Groundwater Environment Impacts (id: 20)**: This section depends on:
+   - **Groundwater Environment Impacts during Construction Period (id: 21)**
+   - **Groundwater Environment Impacts during Operation Period (id: 22)**
+10. **Prediction and Evaluation of Soil Erosion (id: 23)**: This section depends on:
+    - **Affected Range and Prediction Period (id: 24)**
+    - **Content and Methods of Soil Erosion Prediction (id: 25)**
+    - **Prediction Results (id: 26)**
+11. **Prediction Results (id: 26)**: This section further depends on:
+    - **Potential Hazards of Soil Erosion (id: 27)**
+    - **Analysis and Results of Soil Erosion Prediction (id: 28)**
+12. **Prediction and Evaluation of Atmospheric Environment Impacts (id: 29)**: This section depends on:
+    - **Analysis of Environmental Impacts during Construction Period (id: 30)**
+    - **Analysis of Environmental Impacts during Operation Period (id: 34)**
+13. **Analysis of Environmental Impacts during Construction Period (id: 30)**: This section further depends on:
+    - **Analysis of Construction Dust Impact (id: 31)**
+    - **Analysis of Construction Exhaust Gas Impact (id: 32)**
+    - **Analysis of Construction Camp Canteen Fume Impact (id: 33)**
+14. **Prediction and Evaluation of Sound Environment Impacts (id: 35)**: This section depends on:
+    - **Evaluation of Noise Impact during Construction Period (id: 36)**
+    - **Evaluation of Noise Impact during Operation Period (id: 40)**
+15. **Evaluation of Noise Impact during Construction Period (id: 36)**: This section further depends on:
+    - **Impact of Fixed Noise Sources (id: 37)**
+    - **Impact of Mobile Noise Sources (id: 38)**
+    - **Prediction of Noise Impact on Sound Environment Sensitive Points (id: 39)**
+16. **Environmental Impacts of Solid Waste (id: 41)**: This section depends on:
+    - **Environmental Impact Assessment of Solid Waste during Construction Period (id: 42)**
+    - **Environmental Impact Assessment of Solid Waste during Operation Period (id: 43)**
+17. **Environmental Impact Assessment of Social Environment (id: 45)**: This section depends on:
+    - **Impact on Social Environment during Construction Period (id: 46)**
+    - **Impact on Social Environment during Operation Period (id: 47)**
+18. **Conclusion of Environmental Impact Assessment (id: 49)**: This section summarizes the entire assessment and depends on multiple detailed conclusions:
+    - **Project Overview (id: 50)**
+    - **Conclusion of Environmental Status Assessment (id: 51)**
+    - **Conclusion of Environmental Impact Assessment (id: 53)**
+    - **Main Environmental Protection Measures (id: 61)**
+    - **Environmental Protection Investment Budget and Benefit Analysis (id: 62)**
+    - **Conclusion of Public Participation (id: 63)**
+    - **Comprehensive Evaluation Conclusion (id: 64)**
+    - **Recommendations (id: 65)**
+19. **Conclusion of Environmental Status Assessment (id: 51)**: This section depends on:
+    - **Current Status of Environmental Quality (id: 52)**
+20. **Conclusion of Environmental Impact Assessment (id: 53)**: This section depends on:
+    - **Hydrological Conditions (id: 54)**
+    - **Water Environment Impact (id: 55)**
+    - **Ecological Environment Impact (id: 56)**
+    - **Soil Erosion Impact (id: 57)**
+    - **Atmospheric and Sound Environment Impact (id: 58)**
+    - **Resettlement Environmental Impact (id: 59)**
+    - **Social Environment Impact (id: 60)**
+This detailed explanation outlines the dependencies between the various sections of the Environmental Impact Assessment Report, ensuring a logical and comprehensive structure for the document.
 """
 
 prompt = """ 
