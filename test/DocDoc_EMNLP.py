@@ -311,7 +311,8 @@ def get_current_time() -> str:
 import random
 import time
 
-def write(prompt:str = None):
+def DocDoc_write(prompt:str) -> str:
+    """接收prompt，生成text(persisted to markdown)，并返回file_path"""
     # 记录程序开始时间
     start_time = time.time()
     
@@ -344,8 +345,6 @@ def write(prompt:str = None):
     
     # 生成目录
     from GPT4_test.prompt import prompt_template
-    prompt = """I want to write a graduation thesis for the software engineering major, titled "Development of a Full-Stack E-commerce Platform with Java Spring and React". 
-    Please generate the table of contents and provide a detailed explanation of the dependencies between the items in the table of contents."""
     prompt = "Q: " + prompt + "\nA: "
     prompt = prompt_template + prompt
     # print(prompt)
@@ -407,8 +406,10 @@ def write(prompt:str = None):
     print(contentExpert.trace_log_file_path)   # process log for generating content   
     with open(markdown_file_path, 'a', encoding='utf-8') as file:
         file.write(f"运行开始自: {get_current_time()}\n" + f"所用模型：`{MODEL_PATH}`, 所用Embed_model:`{EMBEDDING_PATH}`\n") 
-        file.write(full_text)   
+        file.write(full_text)  
+    
+    return markdown_file_path
     
 
 if __name__ == "__main__":
-    write()
+    DocDoc_write()

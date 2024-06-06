@@ -1,0 +1,1 @@
+I want to write one Historical Fiction, titled "The Ambition of Oda Nobunaga" Could you generate the table of contents for the opinion article and provide a detailed explanation of the dependencies between the items in the table of contents?

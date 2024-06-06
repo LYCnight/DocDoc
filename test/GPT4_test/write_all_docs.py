@@ -1,13 +1,25 @@
+from pathlib import Path		
+import sys
+cur_path = Path(__file__).parent    # 当前目录    DocDoc/test/GPT4_test
+test_path = Path(__file__).parent.parent    # 测试目录    DocDoc/test
+root_path = Path(__file__).parent.parent.parent    # 项目根目录    DocDoc/
+sys.path.append(str(cur_path))
+sys.path.append(str(test_path))
+sys.path.append(str(root_path))
+
 import openpyxl
 from openpyxl import load_workbook
 
-# from DocDoc_with_wic_globalview import write
+from DocDoc_EMNLP import DocDoc_write
+
 def write(prompt:str, title:str):
-    """this function is to stimulate the write function in DocDoc_with_wic_globalview.py, which can generate a text based on the prompt"""
-    print(f"I am writing {title}")
-    with open(f"{title}.md", "w") as f:
+    """ generate a text based on the prompt"""
+    print(f"I am writing <{title}>")
+    # write the text to a file
+    file_path:str = DocDoc_write(prompt)
+    # file_path = str(cur_path) + "/output/DocDoc/" + title + ".md"   # for test
+    with open(file_path, "w") as f:
         f.write(prompt)
-    file_path:str = f"{title}.md"
     print(f"{title} has been written to {file_path}")
     return file_path
 
@@ -52,6 +64,7 @@ for row_num, row in enumerate(excel, start=2):
     category: str = row['Category']
     prompt: str = make_prompt(title, category)
     file_path: str = write(prompt, title)
+    excel.update_row(row_num, 'Prompt', prompt)
     excel.update_row(row_num, 'Text', file_path)
 
 # Save the updated Excel file

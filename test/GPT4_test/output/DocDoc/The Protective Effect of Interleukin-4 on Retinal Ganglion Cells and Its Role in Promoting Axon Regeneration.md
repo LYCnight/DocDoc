@@ -1,0 +1,1 @@
+I want to write one Biology Paper, titled "The Protective Effect of Interleukin-4 on Retinal Ganglion Cells and Its Role in Promoting Axon Regeneration" Could you generate the table of contents for the opinion article and provide a detailed explanation of the dependencies between the items in the table of contents?

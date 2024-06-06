@@ -1,0 +1,1 @@
+I want to write one Political Opinion, titled "American Immigration: Analyzing the Similarities and Differences Between Biden and Trump's Border Policies" Could you generate the table of contents for the opinion article and provide a detailed explanation of the dependencies between the items in the table of contents?
