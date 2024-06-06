@@ -14,8 +14,13 @@ class ChatGLM():
         self.model: object = None
 
     def __call__(self, prompt: str) -> str:  # 模型响应
+        # Key01：sk-o1DRfeJuLNNisw2VCeAbEfDf2b0c42Eb890eAd5fC0C3D92c
+        # Key02: sk-WgLd2UkCvs5i95cRB8C67f7d773c4b1bBdEd9c4a2195B93f
+        # key03: sk-FF1K83E40qOybOvBAeC6BfFf7262424e89Ca977337E0105d
+        # Key04: sk-3mvPeWqNOhGpfgsUF2265bDe62Dd4028821a37575b3eBa15
+        # key05: sk-QJUI3EgaSm07iRnv9b93B31a71C24c78972f96527a96824c      
         import os
-        os.environ["OPENAI_API_KEY"] = "sk-JlMLbWkryswSpPygBf8eA723Aa0b4a49A7747eAb9986B71e" #输入网站发给你的转发key
+        os.environ["OPENAI_API_KEY"] = "sk-o1DRfeJuLNNisw2VCeAbEfDf2b0c42Eb890eAd5fC0C3D92c" #输入网站发给你的转发key
         os.environ["OPENAI_BASE_URL"] = "https://api.gptapi.us/v1/chat/completions"
         from openai import OpenAI
         client = OpenAI()

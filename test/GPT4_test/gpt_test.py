@@ -1,3 +1,12 @@
+from pathlib import Path		
+import sys
+cur_path = Path(__file__).parent    # 当前目录    DocDoc/test/GPT4_test
+test_path = Path(__file__).parent.parent    # 测试目录    DocDoc/test
+root_path = Path(__file__).parent.parent.parent    # 项目根目录    DocDoc/
+sys.path.append(str(cur_path))
+sys.path.append(str(test_path))
+sys.path.append(str(root_path))
+
 prompt_en = """<JSON>
 {
     "content": [
@@ -217,36 +226,14 @@ Q: I want to write an Environmental Impact Assessment Report, titled "Environmen
 
 # print(prompt_template)
 
-from pathlib import Path		
-import sys
-cur_path = Path(__file__).parent    # 当前目录    DocDoc/test/GPT4_test
-test_path = Path(__file__).parent.parent    # 测试目录    DocDoc/test
-root_path = Path(__file__).parent.parent.parent    # 项目根目录    DocDoc/
-sys.path.append(str(cur_path))
-sys.path.append(str(test_path))
-sys.path.append(str(root_path))
-
-# import os
-# os.environ["OPENAI_API_KEY"] = "sk-zojBY7XNiHrUW96X957dCc90889c47219a328173F20eA50d" #输入网站发给你的转发key
-# os.environ["OPENAI_BASE_URL"] = "https://gtapi.xiaoerchaoren.com:8932/v1"
-# from openai import OpenAI
-# client = OpenAI()
-# completion = client.chat.completions.create(
-#   model="gpt-4o-2024-05-13",
-#   messages=[
-#     {"role": "system", "content": "You are a helpful assistant."},
-#     {"role": "user", "content": "你好"}
-#     # {"role": "user", "content": prompt}
-#     # {"role": "user", "content": fake_history}
-#   ]
-# )
-# response = completion.choices[0].message.content
-# print(response)
-
-
-prompt = prompt_template
+# --- chat --- 
+# Key01：sk-o1DRfeJuLNNisw2VCeAbEfDf2b0c42Eb890eAd5fC0C3D92c
+# Key02: sk-WgLd2UkCvs5i95cRB8C67f7d773c4b1bBdEd9c4a2195B93f
+# key03: sk-FF1K83E40qOybOvBAeC6BfFf7262424e89Ca977337E0105d
+# Key04: sk-3mvPeWqNOhGpfgsUF2265bDe62Dd4028821a37575b3eBa15
+# key05: sk-QJUI3EgaSm07iRnv9b93B31a71C24c78972f96527a96824c
 import os
-os.environ["OPENAI_API_KEY"] = "sk-JlMLbWkryswSpPygBf8eA723Aa0b4a49A7747eAb9986B71e" #输入网站发给你的转发key
+os.environ["OPENAI_API_KEY"] = "sk-QJUI3EgaSm07iRnv9b93B31a71C24c78972f96527a96824c" #输入网站发给你的转发key
 os.environ["OPENAI_BASE_URL"] = "https://api.gptapi.us/v1/chat/completions"
 from openai import OpenAI
 client = OpenAI()
@@ -254,13 +241,32 @@ completion = client.chat.completions.create(
   model="gpt-4o",
   messages=[
     {"role": "system", "content": "You are a helpful assistant."},
-    {"role": "user", "content": prompt}
+    {"role": "user", "content": "你好"}
     # {"role": "user", "content": prompt}
     # {"role": "user", "content": fake_history}
   ]
 )
 response = completion.choices[0].message.content
 print(response)
+
+# --- write ---
+# prompt = prompt_template
+# import os
+# os.environ["OPENAI_API_KEY"] = "sk-JlMLbWkryswSpPygBf8eA723Aa0b4a49A7747eAb9986B71e" #输入网站发给你的转发key
+# os.environ["OPENAI_BASE_URL"] = "https://api.gptapi.us/v1/chat/completions"
+# from openai import OpenAI
+# client = OpenAI()
+# completion = client.chat.completions.create(
+#   model="gpt-4o",
+#   messages=[
+#     {"role": "system", "content": "You are a helpful assistant."},
+#     {"role": "user", "content": prompt}
+#     # {"role": "user", "content": prompt}
+#     # {"role": "user", "content": fake_history}
+#   ]
+# )
+# response = completion.choices[0].message.content
+# print(response)
 
 
 # from LLMs import ChatGLM
