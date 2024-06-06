@@ -724,3 +724,33 @@ A:
 报告总结了基于JavaSpring和React开发云计算平台的过程，包括从用户需求、系统和功能需求的分析，到系统架构设计，其中详细叙述了Java Spring框架和React在这个过程中的关键角色。在数据库设计部分，我们选择了MySQL作为主要的数据库管理系统，并且布局了一个分为用户、云服务、交易三个主要部分的数据库架构。为了保证数据库的准确性和安全性，我们进行了数据库规范化，并实施了一系列的安全措施，如密码哈希和防止SQL注入。另外，我们还使用了ORM工具，如Hibernate，以及采用了JPA规范，以实现数据库的简易使用和可迁移性。最后，我们的数据库设计留有足够的扩展性，以适应云计算平台快速扩展的需求。
 """
 
+
+
+
+# ----------- prompt for GPT4 to generate data ----------- 
+prompt1 = """
+<rule>
+All texts can be classified based on their directory depth:
+- Shallow: The directory structure is relatively shallow, with levels ranging from 0 to 1. It involves linear narratives with only one level of directory items, excluding multi-level directory items.
+    - Fiction
+    - News
+    - Opinion articles
+- Medium: The directory structure has a moderate depth, with levels ranging from 0 to 3, including multi-level directory items.
+    - Academic papers
+    - Encyclopedia articles
+- Deep: The directory structure is very deep, with levels ranging from 0 to 6, including deeply nested directory items.
+    - IT: Software Development Report
+    - Medicine: Clinical Study Report
+    - Finance: Risk Assessment Report
+    - Education: Course Evaluation Report
+    - Law: Case Assessment Report
+    - Management: Project Management Report
+    - Manufacturing: Manufacturing Process Report
+</rule>
+<task>
+Q: I have an AI algorithm that can generate a directory based on title. Can you generate some fake titles for me based on the rule above?
+"""
+
+
+
+
