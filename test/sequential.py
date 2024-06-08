@@ -260,6 +260,6 @@ log =  f"算法耗时：`{run_time_formatted}\n"
 
 print(markdown_file_path)
 with open(markdown_file_path, 'a', encoding='utf-8') as file:
-        file.write(f"运行开始自: {get_current_time()}\n" + f"所用模型：`gpt-4o-2924-05-13`, 所用Embed_model:`None`\n") 
+        file.write(f"运行开始自: {get_current_time()}\n" + f"所用模型：`gpt-4o-2024-05-13`, 所用Embed_model:`None`\n") 
         file.write(log)
         file.write(full_text)   

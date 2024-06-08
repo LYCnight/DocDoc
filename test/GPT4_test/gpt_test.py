@@ -222,18 +222,36 @@ Opinion articles belong to the Medium category of text, with levels typically ra
 5. "Conclusion" (id:14) serves as the end of the article and depends on all the preceding viewpoints or reasons: "First Reason: Handling of the COVID-19 Pandemic" (id:2), "Second Reason: Trade War Issues" (id:6), and "Third Reason: Racial Issues" (id:10). In the conclusion, the author should summarize all the arguments presented earlier and provide commentary or insights.
 
 Q: I want to write an Environmental Impact Assessment Report, titled "Environmental Impact Report of the Hua Rong City Flood Drainage Project at the Six-Gate Sluice in the Dongting Lake Area, Hunan Province", and I have written the table of contents for you. Please provide `### Explanation:` for me.\n""" + prompt_en + "\nA:"
-
-
 # print(prompt_template)
 
-# --- chat --- 
-# Key01：sk-o1DRfeJuLNNisw2VCeAbEfDf2b0c42Eb890eAd5fC0C3D92c
+
+# -- jc.chat --
+# import os
+# os.environ["OPENAI_API_KEY"] = "sk-zojBY7XNiHrUW96X957dCc90889c47219a328173F20eA50d" #输入网站发给你的转发key
+# os.environ["OPENAI_BASE_URL"] = "https://gtapi.xiaoerchaoren.com:8932/v1"
+# from openai import OpenAI
+# client = OpenAI()
+# completion = client.chat.completions.create(
+#   model="gpt-4",
+#   messages=[
+#     {"role": "system", "content": "You are a helpful assistant."},
+#     {"role": "user", "content": "Hello!"}
+#   ]
+# )
+# response = completion.choices[0].message.content
+# print(response)
+
+
+
+# --- us.chat --- 
+key = "sk-JlMLbWkryswSpPygBf8eA723Aa0b4a49A7747eAb9986B71e"
+# key01 = "sk-o1DRfeJuLNNisw2VCeAbEfDf2b0c42Eb890eAd5fC0C3D92c"
 # Key02: sk-WgLd2UkCvs5i95cRB8C67f7d773c4b1bBdEd9c4a2195B93f
 # key03: sk-FF1K83E40qOybOvBAeC6BfFf7262424e89Ca977337E0105d
 # Key04: sk-3mvPeWqNOhGpfgsUF2265bDe62Dd4028821a37575b3eBa15
 # key05: sk-QJUI3EgaSm07iRnv9b93B31a71C24c78972f96527a96824c
 import os
-os.environ["OPENAI_API_KEY"] = "sk-QJUI3EgaSm07iRnv9b93B31a71C24c78972f96527a96824c" #输入网站发给你的转发key
+os.environ["OPENAI_API_KEY"] = key
 os.environ["OPENAI_BASE_URL"] = "https://api.gptapi.us/v1/chat/completions"
 from openai import OpenAI
 client = OpenAI()

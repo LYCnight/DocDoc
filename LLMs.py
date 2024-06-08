@@ -7,25 +7,43 @@ embed_device = EMBED_DEVICE
 
 class ChatGLM():
     def __init__(self):
-        import os
-        os.environ["OPENAI_API_KEY"] = "sk-zojBY7XNiHrUW96X957dCc90889c47219a328173F20eA50d" #输入网站发给你的转发key
-        os.environ["OPENAI_BASE_URL"] = "https://gtapi.xiaoerchaoren.com:8932/v1"
+        # import os
+        # os.environ["OPENAI_API_KEY"] = "sk-zojBY7XNiHrUW96X957dCc90889c47219a328173F20eA50d" #输入网站发给你的转发key
+        # os.environ["OPENAI_BASE_URL"] = "https://gtapi.xiaoerchaoren.com:8932/v1"
         self.tokenizer: object = None
         self.model: object = None
 
     def __call__(self, prompt: str) -> str:  # 模型响应
-        # Key01：sk-o1DRfeJuLNNisw2VCeAbEfDf2b0c42Eb890eAd5fC0C3D92c
-        # Key02: sk-WgLd2UkCvs5i95cRB8C67f7d773c4b1bBdEd9c4a2195B93f
-        # key03: sk-FF1K83E40qOybOvBAeC6BfFf7262424e89Ca977337E0105d
-        # Key04: sk-3mvPeWqNOhGpfgsUF2265bDe62Dd4028821a37575b3eBa15
-        # key05: sk-QJUI3EgaSm07iRnv9b93B31a71C24c78972f96527a96824c      
+        key01 = "sk-o1DRfeJuLNNisw2VCeAbEfDf2b0c42Eb890eAd5fC0C3D92c"
+        key02 = "sk-WgLd2UkCvs5i95cRB8C67f7d773c4b1bBdEd9c4a2195B93f"
+        key03 = "sk-FF1K83E40qOybOvBAeC6BfFf7262424e89Ca977337E0105d"
+        key04 = "sk-3mvPeWqNOhGpfgsUF2265bDe62Dd4028821a37575b3eBa15"
+        key05 = "sk-QJUI3EgaSm07iRnv9b93B31a71C24c78972f96527a96824c"
+        key_sequential = "sk-QzcxAPnhBlwptQHw4aAcB6D21a8446C492C3215c5e8d08F8"
+        
         import os
-        os.environ["OPENAI_API_KEY"] = "sk-o1DRfeJuLNNisw2VCeAbEfDf2b0c42Eb890eAd5fC0C3D92c" #输入网站发给你的转发key
+        # -- us -- 
+        os.environ["OPENAI_API_KEY"] = key01
+        # os.environ["OPENAI_API_KEY"] = key02
+        # os.environ["OPENAI_API_KEY"] = key03
+        # os.environ["OPENAI_API_KEY"] = key04
+        # os.environ["OPENAI_API_KEY"] =  key05
+        # os.environ["OPENAI_API_KEY"] =  key_sequential
+        
         os.environ["OPENAI_BASE_URL"] = "https://api.gptapi.us/v1/chat/completions"
+        # -------
+        
+        # # -- jc-- 
+        # os.environ["OPENAI_API_KEY"] = "sk-zojBY7XNiHrUW96X957dCc90889c47219a328173F20eA50d"
+        # os.environ["OPENAI_BASE_URL"] = "https://gtapi.xiaoerchaoren.com:8932/v1"
+        # # -------
         from openai import OpenAI
         client = OpenAI()
         completion = client.chat.completions.create(
-        model="gpt-4o",
+        # model="gpt-4o",
+        # model="gpt-4o-2024-05-13",
+        model="gpt-4-turbo-preview",
+        # model="gpt-4-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": prompt}
