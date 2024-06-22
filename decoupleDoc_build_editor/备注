@@ -1,5 +1,0 @@
-lzd：
-添加新功能：改 /src/ckeditor.ts
-然后 构建文件： npm run build
-这样， /build 下的文件会得到更新
-再打开 html 即可
