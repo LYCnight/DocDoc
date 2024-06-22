@@ -1,6 +1,6 @@
 from pathlib import Path		
 import sys
-root_path = Path(__file__).parent.parent    # 项目根目录    DocDoc2/
+root_path = Path(__file__).parent.parent    # 项目根目录    DocDoc2
 cur_path = Path(__file__).parent    # 当前目录    DocDoc2/core
 sys.path.append(str(cur_path))
 sys.path.append(str(root_path))
@@ -214,38 +214,38 @@ class ContentExpert:
         self.timestamp:str = ""     # gen_content_from_title() 运行时间戳
         self.start_time:float    # gen_content_from_title() 运行开始时间
         print("Agent[ContentExpert] loaded successfully")  
-    
-    def chat(self, prompt:str) -> str:
-        import os
-        os.environ["OPENAI_API_KEY"] = "sk-zojBY7XNiHrUW96X957dCc90889c47219a328173F20eA50d" #输入网站发给你的转发key
-        os.environ["OPENAI_BASE_URL"] = "https://gtapi.xiaoerchaoren.com:8932/v1"
-        from openai import OpenAI
-        client = OpenAI()
-        completion = client.chat.completions.create(
-          model="gpt-4",
-          messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": prompt}
-            # {"role": "user", "content": fake_history}
-          ]
-        )
-        response = completion.choices[0].message.content
-        return response
         
     def gen_content(self, prompt:str) -> tuple[list[Heading],str]:
         '''核心方法：传入prompt，生成content'''
-        response:str = self.llm(prompt)
-        # response:str = self.chat(prompt)
-        print(response) # test
-        json_data:dict = self.extract_json_from_str(response)
+        import time
+        delay = 3   # 等待时间（单位：秒）            
+        
+        while True:
+            try:
+                response:str = self.llm(prompt)
+                print(response)
+                json_data:dict = self.extract_json_from_str(response)   # 这里有可能会报错
+                break   # 成功时退出循环
+            except Exception as e:
+                print(f"function `gen_content` faild: {e}. Retrying...")
+                time.sleep(delay)
+
         content:list[Heading] = self.read_content_from_json(json_data)
-        # -- test --
-        # print("content is generated succeed")
-        # def printContent(content:list[Heading]):
-        #     for i in range(len(content)):
-        #         print(content[i].id, content[i].heading, content[i].dep, content[i].level)
-        # printContent(content) # 打印目录
         return content, response
+        
+        # # 旧版本 def gen_content(self, prompt:str) -> tuple[list[Heading],str]:
+        # response:str = self.llm(prompt)
+        # # response:str = self.chat(prompt)
+        # print(response) # test
+        # json_data:dict = self.extract_json_from_str(response)   # 这里有可能会报错
+        # content:list[Heading] = self.read_content_from_json(json_data)
+        # # -- test --
+        # # print("content is generated succeed")
+        # # def printContent(content:list[Heading]):
+        # #     for i in range(len(content)):
+        # #         print(content[i].id, content[i].heading, content[i].dep, content[i].level)
+        # # printContent(content) # 打印目录
+        # return content, response
         
     def extract_json_from_str(self, str:str) -> dict:
         '''
@@ -570,22 +570,35 @@ if __name__ == "__main__":
     # print(relevant_context[0])
     # print(tokenCount(relevant_context[0]))
     
-    from config import MODEL_PATH, TOKENIZER_PATH
+    # from config import MODEL_PATH, TOKENIZER_PATH
+    # from LLMs import ChatGLM
+    # print(MODEL_PATH)
+    # print(TOKENIZER_PATH)
+    # llm = ChatGLM()
+    # llm.load_model(MODEL_PATH, TOKENIZER_PATH)
+    
+    # investigator = Investigator(llm, load_index_From_last_time=False)
+    # investigator.persist_to_disk()
+    
+    # # ques = "项目建设期间，哪些因素会促使蚊虫滋生和鼠类迁移？"
+    # # ans = investigator.get_relevant_answer(ques)
+    # # print(ans)
+    
+    # title = "岳阳县水系连通及农村水系综合整治工程建设项目环境影响报告书"
+    # heading = "湖南东洞庭湖国家级自然保护区"
+    # retrieved_knowledge = investigator.get_retrieved_knowledge(title, heading)
+    # print(retrieved_knowledge)
+    
+    
+    # --- test `gen_content` ---
     from LLMs import ChatGLM
-    print(MODEL_PATH)
-    print(TOKENIZER_PATH)
+    sys.path.append(str(root_path) + "/test")
+    from GPT4_test.prompt import prompt_template
     llm = ChatGLM()
-    llm.load_model(MODEL_PATH, TOKENIZER_PATH)
-    
-    investigator = Investigator(llm, load_index_From_last_time=False)
-    investigator.persist_to_disk()
-    
-    # ques = "项目建设期间，哪些因素会促使蚊虫滋生和鼠类迁移？"
-    # ans = investigator.get_relevant_answer(ques)
-    # print(ans)
-    
-    title = "岳阳县水系连通及农村水系综合整治工程建设项目环境影响报告书"
-    heading = "湖南东洞庭湖国家级自然保护区"
-    retrieved_knowledge = investigator.get_retrieved_knowledge(title, heading)
-    print(retrieved_knowledge)
-    
+    contentExpert = ContentExpert(llm)
+    prompt = """I want to write one Entertainment News, titled "Dating Rumors? Taylor Swift Declares They Are Just Friends" Could you generate the table of contents for the opinion article and provide a detailed explanation of the dependencies between the items in the table of contents?"""
+    prompt = "Q: " + prompt + "\nA: "
+    prompt = prompt_template + prompt
+    content, response = contentExpert.gen_content(prompt)
+    contentExpert.print_content(content)
+    print(response)    

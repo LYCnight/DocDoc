@@ -210,6 +210,8 @@ content: This is the table of contents of the article.
 <constraints>
 1. You can only return text in markdown format.
 2. The body content you return must not contain markdown heading commands such as #, ##, ###, ####, #####, ######.
+3. You can use markdown to draw some tables or stick paper when needed.
+4. Don't write anything unrelevant, e.g. "I hope you enjoy this! Let me know if there's anything else you'd like to add or change."
 </constraints>
 <content>
 {content}
@@ -278,9 +280,21 @@ def content_to_jsonStr(content:list[Heading]) -> str:
 
 # 生成目录
 def genContent(prompt:str) -> list[Heading]:
+    '''核心方法：传入prompt，生成content'''
+    import time
+    delay = 3   # 等待时间，单位：秒  
+    
     prompt = sequential_content_prompt + "Q: " + prompt + "\nA:" 
-    response:str = llm(prompt)
-    json_data:dict = content_expert.extract_json_from_str(response)
+    while True:
+        try:
+            response:str = llm(prompt)
+            print(response)
+            json_data:dict = content_expert.extract_json_from_str(response) # 这里有可能会报错
+            break   # 成功了就退出循环
+        except Exception as e:
+            print(f"function `gen_content` faild: {e}. Retrying...")
+            time.sleep(delay)    
+
     content:list[Heading] = []
     for row in json_data['content']:
         heading_obj = Heading(row['id'], row['heading'], row['level'])

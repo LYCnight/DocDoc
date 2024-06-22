@@ -59,7 +59,7 @@ if __name__ == "__main__":
 # - test for make_prompt" 
     # print(make_prompt("AAa", "BBB"))
 
-    xlsx_file_path:str =  "/root/AI4E/lzd/DocDoc/test/GPT4_test/output_refined_1.xlsx"
+    xlsx_file_path:str =  "/root/AI4E/lzd/DocDoc/test/GPT4_test/output_refined_3.xlsx"
     excel = ExcelHandler(xlsx_file_path)
 
     # Iterate through each row in the Excel file

@@ -342,6 +342,7 @@ Therefore, you need to observe the language style and writing characteristics of
 2.Don't wrap your text with ```markdown (text) ```， just generate the text directly.
 3.When needed, you can use markdown syntax to draw some tables to enhance the readability of the text (highly recommended)
 4.When needed, you can draw some sketches with the characters to enhance the readability of the text (highly recommended)
+5.Don't write anything unrelevant, e.g. "I hope you enjoy this! Let me know if there's anything else you'd like to add or change."
 </attention>
 <task>
 Q: Based on the content, digest, last_heading, and retrieved_knowledge, generate the body content for the table of contents item `{heading}`.
@@ -386,6 +387,7 @@ Therefore, you need to observe the language style and writing characteristics of
 2.Don't wrap your text with ```markdown (text) ```， just generate the text directly.
 3.When needed, you can use markdown syntax to draw some tables to enhance the readability of the text (highly recommended)
 4.When needed, you can draw some sketches with the characters to enhance the readability of the text (highly recommended)
+5.Don't write anything unrelevant, e.g. "I hope you enjoy this! Let me know if there's anything else you'd like to add or change."
 </attention>
 <task>
 Q: Based on the content, digest, last_heading, dep_text, and retrieved_knowledge, generate the body content for the table of contents item `{heading}`.
@@ -430,6 +432,7 @@ Therefore, you need to observe the language style and writing characteristics of
 2.Don't wrap your text with ```markdown (text) ```， just generate the text directly.
 3.When needed, you can use markdown syntax to draw some tables to enhance the readability of the text (highly recommended)
 4.When needed, you can draw some sketches with the characters to enhance the readability of the text (highly recommended)
+5.Don't write anything unrelevant, e.g. "I hope you enjoy this! Let me know if there's anything else you'd like to add or change."
 </attention>
 <task>
 Q: Based on the content, digest, last_heading, dep_text, and retrieved_knowledge, generate the body content for the table of contents item `{heading}`.
