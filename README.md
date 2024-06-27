@@ -3,7 +3,7 @@ Human writing is inherently non-autoregressive, involving planning, editing, and
 
 Our framework begins by generating a content tree with dependencies, representing the hierarchical structure of the text. These dependencies indicate reference relationships between sections, ensuring coherence and structure. By traversing the content tree in post-order, DocDoc mimics the human approach of developing detailed parts before integrating them into the whole.
 
-![fig](D:\论文相关存档\EMNLP 2024\DocDoc\assets\fig.png)
+![fig](assets\fig.png)
 
 
 
